@@ -6,6 +6,7 @@
 #include "clsGestorVehiculo.h"
 #include "clsGestorReparacion.h"
 
+
 /// CONSTRUCTOR
 clsGestorReparacion::clsGestorReparacion()
 {
@@ -13,10 +14,10 @@ clsGestorReparacion::clsGestorReparacion()
 }
 
 
-/// METODOS DE MANIPULACION EV
 bool clsGestorReparacion::ev(std::string texto, int minimo, int maximo)
 {
-    if((texto.size()>=minimo)&&(texto.size()<=maximo))
+    if ((texto.size() >= static_cast<std::string::size_type>(minimo)) &&
+        (texto.size() <= static_cast<std::string::size_type>(maximo)))
     {
         return true;
     }
@@ -65,14 +66,16 @@ bool clsGestorReparacion::cargarUnaReparacion(clsReparacion &reparacion)
     reparacion.setEstado(true);
 
     std::string cuit, numPatente, descripcionFalla;
+    float recaudacion;
     clsCliente cliente;
     clsVehiculo vehiculo;
     clsGestorCliente gestorCliente;
     clsGestorVehiculo gestorVehiculo;
+    clsGestorReparacion gestorReparacion;
 
     std::cin.ignore();
 
-    // CUIT
+    /// CUIT
     do {
         std::cout << "CUIT: ";
         std::getline(std::cin, cuit);
@@ -108,6 +111,47 @@ bool clsGestorReparacion::cargarUnaReparacion(clsReparacion &reparacion)
         std::getline(std::cin, descripcionFalla);
     } while (!ev(descripcionFalla, 1, 200));
     reparacion.setDescripcionFalla(descripcionFalla.c_str());
+
+
+
+
+
+
+
+     /// RECAUDACION
+    bool recaudacionValida = false;
+    while (!recaudacionValida)
+    {
+        std::cout << "RECAUDACION: ";
+        std::string recaudacionStr;
+        std::getline(std::cin, recaudacionStr);
+
+        // Validar que no esté vacía
+        if (recaudacionStr.empty())
+        {
+            std::cout << "Valor inválido. Intente nuevamente.\n";
+            continue;
+        }
+
+        try
+        {
+            recaudacion = std::stof(recaudacionStr); // convertir a float
+
+            if (recaudacion < 0)
+            {
+                std::cout << "La recaudacion no puede ser negativa.\n";
+                continue;
+            }
+
+            reparacion.setRecaudacion(recaudacion);
+            recaudacionValida = true;
+        }
+        catch (std::exception &)
+        {
+            std::cout << "Entrada invalida. Ingrese un número válido (ejemplo: 1500.50)\n";
+        }
+    }
+
 
 
     /// FECHA Y VALIDACIONES
@@ -216,6 +260,7 @@ void clsGestorReparacion::mostrarUnaReparacion(clsReparacion reparacion)
     std::cout << "CLIENTE: " << reparacion.getCliente().getCuit() << std::endl;
     std::cout << "VEHICULO: " << reparacion.getVehiculo().getNumeroPatente() << std::endl;
     std::cout << "FECHA DE INGRESO: " << reparacion.getFechaIngreso().mostrar() << std::endl;
+    std::cout << "RECAUDACION: $" << reparacion.getRecaudacion() << std::endl;
     std::cout << "-----------------------------------";
     std::cout << std::endl;
 }
@@ -359,9 +404,10 @@ void clsGestorReparacion::cantidadReparacionesPorFecha(int mes, int anio)
         return;
     }
     int contador = 0;
+    clsFecha fechaIngreso;
     while (fread(&reparacion, sizeof(clsReparacion), 1, file)) {
         if (reparacion.getEstado() == true) {  // Asegurarse de que la reparación esté activa
-            clsFecha fechaIngreso = reparacion.getFechaIngreso();  // Obtener la fecha de ingreso
+            fechaIngreso = reparacion.getFechaIngreso();  // Obtener la fecha de ingreso
             // Comprobar si la fecha de ingreso es válida (no es la fecha predeterminada)
             if (fechaIngreso.getDia() != 1 || fechaIngreso.getMes() != 1 || fechaIngreso.getAnio() != 1900) {
                 int mesReparacion = fechaIngreso.getMes();
@@ -376,8 +422,120 @@ void clsGestorReparacion::cantidadReparacionesPorFecha(int mes, int anio)
     fclose(file);
     // Mostrar resultado
     if (contador > 0) {
-        //std::cout << "Cantidad de reparaciones en el mes " << mesToString(mes) << " del año " << anio << ": " << contador << std::endl;
+        std::cout << "Cantidad de reparaciones en el mes " << fechaIngreso.mesToString() << " del año " << anio << ": " << contador << std::endl;
     } else {
-        //std::cout << "No hay reparaciones en el mes " << mesToString(mes) << " del año " << anio << "." << std::endl;
+        std::cout << "No hay reparaciones en el mes " << fechaIngreso.mesToString() << " del año " << anio << "." << std::endl;
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+void clsGestorReparacion::recaudacionXvehiculo()
+{
+    FILE *file = fopen(_rutaDireccion.c_str(), "rb");
+
+    if (file == NULL)
+    {
+        std::cout << "No hay reparaciones cargadas actualmente." << std::endl;
+        return;
+    }
+
+    clsReparacion reparacion;
+    bool hayDatos = false;
+
+    system("cls");
+    std::cout << "======= RECAUDACION POR VEHICULO =======" << std::endl << std::endl;
+
+    while (fread(&reparacion, sizeof(clsReparacion), 1, file))
+    {
+        if (reparacion.getEstado() == true)
+        {
+            hayDatos = true;
+
+            std::cout << "PATENTE: " << reparacion.getVehiculo().getNumeroPatente() << std::endl;
+            std::cout << "CUIT CLIENTE: " << reparacion.getCliente().getCuit() << std::endl;
+            std::cout << "FECHA DE INGRESO: " << reparacion.getFechaIngreso().mostrar() << std::endl;
+            std::cout << "RECAUDACION: $" << reparacion.getRecaudacion() << std::endl;
+            std::cout << "----------------------------------------" << std::endl;
+        }
+    }
+
+    fclose(file);
+
+    if (!hayDatos)
+    {
+        std::cout << "No hay reparaciones activas registradas." << std::endl;
+    }
+}
+
+void clsGestorReparacion::recaudacionAnual()
+{
+    FILE *file = fopen(_rutaDireccion.c_str(), "rb");
+
+    if (file == NULL)
+    {
+        std::cout << "No hay reparaciones cargadas actualmente." << std::endl;
+        return;
+    }
+
+    clsReparacion reparacion;
+    bool hayDatos = false;
+    float recaudacionMes[12] = {0};
+
+    system("cls");
+    std::cout << "======= RECAUDACION ANUAL POR MES =======" << std::endl << std::endl;
+
+    int anioBusqueda;
+    std::cout << "Ingrese el anio a consultar: ";
+    std::cin >> anioBusqueda;
+
+    while (fread(&reparacion, sizeof(clsReparacion), 1, file))
+    {
+        if (reparacion.getEstado())
+        {
+            clsFecha f = reparacion.getFechaIngreso();
+            int mes = f.getMes();
+            int anio = f.getAnio();
+
+            if (mes >= 1 && mes <= 12 && anio == anioBusqueda)
+            {
+                recaudacionMes[mes - 1] += reparacion.getRecaudacion();
+                hayDatos = true;
+            }
+        }
+    }
+
+    fclose(file);
+
+    if (!hayDatos)
+    {
+        std::cout << "No hay reparaciones registradas para ese año." << std::endl;
+        return;
+    }
+
+    ///ARREGLO DE PUNTEROS MESES
+    const char* nombresMes[12] = {
+        "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO",
+        "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"
+    };
+
+    float totalAnual = 0;
+
+    std::cout << "=== RECAUDACION DEL AÑO ======= " << anioBusqueda << " ===" << std::endl;
+
+    for (int i = 0; i < 12; i++)
+    {
+        std::cout << nombresMes[i] << ": $ " << recaudacionMes[i] << std::endl;
+        totalAnual += recaudacionMes[i];
+    }
+
+    std::cout << "TOTAL RECAUDACION ANUAL: $ " << totalAnual << std::endl;
 }

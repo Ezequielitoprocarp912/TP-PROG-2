@@ -57,6 +57,12 @@ void clsReparacion::setVehiculo(clsVehiculo vehiculo)
     _vehiculo=vehiculo;
 }
 
+void clsReparacion::setRecaudacion(float recaudacion)
+{
+    _recaudacion = recaudacion;
+}
+
+
 ///GETTERS
 int clsReparacion::getCodReparacion()
 {
@@ -98,4 +104,10 @@ clsFecha clsReparacion::getFechaEgreso()
 bool clsReparacion::getEstado()
 {
     return _estado;
+}
+
+
+float clsReparacion::getRecaudacion()
+{
+    return _recaudacion;
 }
