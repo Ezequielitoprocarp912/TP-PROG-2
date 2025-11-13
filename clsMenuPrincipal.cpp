@@ -267,6 +267,7 @@ void clsMenuPrincipal::mostrarMenuReparaciones()
     std::cout << "2-Mostrar reparacion por codigo de reparacion" << std::endl;
     std::cout << "3-Mostrar todas las reparaciones activas" << std::endl;
     std::cout << "4-CANTIDAD REPARACIONES X FECHA" << std::endl;
+    std::cout << "5-RECAUDACION X [ PATENTE + CUIT + FECHA ]" << std::endl;
     std::cout << "0 === VOLVER ===" << std::endl;
 }
 
@@ -333,6 +334,13 @@ void clsMenuPrincipal::opcionesMenuReparaciones()
 
     system("pause");
     break;
+
+     case 5:
+        system("cls");
+        gestorReparacion.recaudacionXvehiculo();
+        system("pause");
+        break;
+
 
     case 0:
         return;

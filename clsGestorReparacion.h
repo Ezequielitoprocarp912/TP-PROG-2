@@ -29,5 +29,6 @@ public:
     void mostrarTodas();
     void buscarReparacion(); // POR CODIGO DE REPARACION
     void cantidadReparacionesPorFecha(int mes, int anio);
+    void recaudacionXvehiculo();
 
 };
