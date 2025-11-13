@@ -1,0 +1,80 @@
+# depslib dependency file v1.0
+1763073907 source:c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clscliente.cpp
+	"clsCliente.h"
+	<iostream>
+	<cstdio>
+	<cstring>
+
+1763073907 c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clscliente.h
+
+1763073907 source:c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsfecha.cpp
+	"clsFecha.h"
+
+1763073907 c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsfecha.h
+	<iostream>
+	<cstdio>
+	<string>
+	<cstring>
+
+1763073907 source:c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsgestorcliente.cpp
+	<iostream>
+	<cstdio>
+	<limits>
+	<cstring>
+	"clsGestorCliente.h"
+	"clsCliente.h"
+
+1763073907 c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsgestorcliente.h
+	<iostream>
+	"clsCliente.h"
+
+1763073907 source:c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsgestorvehiculo.cpp
+	<iostream>
+	<cstdio>
+	<limits>
+	<cstring>
+	"clsVehiculo.h"
+	"clsGestorVehiculo.h"
+
+1763073907 c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsvehiculo.h
+
+1763073907 c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsgestorvehiculo.h
+	"clsVehiculo.h"
+
+1763074228 source:c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsmenuprincipal.cpp
+	<iostream>
+	<limits>
+	"clsGestorCliente.h"
+	"clsGestorVehiculo.h"
+	"clsGestorReparacion.h"
+	"clsReparacion.h"
+	"clsMenuPrincipal.h"
+
+1763074091 c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsgestorreparacion.h
+	<iostream>
+	"clsReparacion.h"
+
+1763073907 c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsreparacion.h
+	"clsCliente.h"
+	"clsVehiculo.h"
+	"clsFecha.h"
+
+1763073907 c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsmenuprincipal.h
+	"clsGestorCliente.h"
+
+1763073907 source:c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsreparacion.cpp
+	"clsReparacion.h"
+
+1763073907 source:c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsvehiculo.cpp
+	"clsVehiculo.h"
+	<iostream>
+	<cstring>
+
+1763073907 source:c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\main.cpp
+	<iostream>
+	<cstdio>
+	<string>
+	<cstring>
+	"clsFecha.h"
+	"clsMenuPrincipal.h"
+

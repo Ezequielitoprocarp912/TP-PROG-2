@@ -16,6 +16,7 @@ class clsReparacion
         clsFecha _reparado;
         clsFecha _egreso;
         bool _estado;
+        float _recaudacion;
 
     public:
     ///CONSTRUCTORES
@@ -30,6 +31,7 @@ class clsReparacion
         void setFechaReparado(clsFecha reparado);
         void setFechaEgreso(clsFecha egreso);
         void setEstado(bool estado);
+        void setRecaudacion (float recaudacion);
 
 
     ///GETTERS
@@ -41,4 +43,6 @@ class clsReparacion
         clsFecha getFechaReparado();
         clsFecha getFechaEgreso();
         bool getEstado();
+        float getRecaudacion();
+
 };
