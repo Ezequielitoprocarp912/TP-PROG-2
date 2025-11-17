@@ -22,7 +22,7 @@ bool clsGestorVehiculo::ev(std::string texto, int minimo, int maximo)
     }
     else
     {
-        system("cls");
+        rlutil::cls();
         std::cout << "Entrada invalida. Ingrese nuevamente" << std::endl;
         return false;
     }
@@ -213,7 +213,7 @@ void clsGestorVehiculo::cargarVehiculo()
 
     if((buscarVehiculoPorPatente(vehiculoNuevo.getNumeroPatente()))!=-1)
     {
-        system("cls");
+        rlutil::cls();
         std::cout << "Error. Vehiculo ya existente." << std::endl;
         return;
     }
@@ -251,7 +251,7 @@ void clsGestorVehiculo::modificarVehiculo()
 
         mostrarUnVehiculo(vehiculo);
 
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
 
         std::cout << "Ingrese opcion de dato a cambiar: " << std::endl;
         std::cout << "\n 1) Marca\n 2) Modelo\n 3) Tipo\n " << std::endl;
@@ -433,7 +433,7 @@ void clsGestorVehiculo::OrdenarXPatente()
     if (p == NULL)
     {
         std::cout << "No hay vehículos cargados actualmente." << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return;
     }
 
@@ -442,7 +442,7 @@ void clsGestorVehiculo::OrdenarXPatente()
     {
         std::cout << "No hay vehículos cargados actualmente." << std::endl;
         fclose(p);
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return;
     }
 
@@ -464,7 +464,7 @@ void clsGestorVehiculo::OrdenarXPatente()
     {
         std::cout << "No hay vehículos activos para mostrar." << std::endl;
         delete[] vecVehiculos;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return;
     }
 
@@ -492,5 +492,5 @@ void clsGestorVehiculo::OrdenarXPatente()
     delete[] vecVehiculos;
 
     std::cout << "\n=== Fin del listado ===" << std::endl;
-    system("pause");
+    rlutil::anykey("Press any key to continue...\n");
 }

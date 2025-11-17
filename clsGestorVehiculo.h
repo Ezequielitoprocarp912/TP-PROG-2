@@ -1,4 +1,5 @@
 #pragma once
+#include "rlutil.h"
 #include "clsVehiculo.h"
 
 class clsGestorVehiculo

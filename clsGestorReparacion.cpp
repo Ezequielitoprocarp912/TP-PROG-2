@@ -23,7 +23,7 @@ bool clsGestorReparacion::ev(std::string texto, int minimo, int maximo)
     }
     else
     {
-        system("cls");
+        rlutil::cls();
         std::cout << "Entrada invalida. Ingrese nuevamente" << std::endl;
         return false;
     }
@@ -162,7 +162,7 @@ bool clsGestorReparacion::cargarUnaReparacion(clsReparacion &reparacion)
 
     while (!fechaValida)
     {
-        system("cls");
+        rlutil::cls();
         std::cout << "=== INGRESE LA FECHA DE INGRESO ===" << std::endl;
 
         // DIA
@@ -181,7 +181,7 @@ bool clsGestorReparacion::cargarUnaReparacion(clsReparacion &reparacion)
             }
             else
             {
-                system("cls");
+                rlutil::cls();
                 std::cout << "Dia invalido. Ingrese nuevamente." << std::endl;
             }
 
@@ -203,7 +203,7 @@ bool clsGestorReparacion::cargarUnaReparacion(clsReparacion &reparacion)
             }
             else
             {
-                system("cls");
+                rlutil::cls();
                 std::cout << "Mes invalido. Ingrese nuevamente." << std::endl;
             }
 
@@ -225,7 +225,7 @@ bool clsGestorReparacion::cargarUnaReparacion(clsReparacion &reparacion)
             }
             else
             {
-                system("cls");
+                rlutil::cls();
                 std::cout << "Anio invalido. Ingrese nuevamente." << std::endl;
             }
 
@@ -236,9 +236,9 @@ bool clsGestorReparacion::cargarUnaReparacion(clsReparacion &reparacion)
 
         if (!fechaValida)
         {
-            system("cls");
+            rlutil::cls();
             std::cout << "La combinacion de fecha es invalida (por ejemplo 31/2 o 29/2 no bisiesto)." << std::endl;
-            system("pause");
+            rlutil::anykey("Press any key to continue...\n");
         }
     }
 
@@ -395,48 +395,48 @@ void clsGestorReparacion::buscarReparacion()
     }
 }
 
-void clsGestorReparacion::cantidadReparacionesPorFecha(int mes, int anio)
+void clsGestorReparacion::cantidadReparacionesPorFecha()
 {
+    int anio, mes;
+
+    std::cout << "ANIO: ";
+    std::cin >> anio;
+
+    std::cout << "MES: ";
+    std::cin >> mes;
+
     clsReparacion reparacion;
+
     FILE *file = fopen(_rutaDireccion.c_str(), "rb");
+
     if (file == NULL) {
-        std::cout << "No hay reparaciones cargadas actualmente." << std::endl;
+        std::cout << "ERROR: ARCHIVO INEXISTENTE..." << std::endl;
         return;
     }
+
     int contador = 0;
+
     clsFecha fechaIngreso;
-    while (fread(&reparacion, sizeof(clsReparacion), 1, file)) {
-        if (reparacion.getEstado() == true) {  // Asegurarse de que la reparación esté activa
-            fechaIngreso = reparacion.getFechaIngreso();  // Obtener la fecha de ingreso
-            // Comprobar si la fecha de ingreso es válida (no es la fecha predeterminada)
-            if (fechaIngreso.getDia() != 1 || fechaIngreso.getMes() != 1 || fechaIngreso.getAnio() != 1900) {
-                int mesReparacion = fechaIngreso.getMes();
-                int anioReparacion = fechaIngreso.getAnio();
-                // Si el mes y año coinciden, incrementar el contador
-                if (mesReparacion == mes && anioReparacion == anio) {
-                    contador++;
-                }
-            }
+
+    while (fread(&reparacion, sizeof(clsReparacion), 1, file))
+    {
+        if (reparacion.getEstado() == true)///Asegurarse de que la reparación esté activa
+        {
+            fechaIngreso = reparacion.getFechaIngreso();///Obtener la fecha de ingreso
+
+            if (fechaIngreso.getMes() == mes && fechaIngreso.getAnio() == anio) {contador++;}///AUMENTAR EL CONTADOR SI LAS FECHAS COINCIDEN
         }
     }
+
     fclose(file);
-    // Mostrar resultado
+
+    ///Mostrar resultado
     if (contador > 0) {
-        std::cout << "Cantidad de reparaciones en el mes " << fechaIngreso.mesToString() << " del año " << anio << ": " << contador << std::endl;
+        std::cout << "CANTIDAD DE REPARACIONES EN " << fechaIngreso.mesToString() << "/" << anio << ": " << contador << std::endl;
     } else {
-        std::cout << "No hay reparaciones en el mes " << fechaIngreso.mesToString() << " del año " << anio << "." << std::endl;
+        std::cout << "NO SE ENCONTRARON REPARACIONES EN " << fechaIngreso.mesToString() << "/" << anio << std::endl;
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 void clsGestorReparacion::recaudacionXvehiculo()
 {
@@ -451,7 +451,7 @@ void clsGestorReparacion::recaudacionXvehiculo()
     clsReparacion reparacion;
     bool hayDatos = false;
 
-    system("cls");
+    rlutil::cls();
     std::cout << "======= RECAUDACION POR VEHICULO =======" << std::endl << std::endl;
 
     while (fread(&reparacion, sizeof(clsReparacion), 1, file))
@@ -490,7 +490,7 @@ void clsGestorReparacion::recaudacionAnual()
     bool hayDatos = false;
     float recaudacionMes[12] = {0};
 
-    system("cls");
+    rlutil::cls();
     std::cout << "======= RECAUDACION ANUAL POR MES =======" << std::endl << std::endl;
 
     int anioBusqueda;

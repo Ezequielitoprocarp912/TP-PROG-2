@@ -29,7 +29,7 @@ bool clsCliente::setCuit (const char* cuit)
     else
     {
         std::cout << "Cuit no valido. Ingrese nuevamente." << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return false;
     }
 }
@@ -45,7 +45,7 @@ bool clsCliente::setNombre (const char* nombre)
     else
     {
         std::cout << "Nombre no valido. Ingrese nuevamente." << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return false;
     }
 }
@@ -61,7 +61,7 @@ bool clsCliente::setApellido (const char* apellido)
     else
     {
         std::cout << "Apellido no valido. Ingrese nuevamente." << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return false;
     }
 }
@@ -77,7 +77,7 @@ bool clsCliente::setMail (const char* mail)
     else
     {
         std::cout << "Mail no valido. Ingrese nuevamente." << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return false;
     }
 }
@@ -93,7 +93,7 @@ bool clsCliente::setNumTelefono(const char *telefono)
     else
     {
         std::cout << "Telefono no valido. Ingrese nuevamente." << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return false;
     }
 }
@@ -109,7 +109,7 @@ bool clsCliente::setDireccion (const char* direccion)
     else
     {
         std::cout << "Direccion no valida. Ingrese nuevamente." << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return false;
     }
 }
@@ -125,7 +125,7 @@ bool clsCliente::setTipoCliente (char tipoCliente)
     else
     {
         std::cout << "Tipo de cliente no valido. Ingrese nuevamente." << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return false;
     }
 }

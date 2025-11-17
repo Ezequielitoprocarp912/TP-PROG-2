@@ -25,7 +25,7 @@ bool clsPersona::setCuit (const char* cuit)
     else
     {
         std::cout << "Cuit no valido. Ingrese nuevamente." << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return false;
     }
 }
@@ -41,7 +41,7 @@ bool clsPersona::setNombre (const char* nombre)
     else
     {
         std::cout << "Nombre no valido. Ingrese nuevamente." << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return false;
     }
 }
@@ -57,7 +57,7 @@ bool clsPersona::setApellido (const char* apellido)
     else
     {
         std::cout << "Apellido no valido. Ingrese nuevamente." << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return false;
     }
 }
@@ -75,7 +75,7 @@ bool clsPersona::setDireccion (const char* direccion)
     else
     {
         std::cout << "Direccion no valida. Ingrese nuevamente." << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return false;
     }
 }

@@ -27,7 +27,6 @@ bool clsFecha::esBisiesto(int anio)
     return false;
 }
 
-
 ///SETTERS
 void clsFecha::setDia(int dia)
 {
@@ -35,23 +34,6 @@ void clsFecha::setDia(int dia)
     {
         _dia=dia;
     }
-}
-
-
-///GETTERS
-int clsFecha::getDia()
-{
-    return _dia;
-}
-
-int clsFecha::getMes()
-{
-    return _mes;
-}
-
-int clsFecha::getAnio()
-{
-    return _anio;
 }
 
 void clsFecha::setMes(int mes)
@@ -70,6 +52,21 @@ void clsFecha::setAnio(int anio)
     }
 }
 
+///GETTERS
+int clsFecha::getDia()
+{
+    return _dia;
+}
+
+int clsFecha::getMes()
+{
+    return _mes;
+}
+
+int clsFecha::getAnio()
+{
+    return _anio;
+}
 
 ///CONSTRUCTOR DEFAULT
 clsFecha::clsFecha()
@@ -78,7 +75,6 @@ clsFecha::clsFecha()
     setMes(1);
     setAnio(1900);
 }
-
 
 ///CONSTRUCTOR CON PARAMETROS
 clsFecha::clsFecha(int dia, int mes, int anio)
@@ -104,7 +100,7 @@ std::string clsFecha::mesToString()
         case 10: return "Octubre";
         case 11: return "Noviembre";
         case 12: return "Diciembre";
-        default: return "Mes inválido"; // Para proteger en caso de que llegue un valor fuera del rango 1-12
+        default: return "Mes invalido"; // Para proteger en caso de que llegue un valor fuera del rango 1-12
     }
 }
 

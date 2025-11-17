@@ -1,4 +1,5 @@
 #pragma once
+#include "rlutil.h"
 #include <iostream>
 #include "clsCliente.h"
 

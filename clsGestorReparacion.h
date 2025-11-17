@@ -1,4 +1,5 @@
 #pragma once
+#include "rlutil.h"
 #include <iostream>
 #include "clsReparacion.h"
 
@@ -28,7 +29,7 @@ public:
     void cargarReparacion();
     void mostrarTodas();
     void buscarReparacion(); // POR CODIGO DE REPARACION
-    void cantidadReparacionesPorFecha(int mes, int anio);
+    void cantidadReparacionesPorFecha();
     void recaudacionXvehiculo();
     void recaudacionAnual();
 

@@ -25,7 +25,7 @@ bool clsVehiculo::setNumeroPatente(const char* numPatente)
     else
     {
         std::cout << "Patente no valida. Ingrese nuevamente." << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return false;
     }
 }
@@ -42,7 +42,7 @@ bool clsVehiculo::setMarca(const char* marca)
     else
     {
         std::cout << "Marca no valida. Ingrese nuevamente." << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return false;
     }
 }
@@ -58,7 +58,7 @@ bool clsVehiculo::setModelo(const char* modelo)
     else
     {
         std::cout << "Modelo no valido. Ingrese nuevamente." << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return false;
     }
 }
@@ -74,7 +74,7 @@ bool clsVehiculo::setTipoVehiculo(char tipoVehiculo)
     else
     {
         std::cout << "Tipo de vehiculo no valido. Ingrese nuevamente." << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return false;
     }
 }

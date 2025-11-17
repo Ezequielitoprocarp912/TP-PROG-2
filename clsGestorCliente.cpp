@@ -21,7 +21,7 @@ bool clsGestorCliente::ev(std::string texto, int minimo, int maximo)
     }
     else
     {
-        system("cls");
+        rlutil::cls();
         std::cout << "Entrada invalida. Ingrese nuevamente" << std::endl;
         return false;
     }
@@ -225,7 +225,7 @@ void clsGestorCliente::modificarCliente()
 
         mostrarUnCliente(cliente);
 
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
 
         std::cout << "\n 1) Nombre\n 2) Apellido\n 3) Mail\n 4) Telefono\n 5) Direccion\n 6) Tipo de cliente\n " << std::endl;
         std::cout << "Ingrese opcion de dato a cambiar: ";

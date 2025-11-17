@@ -1,5 +1,8 @@
 #pragma once
+#include "rlutil.h"
 #include "clsGestorCliente.h"
+#include "clsGestorVehiculo.h"
+#include "clsGestorReparacion.h"
 
 class clsMenuPrincipal
 {
