@@ -1,5 +1,6 @@
 #pragma once
 #include "clsVehiculo.h"
+#include <string>
 
 class clsGestorVehiculo
 {
@@ -9,18 +10,19 @@ private:
 public:
     clsGestorVehiculo();
 
-    void cargarUnVehiculo(clsVehiculo &vehiculo); // Agregar un nuevo Vehiculo al sistema.
-    void mostrarUnVehiculo(clsVehiculo); // Visualizar los datos de un Vehiculo específico por su id.
+    /// Carga y muestra un vehículo
+    void cargarUnVehiculo(clsVehiculo &vehiculo); // Cargar datos de un vehículo
+    void mostrarUnVehiculo(clsVehiculo vehiculo); // Mostrar los datos de un vehículo
 
-    /// METODOS DE MANIPULACION
-    bool ev(std::string texto, int minimo, int maximo);
-    bool guardarEnDiscoVehiculo(clsVehiculo registro);
-    bool guardarEnDiscoVehiculo(clsVehiculo registro, int posicion);
-    int buscarVehiculoPorPatente(const char*);
-    int obtenerCantidadReg (std::string pfile, clsVehiculo obj);
-    clsVehiculo leerVehiculo(int); /// El entero representa la posicion del registro en el archivo
+    /// Métodos de manipulación de archivo
+    bool ev(std::string texto, int minimo, int maximo); // Validación de longitud
+    bool guardarEnDiscoVehiculo(clsVehiculo registro); // Guardar al final
+    bool guardarEnDiscoVehiculo(clsVehiculo registro, int posicion); // Guardar en posición específica
+    int buscarVehiculoPorPatente(const char* patenteBuscada); // Buscar vehículo por patente
+    clsVehiculo leerVehiculo(int posicion); // Leer vehículo en posición del archivo
+    int obtenerCantidadReg(std::string pfile, clsVehiculo obj); // Contar registros activos
 
-    ///EJECUCION DE OPCIONES
+    /// Ejecución de opciones
     void cargarVehiculo();
     void modificarVehiculo();
     void mostrarTodos();
@@ -28,3 +30,4 @@ public:
     void buscarVehiculo();
     void OrdenarXPatente();
 };
+

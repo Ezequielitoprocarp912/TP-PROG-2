@@ -25,3 +25,4 @@ class clsPersona
         const char* getApellido();
         const char* getDireccion();
 };
+

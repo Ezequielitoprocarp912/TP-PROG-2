@@ -1,12 +1,15 @@
 ///MENU PRINCIPAL CPP
 #include <iostream>
 #include <limits>
+#include <conio.h>
 
 #include "clsGestorCliente.h"
 #include "clsGestorVehiculo.h"
 #include "clsGestorReparacion.h"
+#include "clsGestorEmpleado.h"
 #include "clsReparacion.h"
 #include "clsMenuPrincipal.h"
+
 
 ///CONSTRUCTORES
 clsMenuPrincipal::clsMenuPrincipal()
@@ -21,7 +24,8 @@ void clsMenuPrincipal::mostrar()
     std::cout << "==== TALLER MECANICO PACHECO ====" << std::endl;
     std::cout << "1-Menu Clientes" << std::endl;
     std::cout << "2-Menu Vehiculos" << std::endl;
-    std::cout << "3-Menu Reparaciones" << std::endl;
+    std::cout << "3-Menu Empleados" << std::endl;
+    std::cout << "4-Menu Reparaciones" << std::endl;
     std::cout << "9 === SALIR DEL MENU ===" << std::endl;
 }
 
@@ -29,8 +33,9 @@ void clsMenuPrincipal::elegirOpcion()
 {
     std::cout << std::endl;
     std::cout << "INGRESE OPCION: ";
-    std::cin >> _opcion;
+    _opcion = _getch()-'0';
     std::cout << std::endl;
+
 }
 
 void clsMenuPrincipal::opcionesMenu()
@@ -46,6 +51,10 @@ void clsMenuPrincipal::opcionesMenu()
         break;
 
     case 3:
+        ejecutarMenuEmpleados();
+        break;
+
+    case 4:
         ejecutarMenuReparaciones();
         break;
 
@@ -93,18 +102,21 @@ void clsMenuPrincipal::opcionesMenuClientes()
     case 1:
         system("cls");
         gestorClientes.cargarCliente();
+        std::cout << std::endl;
         system("pause");
         break;
 
     case 2:
         system("cls");
         gestorClientes.modificarCliente();
+        std::cout << std::endl;
         system("pause");
         break;
 
     case 3:
         system("cls");
         gestorClientes.bajaCliente();
+        std::cout << std::endl;
         system("pause");
         break;
 
@@ -192,8 +204,8 @@ void clsMenuPrincipal::mostrarMenuVehiculos()
     std::cout << "2-Modificar vehiculo" << std::endl;
     std::cout << "3-Baja vehiculo" << std::endl;
     std::cout << "4-Mostrar todos los vehiculos" << std::endl;
-    std::cout << "5-Buscar por PATENTE" << std::endl;
-    std::cout << "6-ORDENAR POR PATENTE (MENOR A MAYOR)" << std::endl;
+    std::cout << "5-BUSCAR VEHICULO POR PATENTE " << std::endl;
+    std::cout << "6-Ordenar por patente (MENOR A MAYOR)" << std::endl;
     std::cout << "0 === VOLVER ===" << std::endl;
 }
 
@@ -207,18 +219,21 @@ void clsMenuPrincipal::opcionesMenuVehiculos()
     case 1:
         system("cls");
         gestorVehiculos.cargarVehiculo();
+        std::cout << std::endl;
         system("pause");
         break;
 
     case 2://
         system("cls");
         gestorVehiculos.modificarVehiculo();
+        std::cout << std::endl;
         system("pause");
         break;
 
     case 3:
         system("cls");
         gestorVehiculos.bajaVehiculo();
+        std::cout << std::endl;
         system("pause");
         break;
 
@@ -258,6 +273,78 @@ void clsMenuPrincipal::ejecutarMenuVehiculos()
     opcionesMenuVehiculos();
 }
 
+
+///METODOS MENU EMPLEADOS
+void clsMenuPrincipal::mostrarMenuEmpleados()
+{
+    system("cls");
+    std::cout << "=== MENU EMPLEADOS ===" << std::endl;
+    std::cout << "1-Cargar empleado" << std::endl;
+    std::cout << "2-Modificar empleado" << std::endl;
+    std::cout << "3-Baja empleado" << std::endl;
+    std::cout << "4-Mostrar todos los empleados" << std::endl;
+    std::cout << "5-Buscar por legajo" << std::endl;
+    std::cout << "0 === VOLVER ===" << std::endl;
+}
+
+void clsMenuPrincipal::opcionesMenuEmpleados()
+{
+    clsGestorEmpleado gestorEmpleados;
+
+    switch(_opcion)
+    {
+    case 1:
+        system("cls");
+        gestorEmpleados.cargarEmpleado();
+        std::cout << std::endl;
+        system("pause");
+        break;
+
+    case 2:
+        system("cls");
+        gestorEmpleados.modificarEmpleado();
+        std::cout << std::endl;
+        system("pause");
+        break;
+
+    case 3:
+        system("cls");
+        gestorEmpleados.bajaEmpleado();
+        std::cout << std::endl;
+        system("pause");
+        break;
+
+    case 4:
+        system("cls");
+        gestorEmpleados.mostrarTodos();
+        system("pause");
+        break;
+
+    case 5:
+        system("cls");
+        gestorEmpleados.buscarEmpleado();
+        system("pause");
+        break;
+
+    case 0:
+        return;
+        break;
+
+    default:
+        std::cout << "Error, ingrese una opcion valida" << std::endl;
+        system("pause");
+        break;
+    }
+}
+
+void clsMenuPrincipal::ejecutarMenuEmpleados()
+{
+    mostrarMenuEmpleados();
+    elegirOpcion();
+    opcionesMenuEmpleados();
+}
+
+
 ///METODOS MENU REPARACIONES
 void clsMenuPrincipal::mostrarMenuReparaciones()
 {
@@ -266,22 +353,22 @@ void clsMenuPrincipal::mostrarMenuReparaciones()
     std::cout << "1-Cargar reparacion" << std::endl;
     std::cout << "2-Mostrar reparacion por codigo de reparacion" << std::endl;
     std::cout << "3-Mostrar todas las reparaciones activas" << std::endl;
-    std::cout << "4-CANTIDAD REPARACIONES X FECHA" << std::endl;
-    std::cout << "5-RECAUDACION X VEHICULO " << std::endl;
-    std::cout << "6-RECAUDACION ANUAL X MES" << std::endl;
+    std::cout << "4-Cantidad de reparaciones por fecha" << std::endl;
     std::cout << "0 === VOLVER ===" << std::endl;
 }
 
 
 ///MENU REPARACIONES Y METODOS
 // Función para pedir el mes y el año, y validar que estén en el rango correcto
-bool pedirFecha(int& mes, int& anio) {
+bool pedirFecha(int& mes, int& anio)
+{
     // Pedir el mes
     std::cout << "Ingrese el mes (1-12): ";
     std::cin >> mes;
 
-    if (mes < 1 || mes > 12) {
-        std::cout << "Mes inválido. Debe ser un valor entre 1 y 12." << std::endl;
+    if (mes < 1 || mes > 12)
+    {
+        std::cout << "Mes invalido. Debe ser un valor entre 1 y 12." << std::endl;
         return false;
     }
 
@@ -289,8 +376,9 @@ bool pedirFecha(int& mes, int& anio) {
     std::cout << "Ingrese el año (ej. 2025): ";
     std::cin >> anio;
 
-    if (anio < 1900 || anio > 2025) {
-        std::cout << "Anio inválido. Debe estar entre 1900 y 2025." << std::endl;
+    if (anio < 1900 || anio > 2025)
+    {
+        std::cout << "Anio invalido. Debe estar entre 1900 y 2025." << std::endl;
         return false;
     }
 
@@ -322,32 +410,20 @@ void clsMenuPrincipal::opcionesMenuReparaciones()
         system("pause");
         break;
 
-   case 4:
-    system("cls");
-
-    int mes, anio;
-
-    // Llamar a la función para pedir y validar el mes y año
-    if (pedirFecha(mes, anio)) {
-        // Si la entrada es válida, llamar al método con los parámetros
-        gestorReparacion.cantidadReparacionesPorFecha(mes, anio);
-    }
-
-    system("pause");
-    break;
-
-     case 5:
+    case 4:
         system("cls");
-        gestorReparacion.recaudacionXvehiculo();
+
+        int mes, anio;
+
+        // Llamar a la función para pedir y validar el mes y año
+        if (pedirFecha(mes, anio))
+        {
+            // Si la entrada es válida, llamar al método con los parámetros
+            gestorReparacion.cantidadReparacionesPorFecha(mes, anio);
+        }
+
         system("pause");
         break;
-
-         case 6:
-        system("cls");
-        gestorReparacion.recaudacionAnual();
-        system("pause");
-        break;
-
 
     case 0:
         return;
