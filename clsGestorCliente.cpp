@@ -36,7 +36,6 @@ void clsGestorCliente::cargarUnCliente(clsCliente &cliente)
     std::string direccion;
     std::string tipoCliente;
 
-
     std::cin.ignore();
 
     ///CUIT
@@ -73,7 +72,7 @@ void clsGestorCliente::cargarUnCliente(clsCliente &cliente)
     ///TELEFONO
     do
     {
-        std::cout << "NUM TELEFONO : ";
+        std::cout << "TELEFONO: ";
         std::getline(std::cin, telefono);
     }
     while(!(ev(telefono, 1, 20)));
@@ -84,7 +83,7 @@ void clsGestorCliente::cargarUnCliente(clsCliente &cliente)
     ///MAIL
     do
     {
-        std::cout << "MAIL : ";
+        std::cout << "MAIL: ";
         std::getline(std::cin, mail);
     }
     while(!(ev(mail, 1, 50)));
@@ -95,7 +94,7 @@ void clsGestorCliente::cargarUnCliente(clsCliente &cliente)
     ///DIRECCION
     do
     {
-        std::cout << "DIRECCION : ";
+        std::cout << "DIRECCION: ";
         std::getline(std::cin, direccion);
     }
     while(!(ev(direccion, 1, 50)));
@@ -108,7 +107,7 @@ void clsGestorCliente::cargarUnCliente(clsCliente &cliente)
 
     do
     {
-        std::cout << "Seleccione tipo (1 Particular --- 2 Empresa): ";
+        std::cout << "[1-PARTICULAR / 2-EMPRESA]: ";
         std::getline(std::cin, tipoCliente);
     }
     while(!(ev(tipoCliente, 1, 1)) || (tipoCliente != "1" && tipoCliente != "2"));
@@ -129,7 +128,7 @@ void clsGestorCliente::mostrarUnCliente(clsCliente cliente)
     std::cout << "TELEFONO: " << cliente.getNumTelefono() << std::endl;
     std::cout << "MAIL: " << cliente.getMail() << std::endl;
     std::cout << "DIRECCION: " << cliente.getDireccion() << std::endl;
-    std::cout << "TIPO DE CLIENTE: " << (cliente.getTipoCliente() == '1' ? "Particular" : "Empresa") << std::endl; /// operador ternario
+    std::cout << "TIPO: " << (cliente.getTipoCliente() == '1' ? "PARTICULAR" : "EMPRESA") << std::endl; ///OPERADOR TERNARIO
     std::cout << "-----------------------------------";
     std::cout << std::endl;
 }
@@ -193,14 +192,11 @@ void clsGestorCliente::cargarCliente()
 
     if (buscarClientePorCuit(nuevo.getCuit()) != -1)
     {
-        std::cout << "ERROR: El Cliente ya existe";
+        std::cout << "ERROR: CLIENTE EXISTENTE";
         return;
     }
 
-    if (guardarEnDiscoCliente(nuevo))
-        std::cout << "Cliente guardado exitosamente";
-    else
-        std::cout << "ERROR: No se pudo guardar el cliente";
+    std::cout << (guardarEnDiscoCliente(nuevo) ? "CLIENTE GUARDADO CORRECTAMENTE" : "ERROR: NO SE PUDO GUARDAR") << std::endl;
 }
 
 void clsGestorCliente::modificarCliente()
@@ -208,7 +204,7 @@ void clsGestorCliente::modificarCliente()
     char opcion;
     char cuit[20];
 
-    std::cout << "CUIT del cliente a modificar: ";
+    std::cout << "CUIT: ";
     std::cin >> cuit;
 
     int pos;
@@ -225,118 +221,102 @@ void clsGestorCliente::modificarCliente()
 
         rlutil::anykey("Press any key to continue...\n");
 
-        std::cout << "\n 1) Nombre\n 2) Apellido\n 3) Mail\n 4) Telefono\n 5) Direccion\n 6) Tipo de cliente\n " << std::endl;
-        std::cout << "Ingrese opcion de dato a cambiar: ";
+        std::cout << "\n1-NOMBRE\n2-APELLIDO\n3-MAIL\n4-TELEFONO\n5-DIRECCION\n6-TIPO\n" << std::endl;
+        std::cout << "OPCION: ";
         std::cin >> opcion;
         std::cin.ignore();
 
         switch(opcion)
         {
-        case '1':
-        {
-            std::string nombre;
-            do
+            case '1':
             {
-                std::cout << "NOMBRE: ";
-                std::getline(std::cin, nombre);
+                std::string nombre;
+                do
+                {
+                    std::cout << "NOMBRE: ";
+                    std::getline(std::cin, nombre);
+                }
+                while(!(ev(nombre, 1, 20)));
+
+                cliente.setNombre(nombre.c_str());
             }
-            while(!(ev(nombre, 1, 20)));
+            break;
 
-            cliente.setNombre(nombre.c_str());
-        }
-        break;
-
-        case '2':
-        {
-            std::string apellido;
-            do
+            case '2':
             {
-                std::cout << "APELLIDO: ";
-                std::getline(std::cin, apellido);
+                std::string apellido;
+                do
+                {
+                    std::cout << "APELLIDO: ";
+                    std::getline(std::cin, apellido);
+                }
+                while(!(ev(apellido, 1, 20)));
+
+                cliente.setApellido(apellido.c_str());
             }
-            while(!(ev(apellido, 1, 20)));
+            break;
 
-            cliente.setApellido(apellido.c_str());
-        }
-        break;
-
-        case '3':
-        {
-            std::string mail;
-            do
+            case '3':
             {
-                std::cout << "MAIL : ";
-                std::getline(std::cin, mail);
+                std::string mail;
+                do
+                {
+                    std::cout << "MAIL: ";
+                    std::getline(std::cin, mail);
+                }
+                while(!(ev(mail, 1, 50)));
+
+                cliente.setMail(mail.c_str());
             }
-            while(!(ev(mail, 1, 50)));
+            break;
 
-            cliente.setMail(mail.c_str());
-        }
-        break;
-
-        case '4':
-        {
-            std::string telefono;
-            do
+            case '4':
             {
-                std::cout << "NUM TELEFONO : ";
-                std::getline(std::cin, telefono);
+                std::string telefono;
+                do
+                {
+                    std::cout << "TELEFONO: ";
+                    std::getline(std::cin, telefono);
+                }
+                while(!(ev(telefono, 1, 20)));
+
+                cliente.setNumTelefono(telefono.c_str());
             }
-            while(!(ev(telefono, 1, 20)));
-
-            cliente.setNumTelefono(telefono.c_str());
-        }
-        break;
+            break;
 
 
-        case '5':
-        {
-            std::string direccion;
-            do
+            case '5':
             {
-                std::cout << "DIRECCION : ";
-                std::getline(std::cin, direccion);
+                std::string direccion;
+                do
+                {
+                    std::cout << "DIRECCION: ";
+                    std::getline(std::cin, direccion);
+                }
+                while(!(ev(direccion, 1, 50)));
+
+                cliente.setDireccion(direccion.c_str());
             }
-            while(!(ev(direccion, 1, 50)));
+            break;
 
-            cliente.setDireccion(direccion.c_str());
-        }
-        break;
-
-        case '6':
-        {
-            char tipo;
-            std::string tipoCliente;
-            do
+            case '6':
             {
-                std::cout << "Seleccione tipo (1 Particular --- 2 Empresa): ";
-                std::getline(std::cin, tipoCliente);
+                char tipo;
+                std::string tipoCliente;
+                do
+                {
+                    std::cout << "[1-PARTICULAR / 2-EMPRESA]: ";
+                    std::getline(std::cin, tipoCliente);
+                }
+                while(!(ev(tipoCliente, 1, 1)) || (tipoCliente != "1" && tipoCliente != "2"));
+
+                tipo=tipoCliente[0];
+                cliente.setTipoCliente(tipo);
             }
-            while(!(ev(tipoCliente, 1, 1)) || (tipoCliente != "1" && tipoCliente != "2"));
-
-            tipo=tipoCliente[0];
-            cliente.setTipoCliente(tipo);
+            break;
         }
 
-        break;
-        }
-
-
-        ///EDITA EL VEHICULO EN SU POSICION CORRESPONDIENTE
-        if (guardarEnDiscoCliente(cliente, pos))
-        {
-            std::cout << "CLIENTE MODIFICADO CORRECTAMENTE" << std::endl;
-        }
-        else
-        {
-            std::cout << "ERROR: NO SE PUDO MODIFICAR EL CLIENTE" << std::endl;
-        }
-    }
-
-    else
-    {
-        std::cout << "ERROR: CLIENTE NO ENCONTRADO" << std::endl;
-        return;
+        std::cout << (guardarEnDiscoCliente(cliente, pos) ? "CLIENTE GUARDADO CORRECTAMENTE" : "ERROR: NO SE PUDO GUARDAR") << std::endl;
     }
 }
 
@@ -347,7 +327,7 @@ void clsGestorCliente::mostrarTodos()
     FILE *p = fopen(_rutaDireccion.c_str(), "rb");
     if (p == NULL)
     {
-        std::cout << "No hay clientes cargados actualmente.";
+        std::cout << "ERROR: ARCHIVO NO ENCONTRADO";
         return;
     }
 
@@ -356,6 +336,9 @@ void clsGestorCliente::mostrarTodos()
         if (cliente.getEstado())
             mostrarUnCliente(cliente);
     }
+
+    rlutil::anykey("Press any key to continue...\n");
+
     fclose(p);
 }
 
@@ -368,7 +351,7 @@ void clsGestorCliente::bajaCliente()
     int pos = buscarClientePorCuit(cuit);
     if (pos == -1)
     {
-        std::cout << "ERROR: Cliente no encontrado.";
+        std::cout << "ERROR: CLIENTE NO ENCONTRADO";
         return;
     }
 
@@ -376,19 +359,19 @@ void clsGestorCliente::bajaCliente()
     cliente.setEstado(false);
     guardarEnDiscoCliente(cliente, pos);
 
-    std::cout << "Cliente dado de baja correctamente.";
+    std::cout << "CLIENTE DADO DE BAJA CORRECTAMENTE";
 }
 
 void clsGestorCliente::buscarCliente()
 {
     char cuit[20];
-    std::cout << "Ingrese el CUIT del cliente a buscar: ";
+    std::cout << "CUIT: ";
     std::cin >> cuit;
 
     int pos = buscarClientePorCuit(cuit);
     if (pos == -1)
     {
-        std::cout << "Cliente inexistente.";
+        std::cout << "ERROR: CLIENTE NO ENCONTRADO";
         return;
     }
 
@@ -396,16 +379,15 @@ void clsGestorCliente::buscarCliente()
     if (cliente.getEstado())
         mostrarUnCliente(cliente);
     else
-        std::cout << "El cliente está dado de baja o inactivo";
+        std::cout << "ERROR: CLIENTE INACTIVO";
 }
-
 
 int clsGestorCliente::obtenerCantidadReg (std::string pfile, clsCliente obj)
 {
     FILE *p = fopen(pfile.c_str(), "rb");
     if (p == NULL)
     {
-        std::cout << "No hay datos cargados actualmente.";
+        std::cout << "ERROR: ARCHIVO VACIO";
         return 0;
     }
 
@@ -431,7 +413,7 @@ void clsGestorCliente::CUITascendente()
 
     if (p == NULL)
     {
-        std::cout << "No hay clientes cargados actualmente." << std::endl;
+        std::cout << "ERROR: ARCHIVO VACIO";
         return;
     }
 
@@ -439,7 +421,7 @@ void clsGestorCliente::CUITascendente()
 
     if (cont <= 0)
     {
-        std::cout << "No hay clientes cargados actualmente." << std::endl;
+        std::cout << "ERROR: ARCHIVO VACIO";
         fclose(p);
         return;
     }
@@ -488,67 +470,66 @@ void clsGestorCliente::CUITascendente()
     delete[] vecClientes;
 }
 
-void clsGestorCliente::CUITdescendente()
-{
-    clsCliente cliente;
-    FILE *p = fopen(_rutaDireccion.c_str(), "rb");
-
-    if (p == NULL)
-    {
-        std::cout << "No hay clientes cargados actualmente." << std::endl;
-        return;
-    }
-
-    int cont = obtenerCantidadReg(_rutaDireccion.c_str(), cliente);
-
-    if (cont <= 0)
-    {
-        std::cout << "No hay clientes cargados actualmente." << std::endl;
-        fclose(p);
-        return;
-    }
-
-
-    clsCliente *vecClientes = new clsCliente[cont];
-
-
-    rewind(p);
-
-
-    int i = 0;
-    while (fread(&cliente, sizeof(clsCliente), 1, p))
-    {
-        if (cliente.getEstado()==true)
-        {
-            vecClientes[i] = cliente;
-            i++;
-        }
-    }
-    fclose(p);
-
-
-    ///ORDENAR
-    for (int a = 0; a < i - 1; a++)
-    {
-        for (int b = a + 1; b < i; b++)
-        {
-            if (vecClientes[a].getCuit() < vecClientes[b].getCuit())
-            {
-                clsCliente aux = vecClientes[a];
-                vecClientes[a] = vecClientes[b];
-                vecClientes[b] = aux;
-            }
-        }
-    }
-
-    ///MOSTRAR
-    std::cout << "=== CLIENTES ORDENADOS POR CUIT (MENOR A MAYOR) ===" << std::endl;
-    for (int j = 0; j < i; j++)
-    {
-        mostrarUnCliente(vecClientes[j]);
-        std::cout << std::endl;
-    }
-
-    delete[] vecClientes;
-}
-
+//void clsGestorCliente::CUITdescendente()
+//{
+//    clsCliente cliente;
+//    FILE *p = fopen(_rutaDireccion.c_str(), "rb");
+//
+//    if (p == NULL)
+//    {
+//        std::cout << "No hay clientes cargados actualmente." << std::endl;
+//        return;
+//    }
+//
+//    int cont = obtenerCantidadReg(_rutaDireccion.c_str(), cliente);
+//
+//    if (cont <= 0)
+//    {
+//        std::cout << "No hay clientes cargados actualmente." << std::endl;
+//        fclose(p);
+//        return;
+//    }
+//
+//
+//    clsCliente *vecClientes = new clsCliente[cont];
+//
+//
+//    rewind(p);
+//
+//
+//    int i = 0;
+//    while (fread(&cliente, sizeof(clsCliente), 1, p))
+//    {
+//        if (cliente.getEstado()==true)
+//        {
+//            vecClientes[i] = cliente;
+//            i++;
+//        }
+//    }
+//    fclose(p);
+//
+//
+//    ///ORDENAR
+//    for (int a = 0; a < i - 1; a++)
+//    {
+//        for (int b = a + 1; b < i; b++)
+//        {
+//            if (vecClientes[a].getCuit() < vecClientes[b].getCuit())
+//            {
+//                clsCliente aux = vecClientes[a];
+//                vecClientes[a] = vecClientes[b];
+//                vecClientes[b] = aux;
+//            }
+//        }
+//    }
+//
+//    ///MOSTRAR
+//    std::cout << "=== CLIENTES ORDENADOS POR CUIT (MENOR A MAYOR) ===" << std::endl;
+//    for (int j = 0; j < i; j++)
+//    {
+//        mostrarUnCliente(vecClientes[j]);
+//        std::cout << std::endl;
+//    }
+//
+//    delete[] vecClientes;
+//}

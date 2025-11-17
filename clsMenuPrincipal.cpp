@@ -18,7 +18,7 @@ void clsMenuPrincipal::mostrar()
     std::cout << "2-VEHICULOS" << std::endl;
     std::cout << "3-EMPLEADOS" << std::endl;
     std::cout << "4-REPARACIONES" << std::endl;
-    std::cout << "9-===SALIR===" << std::endl;
+    std::cout << "0-===SALIR===" << std::endl;
 }
 
 void clsMenuPrincipal::elegirOpcion()
@@ -47,12 +47,12 @@ void clsMenuPrincipal::opcionesMenu()
         ejecutarMenuReparaciones();
         break;
 
-    case 9:
+    case 0:
         _salir=true;
         break;
 
     default:
-        std::cout << "Error, ingrese una opcion valida" << std::endl;
+        std::cout << "ERROR: OPCION INVALIDA" << std::endl;
         rlutil::anykey("Press any key to continue...\n");
     }
 }
@@ -72,14 +72,14 @@ void clsMenuPrincipal::ejecutarMenuPrincipal()
 void clsMenuPrincipal::mostrarMenuClientes()
 {
     rlutil::cls();
-    std::cout << "=== MENU CLIENTES ===" << std::endl;
-    std::cout << "1-Cargar cliente" << std::endl;
-    std::cout << "2-Modificar cliente" << std::endl;
-    std::cout << "3-Baja cliente" << std::endl;
-    std::cout << "4-Mostrar todos los clientes" << std::endl;
-    std::cout << "5-Buscar por CUIT" << std::endl;
-    std::cout << "6-Mostrar todos los clientes ordenados por CUIT" << std::endl;
-    std::cout << "0 === VOLVER ===" << std::endl;
+    std::cout << "====CLIENTES====" << std::endl;
+    std::cout << "1-CARGAR" << std::endl;
+    std::cout << "2-MODIFICAR" << std::endl;
+    std::cout << "3-BAJAR" << std::endl;
+    std::cout << "4-LISTAR TODOS" << std::endl;
+    std::cout << "5-BUSCAR" << std::endl;
+    std::cout << "6-LISTAR ORDENADOS" << std::endl;
+    std::cout << "0-===VOLVER===" << std::endl;
 }
 
 void clsMenuPrincipal::opcionesMenuClientes()
@@ -129,7 +129,7 @@ void clsMenuPrincipal::opcionesMenuClientes()
         break;
 
     default:
-        std::cout << "Error, ingrese una opcion valida" << std::endl;
+        std::cout << "ERROR: OPCION INVALIDA" << std::endl;
         rlutil::anykey("Press any key to continue...\n");
         break;
     }
@@ -185,14 +185,14 @@ void clsMenuPrincipal::ejecutarMenuClientes()
 void clsMenuPrincipal::mostrarMenuVehiculos()
 {
     rlutil::cls();
-    std::cout << "=== MENU VEHICULOS ===" << std::endl;
-    std::cout << "1-Cargar vehiculo" << std::endl;
-    std::cout << "2-Modificar vehiculo" << std::endl;
-    std::cout << "3-Baja vehiculo" << std::endl;
-    std::cout << "4-Mostrar todos los vehiculos" << std::endl;
-    std::cout << "5-Buscar por PATENTE" << std::endl;
-    std::cout << "6-ORDENAR POR PATENTE (MENOR A MAYOR)" << std::endl;
-    std::cout << "0 === VOLVER ===" << std::endl;
+    std::cout << "====VEHICULOS====" << std::endl;
+    std::cout << "1-CARGAR" << std::endl;
+    std::cout << "2-MODIFICAR" << std::endl;
+    std::cout << "3-BAJAR" << std::endl;
+    std::cout << "4-LISTAR TODOS" << std::endl;
+    std::cout << "5-BUSCAR" << std::endl;
+    std::cout << "6-LISTAR ORDENADOS" << std::endl;
+    std::cout << "0-===VOLVER===" << std::endl;
 }
 
 void clsMenuPrincipal::opcionesMenuVehiculos()
@@ -238,13 +238,12 @@ void clsMenuPrincipal::opcionesMenuVehiculos()
         rlutil::anykey("Press any key to continue...\n");
         break;
 
-
     case 0:
         return;
         break;
 
     default:
-        std::cout << "Error, ingrese una opcion valida" << std::endl;
+        std::cout << "ERROR: OPCION INVALIDA" << std::endl;
         rlutil::anykey("Press any key to continue...\n");
     }
 }
@@ -260,13 +259,13 @@ void clsMenuPrincipal::ejecutarMenuVehiculos()
 void clsMenuPrincipal::mostrarMenuEmpleados()
 {
     rlutil::cls();
-    std::cout << "=== MENU EMPLEADOS ===" << std::endl;
-    std::cout << "1-Cargar empleado" << std::endl;
-    std::cout << "2-Modificar empleado" << std::endl;
-    std::cout << "3-Baja empleado" << std::endl;
-    std::cout << "4-Mostrar todos los empleados" << std::endl;
-    std::cout << "5-Buscar por legajo" << std::endl;
-    std::cout << "0 === VOLVER ===" << std::endl;
+    std::cout << "====EMPLEADOS====" << std::endl;
+    std::cout << "1-CARGAR" << std::endl;
+    std::cout << "2-MODIFICAR" << std::endl;
+    std::cout << "3-BAJAR" << std::endl;
+    std::cout << "4-LISTAR TODOS" << std::endl;
+    std::cout << "5-BUSCAR" << std::endl;
+    std::cout << "0-===VOLVER===" << std::endl;
 }
 
 void clsMenuPrincipal::opcionesMenuEmpleados()
@@ -278,21 +277,18 @@ void clsMenuPrincipal::opcionesMenuEmpleados()
     case 1:
         rlutil::cls();
         gestorEmpleados.cargarEmpleado();
-        std::cout << std::endl;
         rlutil::anykey("Press any key to continue...\n");
         break;
 
     case 2:
         rlutil::cls();
         gestorEmpleados.modificarEmpleado();
-        std::cout << std::endl;
         rlutil::anykey("Press any key to continue...\n");
         break;
 
     case 3:
         rlutil::cls();
         gestorEmpleados.bajaEmpleado();
-        std::cout << std::endl;
         rlutil::anykey("Press any key to continue...\n");
         break;
 
@@ -313,7 +309,7 @@ void clsMenuPrincipal::opcionesMenuEmpleados()
         break;
 
     default:
-        std::cout << "Error, ingrese una opcion valida" << std::endl;
+        std::cout << "ERROR: OPCION INVALIDA" << std::endl;
         rlutil::anykey("Press any key to continue...\n");
         break;
     }
@@ -330,14 +326,14 @@ void clsMenuPrincipal::ejecutarMenuEmpleados()
 void clsMenuPrincipal::mostrarMenuReparaciones()
 {
     rlutil::cls();
-    std::cout << "=== MENU REPARACIONES ===" << std::endl;
-    std::cout << "1-Cargar reparacion" << std::endl;
-    std::cout << "2-Mostrar reparacion por codigo de reparacion" << std::endl;
-    std::cout << "3-Mostrar todas las reparaciones activas" << std::endl;
-    std::cout << "4-CANTIDAD REPARACIONES X FECHA" << std::endl;
-    std::cout << "5-RECAUDACION X VEHICULO " << std::endl;
+    std::cout << "====REPARACIONES====" << std::endl;
+    std::cout << "1-CARGAR" << std::endl;
+    std::cout << "2-BUSCAR" << std::endl;
+    std::cout << "3-LISTAR TODAS" << std::endl;
+    std::cout << "4-CANTIDAD EN FECHA" << std::endl;
+    std::cout << "5-RECAUDACION X VEHICULO" << std::endl;
     std::cout << "6-RECAUDACION ANUAL X MES" << std::endl;
-    std::cout << "0 === VOLVER ===" << std::endl;
+    std::cout << "0-===VOLVER===" << std::endl;
 }
 
 ///MENU REPARACIONES Y METODOS
@@ -381,7 +377,7 @@ void clsMenuPrincipal::opcionesMenuReparaciones()
         return;
         break;
     default:
-        std::cout << "Error, ingrese una opcion valida" << std::endl;
+        std::cout << "ERROR: OPCION INVALIDA" << std::endl;
         rlutil::anykey("Press any key to continue...\n");
     }
 }

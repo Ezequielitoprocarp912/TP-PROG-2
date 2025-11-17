@@ -363,6 +363,8 @@ void clsGestorReparacion::mostrarTodas()
         }
     }
 
+    rlutil::anykey("Press any key to continue...\n");
+
     fclose(file);
 }
 

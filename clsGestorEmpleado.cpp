@@ -581,6 +581,9 @@ void clsGestorEmpleado::mostrarTodos()
         if (empleado.getEstado())
             mostrarUnEmpleado(empleado);
     }
+
+    rlutil::anykey("Press any key to continue...\n");
+
     fclose(p);
 }
 
