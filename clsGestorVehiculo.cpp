@@ -16,7 +16,8 @@ clsGestorVehiculo::clsGestorVehiculo()
 ///METODOS DE MANIPULACION
 bool clsGestorVehiculo::ev(std::string texto, int minimo, int maximo)
 {
-    if( (texto.size()>=minimo)&&(texto.size()<=maximo))
+    if ((texto.size() >= static_cast<std::string::size_type>(minimo)) &&
+        (texto.size() <= static_cast<std::string::size_type>(maximo)))
     {
         return true;
     }

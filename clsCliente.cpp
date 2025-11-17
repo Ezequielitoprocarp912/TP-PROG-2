@@ -3,70 +3,16 @@
 #include <cstdio>
 #include <cstring>
 
-
 /// CONSTRUCTOR DEFAULT
 clsCliente::clsCliente()
 {
-    strcpy(_cuit, "SIN CUIT");
-    strcpy(_nombre, "SIN NOMBRE");
-    strcpy(_apellido, "SIN APELLIDO");
+    strcpy(_numTelefono, "SIN TELEFONO");
     strcpy(_mail, "SIN MAIL");
-    strcpy(_direccion, "SIN DIRECCION");
     _tipoCliente = '0'; /// particular (1) - empresa (2)
     _estado = false;
 }
 
-
 ///SETTERS
-bool clsCliente::setCuit (const char* cuit)
-{
-    ///VALIDACION
-    if (strlen(cuit)==11)
-    {
-        strcpy(_cuit, cuit);
-        return true;
-    }
-    else
-    {
-        std::cout << "Cuit no valido. Ingrese nuevamente." << std::endl;
-        rlutil::anykey("Press any key to continue...\n");
-        return false;
-    }
-}
-
-
-bool clsCliente::setNombre (const char* nombre)
-{
-    if(strlen(nombre) >= 1 && strlen(nombre) <= 20)
-    {
-        strcpy(_nombre, nombre);
-        return true;
-    }
-    else
-    {
-        std::cout << "Nombre no valido. Ingrese nuevamente." << std::endl;
-        rlutil::anykey("Press any key to continue...\n");
-        return false;
-    }
-}
-
-
-bool clsCliente::setApellido (const char* apellido)
-{
-    if(strlen(apellido) >= 1 && strlen(apellido) <= 20)
-    {
-        strcpy(_apellido, apellido);
-        return true;
-    }
-    else
-    {
-        std::cout << "Apellido no valido. Ingrese nuevamente." << std::endl;
-        rlutil::anykey("Press any key to continue...\n");
-        return false;
-    }
-}
-
-
 bool clsCliente::setMail (const char* mail)
 {
     if(strlen(mail) >= 1 && strlen(mail) <= 50)
@@ -81,7 +27,6 @@ bool clsCliente::setMail (const char* mail)
         return false;
     }
 }
-
 
 bool clsCliente::setNumTelefono(const char *telefono)
 {
@@ -98,23 +43,6 @@ bool clsCliente::setNumTelefono(const char *telefono)
     }
 }
 
-
-bool clsCliente::setDireccion (const char* direccion)
-{
-    if(strlen(direccion) >= 1 && strlen(direccion) <= 50)
-    {
-        strcpy(_direccion, direccion);
-        return true;
-    }
-    else
-    {
-        std::cout << "Direccion no valida. Ingrese nuevamente." << std::endl;
-        rlutil::anykey("Press any key to continue...\n");
-        return false;
-    }
-}
-
-
 bool clsCliente::setTipoCliente (char tipoCliente)
 {
     if(tipoCliente == '1' || tipoCliente == '2')
@@ -130,50 +58,13 @@ bool clsCliente::setTipoCliente (char tipoCliente)
     }
 }
 
-void clsCliente::setEstado (bool estado)
-{
-    _estado = estado;
-}
-
+void clsCliente::setEstado (bool estado) {_estado = estado;}
 
 ///GETTERS
+const char* clsCliente::getMail() {return _mail;}
 
-const char* clsCliente::getCuit()
-{
-    return _cuit;
-}
+const char* clsCliente::getNumTelefono() {return _numTelefono;}
 
-const char* clsCliente::getNombre()
-{
-    return _nombre;
-}
+char clsCliente::getTipoCliente() {return _tipoCliente;}
 
-const char* clsCliente::getApellido()
-{
-    return _apellido;
-}
-
-const char* clsCliente::getMail()
-{
-    return _mail;
-}
-
-const char* clsCliente::getDireccion()
-{
-    return _direccion;
-}
-
-const char* clsCliente::getNumTelefono()
-{
-    return _numTelefono;
-}
-
-char clsCliente::getTipoCliente()
-{
-    return _tipoCliente;
-}
-
-bool clsCliente::getEstado ()
-{
-    return _estado;
-}
+bool clsCliente::getEstado () {return _estado;}

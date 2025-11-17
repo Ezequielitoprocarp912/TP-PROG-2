@@ -2,6 +2,7 @@
 #include "rlutil.h"
 #include "clsGestorCliente.h"
 #include "clsGestorVehiculo.h"
+#include "clsGestorEmpleado.h"
 #include "clsGestorReparacion.h"
 
 class clsMenuPrincipal
@@ -22,13 +23,17 @@ class clsMenuPrincipal
         void opcionesMenuClientes();
         void ejecutarMenuClientes();
 
-        void mostrarSubMenuCUIT();
-        void opcionesSubMenuCUIT(clsGestorCliente &gestorClientes);
-        void ejecutarSubMenuCUIT(clsGestorCliente &gestorClientes);
+//        void mostrarSubMenuCUIT();
+//        void opcionesSubMenuCUIT(clsGestorCliente &gestorClientes);
+//        void ejecutarSubMenuCUIT(clsGestorCliente &gestorClientes);
         //
         void mostrarMenuVehiculos();
         void opcionesMenuVehiculos();
         void ejecutarMenuVehiculos();
+        //
+        void mostrarMenuEmpleados();
+        void opcionesMenuEmpleados();
+        void ejecutarMenuEmpleados();
         //
         void mostrarMenuReparaciones();
         void opcionesMenuReparaciones();
