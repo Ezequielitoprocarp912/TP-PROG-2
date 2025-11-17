@@ -34,16 +34,22 @@
 		</Compiler>
 		<Unit filename="clsCliente.cpp" />
 		<Unit filename="clsCliente.h" />
+		<Unit filename="clsEmpleado.cpp" />
+		<Unit filename="clsEmpleado.h" />
 		<Unit filename="clsFecha.cpp" />
 		<Unit filename="clsFecha.h" />
 		<Unit filename="clsGestorCliente.cpp" />
 		<Unit filename="clsGestorCliente.h" />
+		<Unit filename="clsGestorEmpleado.cpp" />
+		<Unit filename="clsGestorEmpleado.h" />
 		<Unit filename="clsGestorReparacion.cpp" />
 		<Unit filename="clsGestorReparacion.h" />
 		<Unit filename="clsGestorVehiculo.cpp" />
 		<Unit filename="clsGestorVehiculo.h" />
 		<Unit filename="clsMenuPrincipal.cpp" />
 		<Unit filename="clsMenuPrincipal.h" />
+		<Unit filename="clsPersona.cpp" />
+		<Unit filename="clsPersona.h" />
 		<Unit filename="clsReparacion.cpp" />
 		<Unit filename="clsReparacion.h" />
 		<Unit filename="clsVehiculo.cpp" />

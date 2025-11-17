@@ -7,6 +7,7 @@ clsReparacion::clsReparacion()
     strcpy(_descripcionFalla, "");
     _cliente=clsCliente();
     _vehiculo=clsVehiculo();
+    _empleado=clsEmpleado();
     _ingreso=clsFecha();
     _reparado=clsFecha();
     _egreso=clsFecha();
@@ -27,12 +28,9 @@ bool clsReparacion::setDescripcionFalla(const char* descripcionFalla)
     }
 }
 
-void clsReparacion::setCodReparacion (int codReparacion){
+void clsReparacion::setCodReparacion (int codReparacion)
+{
     _codReparacion=codReparacion;
-}
-
-void clsReparacion::setEstado(bool estado){
-    _estado=estado;
 }
 
 void clsReparacion::setCliente(clsCliente cliente)
@@ -40,28 +38,35 @@ void clsReparacion::setCliente(clsCliente cliente)
     _cliente=cliente;
 }
 
-void clsReparacion::setFechaIngreso(clsFecha ingreso){
-    _ingreso = ingreso;
-}
-
-void clsReparacion::setFechaReparado(clsFecha reparado){
-    _reparado = reparado;
-}
-
-void clsReparacion::setFechaEgreso(clsFecha egreso){
-    _egreso = egreso;
-}
-
 void clsReparacion::setVehiculo(clsVehiculo vehiculo)
 {
     _vehiculo=vehiculo;
 }
 
-void clsReparacion::setRecaudacion(float recaudacion)
+void clsReparacion::setEmpleado(clsEmpleado empleado)
 {
-    _recaudacion = recaudacion;
+    _empleado=empleado;
 }
 
+void clsReparacion::setFechaIngreso(clsFecha ingreso)
+{
+    _ingreso=ingreso;
+}
+
+void clsReparacion::setFechaReparado(clsFecha reparado)
+{
+    _reparado=reparado;
+}
+
+void clsReparacion::setFechaEgreso(clsFecha egreso)
+{
+    _egreso=egreso;
+}
+
+void clsReparacion::setEstado(bool estado)
+{
+    _estado=estado;
+}
 
 ///GETTERS
 int clsReparacion::getCodReparacion()
@@ -84,6 +89,11 @@ clsVehiculo clsReparacion::getVehiculo()
     return _vehiculo;
 }
 
+clsEmpleado clsReparacion::getEmpleado()
+{
+    return _empleado;
+}
+
 clsFecha clsReparacion::getFechaIngreso()
 {
     return _ingreso;
@@ -104,10 +114,4 @@ clsFecha clsReparacion::getFechaEgreso()
 bool clsReparacion::getEstado()
 {
     return _estado;
-}
-
-
-float clsReparacion::getRecaudacion()
-{
-    return _recaudacion;
 }

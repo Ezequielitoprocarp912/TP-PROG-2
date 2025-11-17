@@ -39,8 +39,6 @@ void clsGestorCliente::cargarUnCliente(clsCliente &cliente)
     std::string tipoCliente;
 
 
-    std::cin.ignore();
-
     ///CUIT
     do
     {
@@ -208,7 +206,7 @@ void clsGestorCliente::cargarCliente()
 void clsGestorCliente::modificarCliente()
 {
     char opcion;
-    char cuit[20];
+    char cuit[12];
 
     std::cout << "CUIT del cliente a modificar: ";
     std::cin >> cuit;
@@ -324,7 +322,7 @@ void clsGestorCliente::modificarCliente()
         }
 
 
-        ///EDITA EL VEHICULO EN SU POSICION CORRESPONDIENTE
+        ///EDITA EL EMPLEADO EN SU POSICION CORRESPONDIENTE
         if (guardarEnDiscoCliente(cliente, pos))
         {
             std::cout << "CLIENTE MODIFICADO CORRECTAMENTE" << std::endl;
@@ -363,7 +361,7 @@ void clsGestorCliente::mostrarTodos()
 
 void clsGestorCliente::bajaCliente()
 {
-    char cuit[20];
+    char cuit[12];
     std::cout << "Ingrese el CUIT del cliente a eliminar: ";
     std::cin >> cuit;
 
@@ -383,7 +381,7 @@ void clsGestorCliente::bajaCliente()
 
 void clsGestorCliente::buscarCliente()
 {
-    char cuit[20];
+    char cuit[12];
     std::cout << "Ingrese el CUIT del cliente a buscar: ";
     std::cin >> cuit;
 
@@ -546,8 +544,8 @@ void clsGestorCliente::CUITdescendente()
     ///MOSTRAR
     std::cout << "=== CLIENTES ORDENADOS POR CUIT (MENOR A MAYOR) ===" << std::endl;
     for (int j = 0; j < i; j++)
-    {
         mostrarUnCliente(vecClientes[j]);
+    {
         std::cout << std::endl;
     }
 

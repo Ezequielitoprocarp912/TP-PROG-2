@@ -36,7 +36,6 @@ void clsGestorVehiculo::cargarUnVehiculo(clsVehiculo &vehiculo)
     std::string modelo;
     std::string tipoVehiculo;
 
-    std::cin.ignore();
 
     ///PATENTE
     do
@@ -468,7 +467,7 @@ void clsGestorVehiculo::OrdenarXPatente()
         return;
     }
 
-    /// ORDENAR POR NÚMERO DE PATENTE (alfabéticamente)
+    /// ORDENAR POR NUMERO DE PATENTE (alfabeticamente)
     for (int a = 0; a < i - 1; a++)
     {
         for (int b = a + 1; b < i; b++)
@@ -482,7 +481,7 @@ void clsGestorVehiculo::OrdenarXPatente()
         }
     }
 
-    std::cout << "\n=== VEHÍCULOS ORDENADOS POR PATENTE (A-Z) ===" << std::endl;
+    std::cout << "\n=== VEHICULOS ORDENADOS POR PATENTE (A-Z) ===" << std::endl;
     for (int j = 0; j < i; j++)
     {
         mostrarUnVehiculo(vecVehiculos[j]);

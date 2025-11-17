@@ -1,28 +1,32 @@
 #pragma once
 #include "clsPersona.h"
+#include "clsFecha.h"
 
-class clsCliente: public clsPersona
+class clsEmpleado: public clsPersona
 {
     private:
     ///ATRIBUTOS
         char _numTelefono[21];
         char _mail[51];
-        char _tipoCliente;
+        char _legajo[6];
+        clsFecha _ingreso;
         bool _estado;
 
     public:
     ///CONSTRUCTORES
-        clsCliente();
+        clsEmpleado();
 
     ///SETTERS
-        bool setMail(const char* mail);
         bool setNumTelefono(const char* telefono);
-        bool setTipoCliente(char tipoCliente);
+        bool setMail(const char* mail);
+        bool setLegajo(const char* legajo);
+        void setFechaIngreso(clsFecha ingreso);
         void setEstado(bool estado);
 
     ///GETTERS
         const char* getMail();
         const char* getNumTelefono();
-        char getTipoCliente();
+        const char* getLegajo();
+        clsFecha getIngreso();
         bool getEstado();
 };
