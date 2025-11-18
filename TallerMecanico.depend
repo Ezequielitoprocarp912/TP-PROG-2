@@ -5,10 +5,14 @@
 	<cstdio>
 	<cstring>
 
+1763073907 
+
 1763073907 c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clscliente.h
 
 1763073907 source:c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsfecha.cpp
 	"clsFecha.h"
+
+1763073907 h"
 
 1763073907 c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsfecha.h
 	<iostream>
@@ -24,6 +28,8 @@
 	"clsGestorCliente.h"
 	"clsCliente.h"
 
+1763073907 e.h"
+
 1763073907 c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsgestorcliente.h
 	<iostream>
 	"clsCliente.h"
@@ -36,10 +42,14 @@
 	"clsVehiculo.h"
 	"clsGestorVehiculo.h"
 
+1763073907 Vehiculo.h"
+
 1763073907 c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsvehiculo.h
 
 1763073907 c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsgestorvehiculo.h
 	"clsVehiculo.h"
+
+1763073907 lo.h"
 
 1763074228 source:c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsmenuprincipal.cpp
 	<iostream>
@@ -50,9 +60,13 @@
 	"clsReparacion.h"
 	"clsMenuPrincipal.h"
 
+1763073907 incipal.h"
+
 1763074091 c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsgestorreparacion.h
 	<iostream>
 	"clsReparacion.h"
+
+1763073907 cion.h"
 
 1763073907 c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsreparacion.h
 	"clsCliente.h"
@@ -61,6 +75,8 @@
 
 1763073907 c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsmenuprincipal.h
 	"clsGestorCliente.h"
+
+1763073907 Cliente.h"
 
 1763073907 source:c:\users\ezequ\downloads\tp-prog-2-jueves-13-be\tp-prog-2-jueves-13-be\clsreparacion.cpp
 	"clsReparacion.h"
@@ -77,4 +93,100 @@
 	<cstring>
 	"clsFecha.h"
 	"clsMenuPrincipal.h"
+
+1763473463 source:/home/tobias/Desktop/TP-PROG-2-Agustin/clsCliente.cpp
+	"clsCliente.h"
+	<iostream>
+	<cstdio>
+	<cstring>
+
+1763473463 /home/tobias/Desktop/TP-PROG-2-Agustin/clsCliente.h
+	"clsPersona.h"
+
+1763473463 /home/tobias/Desktop/TP-PROG-2-Agustin/clsPersona.h
+
+1763473463 source:/home/tobias/Desktop/TP-PROG-2-Agustin/clsEmpleado.cpp
+	"clsEmpleado.h"
+	<iostream>
+	<cstdio>
+	<cstring>
+
+1763473463 /home/tobias/Desktop/TP-PROG-2-Agustin/clsEmpleado.h
+	"clsPersona.h"
+	"clsFecha.h"
+
+1763473463 /home/tobias/Desktop/TP-PROG-2-Agustin/clsFecha.h
+	<iostream>
+	<cstdio>
+	<string>
+	<cstring>
+
+1763473463 source:/home/tobias/Desktop/TP-PROG-2-Agustin/clsFecha.cpp
+	"clsFecha.h"
+
+1763473463 source:/home/tobias/Desktop/TP-PROG-2-Agustin/clsGestorCliente.cpp
+	<iostream>
+	<cstdio>
+	<limits>
+	<cstring>
+	"clsGestorCliente.h"
+	"clsCliente.h"
+
+1763473463 /home/tobias/Desktop/TP-PROG-2-Agustin/clsGestorCliente.h
+	<iostream>
+	"clsCliente.h"
+
+1763473463 source:/home/tobias/Desktop/TP-PROG-2-Agustin/clsGestorEmpleado.cpp
+	<iostream>
+	<cstdio>
+	<limits>
+	<cstring>
+	"clsGestorEmpleado.h"
+	"clsEmpleado.h"
+
+1763473463 /home/tobias/Desktop/TP-PROG-2-Agustin/clsGestorEmpleado.h
+	<iostream>
+	"clsEmpleado.h"
+
+1763473463 source:/home/tobias/Desktop/TP-PROG-2-Agustin/clsGestorReparacion.cpp
+	<cstdio>
+	<limits>
+	<cstring>
+	"clsGestorCliente.h"
+	"clsGestorVehiculo.h"
+	"clsGestorEmpleado.h"
+	"clsGestorReparacion.h"
+
+1763473463 /home/tobias/Desktop/TP-PROG-2-Agustin/clsGestorVehiculo.h
+	"clsVehiculo.h"
+	<string>
+
+1763473463 /home/tobias/Desktop/TP-PROG-2-Agustin/clsVehiculo.h
+	<cstring>
+
+1763473463 /home/tobias/Desktop/TP-PROG-2-Agustin/clsGestorReparacion.h
+	<iostream>
+	"clsReparacion.h"
+
+1763473463 /home/tobias/Desktop/TP-PROG-2-Agustin/clsReparacion.h
+	"clsCliente.h"
+	"clsVehiculo.h"
+	"clsEmpleado.h"
+	"clsFecha.h"
+
+1763473463 source:/home/tobias/Desktop/TP-PROG-2-Agustin/clsGestorVehiculo.cpp
+	<iostream>
+	<cstdio>
+	<limits>
+	<cstring>
+	"clsVehiculo.h"
+	"clsGestorVehiculo.h"
+
+1763473463 source:/home/tobias/Desktop/TP-PROG-2-Agustin/clsPersona.cpp
+	"clsPersona.h"
+	<iostream>
+	<cstring>
+
+1763473463 source:/home/tobias/Desktop/TP-PROG-2-Agustin/clsReparacion.cpp
+	"clsReparacion.h"
 
