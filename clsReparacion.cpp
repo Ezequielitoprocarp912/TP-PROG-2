@@ -9,54 +9,121 @@ clsReparacion::clsReparacion()
     _vehiculo=clsVehiculo();
     _empleado=clsEmpleado();
     _ingreso=clsFecha();
+    _recaudacion = 0;
     _reparado=clsFecha();
     _egreso=clsFecha();
     _estado=false;
-    _recaudacion=0.0;
 }
 
 ///SETTERS
-void clsReparacion::setCodReparacion (int codReparacion) {_codReparacion=codReparacion;}
-
-bool clsReparacion::setDescripcionFalla(const char* descripcionFalla) {
-    if(strlen(descripcionFalla) >= 1 && strlen(descripcionFalla) <= 200) {
+bool clsReparacion::setDescripcionFalla(const char* descripcionFalla)
+{
+    if(strlen(descripcionFalla) >= 1 && strlen(descripcionFalla) <= 200)
+    {
         strcpy(_descripcionFalla, descripcionFalla);
-        return true; }
-    return false; }
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 
-void clsReparacion::setCliente(clsCliente cliente) {_cliente=cliente;}
+void clsReparacion::setCodReparacion (int codReparacion)
+{
+    _codReparacion=codReparacion;
+}
 
-void clsReparacion::setVehiculo(clsVehiculo vehiculo) {_vehiculo=vehiculo;}
+void clsReparacion::setCliente(clsCliente cliente)
+{
+    _cliente=cliente;
+}
 
-void clsReparacion::setEmpleado(clsEmpleado empleado) {_empleado=empleado;}
+void clsReparacion::setVehiculo(clsVehiculo vehiculo)
+{
+    _vehiculo=vehiculo;
+}
 
-void clsReparacion::setFechaIngreso(clsFecha ingreso) {_ingreso = ingreso;}
+void clsReparacion::setEmpleado(clsEmpleado empleado)
+{
+    _empleado=empleado;
+}
 
-void clsReparacion::setFechaReparado(clsFecha reparado) {_reparado = reparado;}
+void clsReparacion::setFechaIngreso(clsFecha ingreso)
+{
+    _ingreso=ingreso;
+}
 
-void clsReparacion::setFechaEgreso(clsFecha egreso) {_egreso = egreso;}
+void clsReparacion::setFechaReparado(clsFecha reparado)
+{
+    _reparado=reparado;
+}
 
-void clsReparacion::setEstado(bool estado) {_estado=estado;}
+void clsReparacion::setFechaEgreso(clsFecha egreso)
+{
+    _egreso=egreso;
+}
 
-void clsReparacion::setRecaudacion(float recaudacion) {_recaudacion = recaudacion;}
+void clsReparacion::setEstado(bool estado)
+{
+    _estado=estado;
+}
+
+void clsReparacion::setRecaudacion(float recaudacion)
+{
+    _recaudacion = recaudacion;
+}
+
 
 ///GETTERS
-int clsReparacion::getCodReparacion() {return _codReparacion;}
+int clsReparacion::getCodReparacion()
+{
+    return _codReparacion;
+}
 
-const char* clsReparacion::getDescripcionFalla() {return _descripcionFalla;}
+const char* clsReparacion::getDescripcionFalla()
+{
+    return _descripcionFalla;
+}
 
-clsCliente clsReparacion::getCliente() {return _cliente;}
+clsCliente clsReparacion::getCliente()
+{
+    return _cliente;
+}
 
-clsVehiculo clsReparacion::getVehiculo() {return _vehiculo;}
+clsVehiculo clsReparacion::getVehiculo()
+{
+    return _vehiculo;
+}
 
-clsEmpleado clsReparacion::getEmpleado() {return _empleado;}
+clsEmpleado clsReparacion::getEmpleado()
+{
+    return _empleado;
+}
 
-clsFecha clsReparacion::getFechaIngreso() {return _ingreso;}
+clsFecha clsReparacion::getFechaIngreso()
+{
+    return _ingreso;
+}
 
-clsFecha clsReparacion::getFechaReparado() {return _reparado;}
 
-clsFecha clsReparacion::getFechaEgreso() {return _egreso;}
+clsFecha clsReparacion::getFechaReparado()
+{
+    return _reparado;
+}
 
-bool clsReparacion::getEstado() {return _estado;}
 
-float clsReparacion::getRecaudacion() {return _recaudacion;}
+clsFecha clsReparacion::getFechaEgreso()
+{
+    return _egreso;
+}
+
+bool clsReparacion::getEstado()
+{
+    return _estado;
+}
+
+float clsReparacion::getRecaudacion()
+{
+    return _recaudacion;
+}

@@ -14,10 +14,9 @@ public:
     /// MÉTODOS DE MANIPULACIÓN
     bool ev(std::string texto, int minimo, int maximo);
     void cargarUnEmpleado(clsEmpleado &);
+    void cargarEmpleados(clsEmpleado *vecEmp, int cantEmp);
     void mostrarUnEmpleado(clsEmpleado);
-    int obtenerCantidadReg (std::string pfile, clsEmpleado obj);
-    //void CUITascendente();
-    //void CUITdescendente();
+    int obtenerCantidadReg();
 
     /// MÉTODOS DE ARCHIVO
     bool generarLegajo(char *nuevoLegajo);

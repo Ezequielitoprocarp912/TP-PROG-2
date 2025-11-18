@@ -15,10 +15,10 @@ class clsReparacion
         clsVehiculo _vehiculo;
         clsEmpleado _empleado;
         clsFecha _ingreso;
+        float _recaudacion;
         clsFecha _reparado;
         clsFecha _egreso;
         bool _estado;
-        float _recaudacion;
 
     public:
     ///CONSTRUCTORES
@@ -32,9 +32,9 @@ class clsReparacion
         void setEmpleado (clsEmpleado empleado);
         void setFechaIngreso(clsFecha ingreso);
         void setFechaReparado(clsFecha reparado);
+        void setRecaudacion (float recaudacion);
         void setFechaEgreso(clsFecha egreso);
         void setEstado(bool estado);
-        void setRecaudacion (float recaudacion);
 
 
     ///GETTERS
@@ -44,9 +44,8 @@ class clsReparacion
         clsVehiculo getVehiculo();
         clsEmpleado getEmpleado();
         clsFecha getFechaIngreso();
+        float getRecaudacion();
         clsFecha getFechaReparado();
         clsFecha getFechaEgreso();
         bool getEstado();
-        float getRecaudacion();
-
 };

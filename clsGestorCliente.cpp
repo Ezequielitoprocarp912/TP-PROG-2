@@ -347,9 +347,10 @@ void clsGestorCliente::mostrarTodos()
     FILE *p = fopen(_rutaDireccion.c_str(), "rb");
     if (p == NULL)
     {
-        std::cout << "No hay clientes cargados actualmente.";
+        std::cout << "No hay clientes cargados actualmente. " << std::endl;
         return;
     }
+
 
     while (fread(&cliente, sizeof(clsCliente), 1, p))
     {

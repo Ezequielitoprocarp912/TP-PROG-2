@@ -1,7 +1,6 @@
 #pragma once
-#include "rlutil.h"
-#include "clsReparacion.h"
 #include <iostream>
+#include "clsReparacion.h"
 
 class clsGestorReparacion
 {
@@ -21,16 +20,19 @@ public:
 
     /// MÉTODOS DE MANIPULACIÓN
     bool ev(std::string texto, int minimo, int maximo);
-    bool cargarUnaReparacion(clsReparacion &reparacion); /// AHORA ES BOOL XQ AUNQUE PONGA UNA PATENTE MAL GUARDABA UNA REPARACION VACIA
+    bool cargarUnaReparacion(clsReparacion &reparacion);
     void mostrarUnaReparacion(clsReparacion reparacion);
+    void recaudacionAnual();
+    bool pedirFecha(int& mes, int& anio);
+
 
     /// METODOS DE EJECUCION
-
     void cargarReparacion();
     void mostrarTodas();
-    void buscarReparacion(); // POR CODIGO DE REPARACION
-    void cantidadReparacionesPorFecha();
+    void buscarReparacion();
     void recaudacionXvehiculo();
-    void recaudacionAnual();
+    void reparacionesXfecha();
+    void reparacionesXempleado();
 
 };
+
