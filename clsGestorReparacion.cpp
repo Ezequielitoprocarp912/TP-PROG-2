@@ -94,12 +94,18 @@ bool clsGestorReparacion::cargarUnaReparacion(clsReparacion &reparacion)
     reparacion.setCliente(cliente);
 
     /// PATENTE
-    do
+     do
     {
         std::cout << "PATENTE: ";
         std::getline(std::cin, numPatente);
+
+        // Convertir automaticamente a MAYÚSCULAS
+        for (char &c : numPatente)
+        {
+            c = std::toupper(static_cast<unsigned char>(c));
+        }
     }
-    while (!ev(numPatente, 6, 7));
+    while(!(ev(numPatente, 6, 7)));
 
     int posVehiculo = gestorVehiculo.buscarVehiculoPorPatente(numPatente.c_str());
     if (posVehiculo == -1)
@@ -236,8 +242,6 @@ bool clsGestorReparacion::cargarUnaReparacion(clsReparacion &reparacion)
 
 
     ///REDAUDACION
-
-
     do
     {
         std::cout << "MONTO DE LA REPARACION: $";
@@ -494,6 +498,23 @@ void clsGestorReparacion::buscarReparacion()
 
 void clsGestorReparacion::recaudacionXvehiculo()
 {
+    std::string numPatente;
+    float recTotal=0;
+
+     do
+    {
+        std::cout << "PATENTE: ";
+        std::getline(std::cin, numPatente);
+
+        // Convertir automáticamente a MAYÚSCULAS
+        for (char &c : numPatente)
+        {
+            c = std::toupper(static_cast<unsigned char>(c));
+        }
+    }
+    while(!(ev(numPatente, 6, 7)));
+
+
     FILE *file = fopen(_rutaDireccion.c_str(), "rb");
 
     if (file == NULL)
@@ -514,13 +535,20 @@ void clsGestorReparacion::recaudacionXvehiculo()
         {
             hayDatos = true;
 
-            std::cout << "PATENTE: " << reparacion.getVehiculo().getNumeroPatente() << std::endl;
-            std::cout << "CUIT CLIENTE: " << reparacion.getCliente().getCuit() << std::endl;
-            std::cout << "FECHA DE INGRESO: " << reparacion.getFechaIngreso().mostrar() << std::endl;
-            std::cout << "RECAUDACION: $" << reparacion.getRecaudacion() << std::endl;
-            std::cout << "----------------------------------------" << std::endl;
+            if(reparacion.getVehiculo().getNumeroPatente()==numPatente)
+
+            {
+                std::cout << "PATENTE: " << reparacion.getVehiculo().getNumeroPatente() << std::endl;
+                std::cout << "CUIT CLIENTE: " << reparacion.getCliente().getCuit() << std::endl;
+                std::cout << "FECHA DE INGRESO: " << reparacion.getFechaIngreso().mostrar() << std::endl;
+                std::cout << "RECAUDACION: $" << reparacion.getRecaudacion() << std::endl;
+                std::cout << "----------------------------------------" << std::endl;
+                recTotal+=reparacion.getRecaudacion();
+            }
         }
     }
+
+    std::cout << "RECAUDACION TOTAL: $" << recTotal << std::endl;
 
     fclose(file);
 
@@ -591,7 +619,7 @@ void clsGestorReparacion::reparacionesXempleado()
     clsGestorEmpleado gestorEmpleados;
 
     pedirFecha(mes, anio);
-    clsFecha fechaBuscada=clsFecha(1, mes, anio);
+    clsFecha fechaBuscada=clsFecha(1, mes, anio); /// SOLO PARA MOSTRAR MES
 
     int cantEmp = gestorEmpleados.obtenerCantidadReg();
     if (cantEmp == 0)
@@ -620,7 +648,6 @@ void clsGestorReparacion::reparacionesXempleado()
         delete[] repEmp;
         return;
     }
-
 
     while (fread(&reparacion, sizeof(clsReparacion), 1, pReparaciones) == 1)
     {
@@ -651,10 +678,8 @@ void clsGestorReparacion::reparacionesXempleado()
                   << " | Recaudacion Total: $" << recEmp[i]
                   << " | Reparaciones: " << repEmp[i]
                   << std::endl;
-
         std::cout << std::endl;
     }
-
 
     delete[] vecEmpleados;
     delete[] repEmp;

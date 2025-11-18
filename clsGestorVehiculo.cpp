@@ -17,7 +17,7 @@ clsGestorVehiculo::clsGestorVehiculo()
 bool clsGestorVehiculo::ev(std::string texto, int minimo, int maximo)
 {
     if (static_cast<int>(texto.size()) >= minimo &&
-        static_cast<int>(texto.size()) <= maximo)
+            static_cast<int>(texto.size()) <= maximo)
     {
         return true;
     }
@@ -39,8 +39,8 @@ void clsGestorVehiculo::cargarUnVehiculo(clsVehiculo &vehiculo)
     std::string tipoVehiculo;
 
 
+
     ///PATENTE
-///PATENTE
     do
     {
         std::cout << "PATENTE: ";
@@ -54,9 +54,7 @@ void clsGestorVehiculo::cargarUnVehiculo(clsVehiculo &vehiculo)
     }
     while(!(ev(numPatente, 6, 7)));
 
-vehiculo.setNumeroPatente(numPatente.c_str());
-
-
+    vehiculo.setNumeroPatente(numPatente.c_str());
 
     ///MARCA
     do
@@ -231,7 +229,7 @@ void clsGestorVehiculo::modificarVehiculo()
     std::cout << "Patente de vehiculo a modificar: ";
     std::cin.getline(patente, 8);
 
-    // Convertir a mayúsculas
+    /// Convertir a mayúsculas
     for (int i = 0; patente[i] != '\0'; i++)
     {
         patente[i] = std::toupper(static_cast<unsigned char>(patente[i]));
@@ -260,7 +258,6 @@ void clsGestorVehiculo::modificarVehiculo()
         std::cout << "4) Guardar y salir\n";
         std::cout << "Opcion: ";
         std::cin >> opcion;
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         switch(opcion)
         {
@@ -304,8 +301,8 @@ void clsGestorVehiculo::modificarVehiculo()
                 std::getline(std::cin, tipoVehiculo);
             }
             while(!(ev(tipoVehiculo, 1, 1)) ||
-                  (tipoVehiculo != "1" && tipoVehiculo != "2" &&
-                   tipoVehiculo != "3" && tipoVehiculo != "4"));
+                    (tipoVehiculo != "1" && tipoVehiculo != "2" &&
+                     tipoVehiculo != "3" && tipoVehiculo != "4"));
 
             tipo = tipoVehiculo[0];
             vehiculo.setTipoVehiculo(tipo);
@@ -320,14 +317,14 @@ void clsGestorVehiculo::modificarVehiculo()
             system("pause");
         }
 
-    } while(opcion != '4');
+    }
+    while(opcion != '4');
 
 
     if (guardarEnDiscoVehiculo(vehiculo, pos))
         std::cout << "VEHICULO MODIFICADO CORRECTAMENTE\n";
     else
         std::cout << "ERROR: NO SE PUDO MODIFICAR VEHICULO\n";
-
 
 }
 

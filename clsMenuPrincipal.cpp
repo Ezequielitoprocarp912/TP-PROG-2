@@ -33,7 +33,7 @@ void clsMenuPrincipal::elegirOpcion()
 {
     std::cout << std::endl;
     std::cout << "INGRESE OPCION: ";
-    std::cin >> _opcion;
+    _opcion = _getch()-'0';
     std::cout << std::endl;
 
 }
@@ -204,8 +204,8 @@ void clsMenuPrincipal::mostrarMenuVehiculos()
     std::cout << "2-Modificar vehiculo" << std::endl;
     std::cout << "3-Baja vehiculo" << std::endl;
     std::cout << "4-Mostrar todos los vehiculos" << std::endl;
-    std::cout << "5-BUSCAR VEHICULO POR PATENTE " << std::endl;
-    std::cout << "6-Ordenar por patente (MENOR A MAYOR)" << std::endl;
+    std::cout << "5-Buscar vehiculo por patente" << std::endl;
+    std::cout << "6-Ordenar por patente (Menor a mayor)" << std::endl;
     std::cout << "0 === VOLVER ===" << std::endl;
 }
 
@@ -356,6 +356,7 @@ void clsMenuPrincipal::mostrarMenuReparaciones()
     std::cout << "4-Recaudacion por vehiculo" << std::endl;
     std::cout << "5-Cantidad de reparaciones por fecha" << std::endl;
     std::cout << "6-Cantidad de reparaciones por empleado" << std::endl;
+    std::cout << "7-Recaudacion anual" << std::endl;
     std::cout << "0 === VOLVER ===" << std::endl;
 }
 
@@ -398,6 +399,12 @@ void clsMenuPrincipal::opcionesMenuReparaciones()
     case 6:
         system("cls");
         gestorReparacion.reparacionesXempleado();
+        system("pause");
+        break;
+
+    case 7:
+        system("cls");
+        gestorReparacion.recaudacionAnual();
         system("pause");
         break;
 

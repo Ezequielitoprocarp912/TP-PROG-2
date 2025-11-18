@@ -22,7 +22,6 @@ public:
     bool ev(std::string texto, int minimo, int maximo);
     bool cargarUnaReparacion(clsReparacion &reparacion);
     void mostrarUnaReparacion(clsReparacion reparacion);
-    void recaudacionAnual();
     bool pedirFecha(int& mes, int& anio);
 
 
@@ -30,6 +29,7 @@ public:
     void cargarReparacion();
     void mostrarTodas();
     void buscarReparacion();
+    void recaudacionAnual();
     void recaudacionXvehiculo();
     void reparacionesXfecha();
     void reparacionesXempleado();
