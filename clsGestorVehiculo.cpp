@@ -16,19 +16,18 @@ clsGestorVehiculo::clsGestorVehiculo()
 ///METODOS DE MANIPULACION
 bool clsGestorVehiculo::ev(std::string texto, int minimo, int maximo)
 {
-    if (static_cast<int>(texto.size()) >= minimo &&
-        static_cast<int>(texto.size()) <= maximo)
+    if ((texto.size() >= static_cast<std::string::size_type>(minimo)) &&
+        (texto.size() <= static_cast<std::string::size_type>(maximo)))
     {
         return true;
     }
     else
     {
-        system("cls");
+        rlutil::cls();
         std::cout << "Entrada invalida. Ingrese nuevamente" << std::endl;
         return false;
     }
 }
-
 
 
 void clsGestorVehiculo::cargarUnVehiculo(clsVehiculo &vehiculo)
@@ -38,24 +37,17 @@ void clsGestorVehiculo::cargarUnVehiculo(clsVehiculo &vehiculo)
     std::string modelo;
     std::string tipoVehiculo;
 
+    std::cin.ignore();
 
     ///PATENTE
-///PATENTE
     do
     {
         std::cout << "PATENTE: ";
         std::getline(std::cin, numPatente);
-
-        // Convertir automáticamente a MAYÚSCULAS
-        for (char &c : numPatente)
-        {
-            c = std::toupper(static_cast<unsigned char>(c));
-        }
     }
     while(!(ev(numPatente, 6, 7)));
 
-vehiculo.setNumeroPatente(numPatente.c_str());
-
+    vehiculo.setNumeroPatente(numPatente.c_str());
 
 
     ///MARCA
@@ -161,38 +153,55 @@ bool clsGestorVehiculo::guardarEnDiscoVehiculo(clsVehiculo vehiculo, int posicio
 }
 
 
+int clsGestorVehiculo::buscarVehiculoPorPatente(const char* patente)
+{
+    int posicion;
+    clsVehiculo vehiculo;
+    FILE *file;
+    file = fopen(_rutaDireccion.c_str(), "rb");
 
+    if(file == NULL)
+    {
+        return -1;
+    }
+
+
+    int i=0;
+    while(fread(&vehiculo, sizeof(clsVehiculo), 1, file))
+    {
+        if(strcmp(vehiculo.getNumeroPatente(), patente)==0)
+        {
+            posicion = i;
+            fclose(file);
+            return posicion;
+        }
+        i++;
+    }
+
+    fclose(file);
+    return -1; /// RETORNA -1 YA QUE NO ENCONTRO LA PATENTE.
+}
 
 
 clsVehiculo clsGestorVehiculo::leerVehiculo(int posicion)
 {
     clsVehiculo vehiculo;
-    FILE *file = fopen(_rutaDireccion.c_str(),"rb");
+    FILE *file;
+    ///
+    file = fopen(_rutaDireccion.c_str(),"rb");
 
     if(file == NULL)
     {
-        vehiculo.setEstado(false);
-        return vehiculo;
+        exit(1);
     }
 
-    // verificar posición válida
-    if (fseek(file, sizeof(clsVehiculo)*posicion, SEEK_SET) != 0)
-    {
-        vehiculo.setEstado(false);
-        fclose(file);
-        return vehiculo;
-    }
-
-    // intentar leer
-    if (fread(&vehiculo, sizeof(clsVehiculo), 1, file) != 1)
-    {
-        vehiculo.setEstado(false);
-    }
-
+    /// ME POSICIONO EL CURSOR EN EL REGISTRO EXACTO
+    fseek(file, sizeof(clsVehiculo)*posicion, SEEK_SET);
+    fread(&vehiculo, sizeof(clsVehiculo), 1, file);
+    /// CIERRO ARCHIVO
     fclose(file);
     return vehiculo;
 }
-
 
 
 ///EJECUCION DE OPCIONES
@@ -205,7 +214,7 @@ void clsGestorVehiculo::cargarVehiculo()
 
     if((buscarVehiculoPorPatente(vehiculoNuevo.getNumeroPatente()))!=-1)
     {
-        system("cls");
+        rlutil::cls();
         std::cout << "Error. Vehiculo ya existente." << std::endl;
         return;
     }
@@ -229,38 +238,26 @@ void clsGestorVehiculo::modificarVehiculo()
     char patente[8];
 
     std::cout << "Patente de vehiculo a modificar: ";
-    std::cin.getline(patente, 8);
+    std::cin >> patente;
 
-    // Convertir a mayúsculas
-    for (int i = 0; patente[i] != '\0'; i++)
+    int pos;
+    pos=buscarVehiculoPorPatente(patente);
+
+    if (pos!=-1)
     {
-        patente[i] = std::toupper(static_cast<unsigned char>(patente[i]));
-    }
+        clsVehiculo vehiculo = leerVehiculo(pos);
 
-    int pos = buscarVehiculoPorPatente(patente);
+        std::cout << "DATOS ACTUALES: " << std::endl;
+        std::cout << std::endl;
 
-    if (pos == -1)
-    {
-        std::cout << "ERROR: VEHICULO NO ENCONTRADO" << std::endl;
-        return;
-    }
-
-    clsVehiculo vehiculo = leerVehiculo(pos);
-
-    do
-    {
-        system("cls");
-        std::cout << "=== MODIFICAR VEHICULO ===\n";
         mostrarUnVehiculo(vehiculo);
 
-        std::cout << "\nSeleccione un dato a cambiar:\n";
-        std::cout << "1) Marca\n";
-        std::cout << "2) Modelo\n";
-        std::cout << "3) Tipo\n";
-        std::cout << "4) Guardar y salir\n";
-        std::cout << "Opcion: ";
+        rlutil::anykey("Press any key to continue...\n");
+
+        std::cout << "Ingrese opcion de dato a cambiar: " << std::endl;
+        std::cout << "\n 1) Marca\n 2) Modelo\n 3) Tipo\n " << std::endl;
         std::cin >> opcion;
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.ignore();
 
         switch(opcion)
         {
@@ -269,71 +266,65 @@ void clsGestorVehiculo::modificarVehiculo()
             std::string marca;
             do
             {
-                std::cout << "NUEVA MARCA: ";
+                std::cout << "MARCA: ";
                 std::getline(std::cin, marca);
             }
             while(!(ev(marca, 1, 20)));
 
             vehiculo.setMarca(marca.c_str());
-            break;
         }
+        break;
 
         case '2':
         {
             std::string modelo;
             do
             {
-                std::cout << "NUEVO MODELO: ";
+                std::cout << "MODELO: ";
                 std::getline(std::cin, modelo);
             }
             while(!(ev(modelo, 1, 20)));
 
             vehiculo.setModelo(modelo.c_str());
-            break;
         }
+        break;
 
         case '3':
         {
-            std::string tipoVehiculo;
             char tipo;
-
+            std::string tipoVehiculo;
             do
             {
-                std::cout << "\n 1) Auto\n 2) Camioneta\n 3) Camion\n 4) Transporte\n";
-                std::cout << "Ingrese nuevo tipo: ";
+                std::cout << "\n 1) Auto\n 2) Camioneta\n 3) Camion\n 4) Transporte\n" << std::endl;
+                std::cout << "INGRESE UN NUMERO DE TIPO: ";
                 std::getline(std::cin, tipoVehiculo);
             }
-            while(!(ev(tipoVehiculo, 1, 1)) ||
-                  (tipoVehiculo != "1" && tipoVehiculo != "2" &&
-                   tipoVehiculo != "3" && tipoVehiculo != "4"));
+            while(!(ev(tipoVehiculo, 1, 1)) || (tipoVehiculo != "1" && tipoVehiculo != "2" && tipoVehiculo != "3" && tipoVehiculo != "4"));
 
-            tipo = tipoVehiculo[0];
+            tipo=tipoVehiculo[0];
+
             vehiculo.setTipoVehiculo(tipo);
-            break;
+        }
+        break;
         }
 
-        case '4':
-            break;
 
-        default:
-            std::cout << "Opcion no valida." << std::endl;
-            system("pause");
+        ///EDITA EL VEHICULO EN SU POSICION CORRESPONDIENTE
+        if (guardarEnDiscoVehiculo(vehiculo, pos))
+        {
+            std::cout << "VEHICULO MODIFICADO CORRECTAMENTE" << std::endl;
         }
-
-    } while(opcion != '4');
-
-
-    if (guardarEnDiscoVehiculo(vehiculo, pos))
-        std::cout << "VEHICULO MODIFICADO CORRECTAMENTE\n";
+        else
+        {
+            std::cout << "ERROR: NO SE PUDO MODIFICAR VEHICULO" << std::endl;
+        }
+    }
     else
-        std::cout << "ERROR: NO SE PUDO MODIFICAR VEHICULO\n";
-
-
+    {
+        std::cout << "ERROR: VEHICULO NO ENCONTRADO" << std::endl;
+        return;
+    }
 }
-
-
-
-
 
 
 void clsGestorVehiculo::mostrarTodos()
@@ -357,6 +348,8 @@ void clsGestorVehiculo::mostrarTodos()
         }
     }
 
+    rlutil::anykey("Press any key to continue...\n");
+
     fclose(file);
 }
 
@@ -366,117 +359,51 @@ void clsGestorVehiculo::bajaVehiculo()
     clsVehiculo vehiculoEliminado;
     char patente[8];
 
-    //  NO limpiar buffer acá
+    std::cin.ignore();
     std::cout << "Patente de vehiculo a eliminar: ";
+    std::cin.getline(patente, 8);
+
+    int pos;
+
+    pos=buscarVehiculoPorPatente(patente);
+    vehiculoEliminado=leerVehiculo(pos);
+    vehiculoEliminado.setEstado(false);
+
+    guardarEnDiscoVehiculo(vehiculoEliminado, pos);
+}
+
+void clsGestorVehiculo::buscarVehiculo()
+{
+    clsVehiculo vehiculoBuscado;
+    char patente[8];
+
+    std::cin.ignore();
+    std::cout << "Patente de vehiculo a buscar: ";
     std::cin.getline(patente, 8);
 
     if (std::cin.fail())
     {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cout << "Demasiados caracteres, intente nuevamente." << std::endl;
+        std::cout << "Demasiados caracteres, intente nuevamente:" << std::endl;
         return;
     }
 
-    // Convertir a mayúsculas
-    for (int i = 0; patente[i] != '\0'; i++)
+
+    int pos;
+    pos=buscarVehiculoPorPatente(patente);
+
+    vehiculoBuscado = leerVehiculo(pos);
+
+    if ((pos!=-1) && (vehiculoBuscado.getEstado() == true))
     {
-        patente[i] = std::toupper(static_cast<unsigned char>(patente[i]));
-    }
-
-    int pos = buscarVehiculoPorPatente(patente);
-
-    if (pos == -1)
-    {
-        std::cout << "ERROR: VEHICULO NO ENCONTRADO" << std::endl;
-        return;
-    }
-
-    vehiculoEliminado = leerVehiculo(pos);
-    vehiculoEliminado.setEstado(false);
-
-    if (guardarEnDiscoVehiculo(vehiculoEliminado, pos))
-    {
-        std::cout << "Vehiculo eliminado correctamente." << std::endl;
-    }
-    else
-    {
-        std::cout << "ERROR: No se pudo eliminar el vehiculo." << std::endl;
-    }
-}
-
-
-int clsGestorVehiculo::buscarVehiculoPorPatente(const char* patenteBuscada)
-{
-    FILE *file = fopen(_rutaDireccion.c_str(), "rb");
-    if (file == NULL)
-        return -1;  /// archivo vacio
-
-    clsVehiculo vehiculo;
-    int pos = 0;
-
-    while (fread(&vehiculo, sizeof(clsVehiculo), 1, file) == 1)
-    {
-        if (!vehiculo.getEstado())
-        {
-            pos++;
-            continue;   /// saltar vehículos eliminados PERO seguir leyendo
-        }
-
-        char patenteArchivo[8];
-        std::strcpy(patenteArchivo, vehiculo.getNumeroPatente());
-
-        // pasar a mayúsculas
-        for (int i = 0; patenteArchivo[i] != '\0'; i++)
-            patenteArchivo[i] = std::toupper(static_cast<unsigned char>(patenteArchivo[i]));
-
-        char patenteTmp[8];
-        std::strcpy(patenteTmp, patenteBuscada);
-        for (int i = 0; patenteTmp[i] != '\0'; i++)
-            patenteTmp[i] = std::toupper(static_cast<unsigned char>(patenteTmp[i]));
-
-        if (std::strcmp(patenteArchivo, patenteTmp) == 0)
-        {
-            fclose(file);
-            return pos;
-        }
-
-        pos++;
-    }
-
-    fclose(file);
-    return -1;   /// no encontrado
-}
-
-
-
-
-
-
-void clsGestorVehiculo::buscarVehiculo()
-{
-    char patente[8];
-
-    //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // limpiar buffer
-    std::cout << "Patente de vehiculo a buscar: ";
-    std::cin.getline(patente, 8);
-
-    int pos = buscarVehiculoPorPatente(patente);
-
-    if (pos != -1)
-    {
-        clsVehiculo vehiculo = leerVehiculo(pos);
-        mostrarUnVehiculo(vehiculo);
+        mostrarUnVehiculo(vehiculoBuscado);
     }
     else
     {
         std::cout << "Error. El vehiculo es inexistente" << std::endl;
     }
 }
-
-
-
-
 
 int clsGestorVehiculo::obtenerCantidadReg (std::string pfile, clsVehiculo obj)
 {
@@ -509,7 +436,7 @@ void clsGestorVehiculo::OrdenarXPatente()
     if (p == NULL)
     {
         std::cout << "No hay vehículos cargados actualmente." << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return;
     }
 
@@ -518,7 +445,7 @@ void clsGestorVehiculo::OrdenarXPatente()
     {
         std::cout << "No hay vehículos cargados actualmente." << std::endl;
         fclose(p);
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return;
     }
 
@@ -540,11 +467,11 @@ void clsGestorVehiculo::OrdenarXPatente()
     {
         std::cout << "No hay vehículos activos para mostrar." << std::endl;
         delete[] vecVehiculos;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         return;
     }
 
-    /// ORDENAR POR NUMERO DE PATENTE (alfabeticamente)
+    /// ORDENAR POR NÚMERO DE PATENTE (alfabéticamente)
     for (int a = 0; a < i - 1; a++)
     {
         for (int b = a + 1; b < i; b++)
@@ -558,7 +485,7 @@ void clsGestorVehiculo::OrdenarXPatente()
         }
     }
 
-    std::cout << "\n=== VEHICULOS ORDENADOS POR PATENTE (A-Z) ===" << std::endl;
+    std::cout << "\n=== VEHÍCULOS ORDENADOS POR PATENTE (A-Z) ===" << std::endl;
     for (int j = 0; j < i; j++)
     {
         mostrarUnVehiculo(vecVehiculos[j]);
@@ -568,5 +495,5 @@ void clsGestorVehiculo::OrdenarXPatente()
     delete[] vecVehiculos;
 
     std::cout << "\n=== Fin del listado ===" << std::endl;
-    system("pause");
+    rlutil::anykey("Press any key to continue...\n");
 }

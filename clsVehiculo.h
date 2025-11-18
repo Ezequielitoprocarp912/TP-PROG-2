@@ -1,31 +1,31 @@
 #pragma once
-#include <cstring>
+#include "rlutil.h"
 
 class clsVehiculo
 {
-private:
-    char _numPatente[8];
-    char _marca[20];
-    char _modelo[20];
-    char _tipoVehiculo;
-    bool _estado;
+    private:
+    ///ATRIBUTOS
+        char _numPatente[8];
+        char _marca [21];
+        char _modelo [21];
+        char _tipoVehiculo ;
+        bool _estado;
 
-public:
-    clsVehiculo();
+    public:
+    ///CONSTRUCTORES
+        clsVehiculo();
 
-    bool setNumeroPatente(const char* numPatente);
-    bool setMarca(const char* marca);
-    bool setModelo(const char* modelo);
-    bool setTipoVehiculo(char tipoVehiculo);
-    void setEstado(bool estado);
+    ///SETTERS
+        bool setNumeroPatente (const char* numPatente);
+        bool setMarca (const char* marca);
+        bool setModelo (const char* modelo);
+        bool setTipoVehiculo (char tipoVehiculo);
+        void setEstado(bool estado);
 
-    const char* getNumeroPatente();
-    const char* getMarca();
-    const char* getModelo();
-    char getTipoVehiculo();
-    bool getEstado();
+    ///GETTERS
+        const char* getNumeroPatente();
+        const char* getMarca();
+        const char* getModelo();
+        char getTipoVehiculo();
+        bool getEstado();
 };
-
-
-
-

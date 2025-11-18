@@ -1,15 +1,6 @@
-///MENU PRINCIPAL CPP
+#include "clsMenuPrincipal.h"
 #include <iostream>
 #include <limits>
-#include <conio.h>
-
-#include "clsGestorCliente.h"
-#include "clsGestorVehiculo.h"
-#include "clsGestorReparacion.h"
-#include "clsGestorEmpleado.h"
-#include "clsReparacion.h"
-#include "clsMenuPrincipal.h"
-
 
 ///CONSTRUCTORES
 clsMenuPrincipal::clsMenuPrincipal()
@@ -20,22 +11,20 @@ clsMenuPrincipal::clsMenuPrincipal()
 ///METODOS MENU PRINCIPAL
 void clsMenuPrincipal::mostrar()
 {
-    system("cls");
-    std::cout << "==== TALLER MECANICO PACHECO ====" << std::endl;
-    std::cout << "1-Menu Clientes" << std::endl;
-    std::cout << "2-Menu Vehiculos" << std::endl;
-    std::cout << "3-Menu Empleados" << std::endl;
-    std::cout << "4-Menu Reparaciones" << std::endl;
-    std::cout << "9 === SALIR DEL MENU ===" << std::endl;
+    rlutil::cls();
+    rlutil::hidecursor();
+    std::cout << "====TALLER MECANICO PACHECO====" << std::endl;
+    std::cout << "1-CLIENTES" << std::endl;
+    std::cout << "2-VEHICULOS" << std::endl;
+    std::cout << "3-EMPLEADOS" << std::endl;
+    std::cout << "4-REPARACIONES" << std::endl;
+    std::cout << "0-===SALIR===" << std::endl;
 }
 
 void clsMenuPrincipal::elegirOpcion()
 {
-    std::cout << std::endl;
-    std::cout << "INGRESE OPCION: ";
-    _opcion = _getch()-'0';
-    std::cout << std::endl;
-
+    rlutil::locate(2,10); std::cout << "OPCION [ ]";
+    rlutil::locate(10, 10); std::cin >> _opcion;
 }
 
 void clsMenuPrincipal::opcionesMenu()
@@ -58,13 +47,13 @@ void clsMenuPrincipal::opcionesMenu()
         ejecutarMenuReparaciones();
         break;
 
-    case 9:
+    case 0:
         _salir=true;
         break;
 
     default:
-        std::cout << "Error, ingrese una opcion valida" << std::endl;
-        system("pause");
+        std::cout << "ERROR: OPCION INVALIDA" << std::endl;
+        rlutil::anykey("Press any key to continue...\n");
     }
 }
 
@@ -82,15 +71,15 @@ void clsMenuPrincipal::ejecutarMenuPrincipal()
 ///METODOS MENU CLIENTES
 void clsMenuPrincipal::mostrarMenuClientes()
 {
-    system("cls");
-    std::cout << "=== MENU CLIENTES ===" << std::endl;
-    std::cout << "1-Cargar cliente" << std::endl;
-    std::cout << "2-Modificar cliente" << std::endl;
-    std::cout << "3-Baja cliente" << std::endl;
-    std::cout << "4-Mostrar todos los clientes" << std::endl;
-    std::cout << "5-Buscar por CUIT" << std::endl;
-    std::cout << "6-Mostrar todos los clientes ordenados por CUIT" << std::endl;
-    std::cout << "0 === VOLVER ===" << std::endl;
+    rlutil::cls();
+    std::cout << "====CLIENTES====" << std::endl;
+    std::cout << "1-CARGAR" << std::endl;
+    std::cout << "2-MODIFICAR" << std::endl;
+    std::cout << "3-BAJAR" << std::endl;
+    std::cout << "4-LISTAR TODOS" << std::endl;
+    std::cout << "5-BUSCAR" << std::endl;
+    std::cout << "6-LISTAR ORDENADOS" << std::endl;
+    std::cout << "0-===VOLVER===" << std::endl;
 }
 
 void clsMenuPrincipal::opcionesMenuClientes()
@@ -100,42 +89,39 @@ void clsMenuPrincipal::opcionesMenuClientes()
     switch(_opcion)
     {
     case 1:
-        system("cls");
+        rlutil::cls();
         gestorClientes.cargarCliente();
-        std::cout << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
 
     case 2:
-        system("cls");
+        rlutil::cls();
         gestorClientes.modificarCliente();
-        std::cout << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
 
     case 3:
-        system("cls");
+        rlutil::cls();
         gestorClientes.bajaCliente();
-        std::cout << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
 
     case 4:
-        system("cls");
+        rlutil::cls();
         gestorClientes.mostrarTodos();
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
 
     case 5:
-        system("cls");
+        rlutil::cls();
         gestorClientes.buscarCliente();
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
 
     case 6:
-        system("cls");
-        ejecutarSubMenuCUIT(gestorClientes);
-        system("pause");
+        rlutil::cls();
+        gestorClientes.CUITascendente();
+        rlutil::anykey("Press any key to continue...\n");
         break;
 
     case 0:
@@ -143,8 +129,8 @@ void clsMenuPrincipal::opcionesMenuClientes()
         break;
 
     default:
-        std::cout << "Error, ingrese una opcion valida" << std::endl;
-        system("pause");
+        std::cout << "ERROR: OPCION INVALIDA" << std::endl;
+        rlutil::anykey("Press any key to continue...\n");
         break;
     }
 }
@@ -156,57 +142,57 @@ void clsMenuPrincipal::ejecutarMenuClientes()
     opcionesMenuClientes();
 }
 
-///MENU CLIENTES:: METODOS SUBMENU CUIT
-void clsMenuPrincipal::mostrarSubMenuCUIT()
-{
-    system("cls");
-    std::cout << "=== ORDENAMIENTO POR CUIT ===" << std::endl;
-    std::cout << "1-Mostrar de manera ascendente" << std::endl;
-    std::cout << "2-Mostrar de manera descendente" << std::endl;
-}
-
-void clsMenuPrincipal::opcionesSubMenuCUIT(clsGestorCliente &gestorClientes)
-{
-    switch(_opcion)
-    {
-    case 1:
-        system("cls");
-        gestorClientes.CUITascendente();
-        system("pause");
-        break;
-
-    case 2:
-        system("cls");
-        gestorClientes.CUITdescendente();
-        system("pause");
-        break;
-
-    default:
-        std::cout << "Error, ingrese una opcion valida" << std::endl;
-        system("pause");
-    }
-}
-
-void clsMenuPrincipal::ejecutarSubMenuCUIT(clsGestorCliente &gestorClientes)
-{
-    mostrarSubMenuCUIT();
-    elegirOpcion();
-    opcionesSubMenuCUIT(gestorClientes);
-}
+/////MENU CLIENTES:: METODOS SUBMENU CUIT
+//void clsMenuPrincipal::mostrarSubMenuCUIT()
+//{
+//    rlutil::cls();
+//    std::cout << "=== ORDENAMIENTO POR CUIT ===" << std::endl;
+//    std::cout << "1-Mostrar de manera ascendente" << std::endl;
+//    std::cout << "2-Mostrar de manera descendente" << std::endl;
+//}
+//
+//void clsMenuPrincipal::opcionesSubMenuCUIT(clsGestorCliente &gestorClientes)
+//{
+//    switch(_opcion)
+//    {
+//    case 1:
+//        rlutil::cls();
+//        gestorClientes.CUITascendente();
+//        rlutil::anykey("Press any key to continue...\n");
+//        break;
+//
+//    case 2:
+//        rlutil::cls();
+//        gestorClientes.CUITdescendente();
+//        rlutil::anykey("Press any key to continue...\n");
+//        break;
+//
+//    default:
+//        std::cout << "Error, ingrese una opcion valida" << std::endl;
+//        rlutil::anykey("Press any key to continue...\n");
+//    }
+//}
+//
+//void clsMenuPrincipal::ejecutarSubMenuCUIT(clsGestorCliente &gestorClientes)
+//{
+//    mostrarSubMenuCUIT();
+//    elegirOpcion();
+//    opcionesSubMenuCUIT(gestorClientes);
+//}
 
 
 ///METODOS MENU VEHICULOS
 void clsMenuPrincipal::mostrarMenuVehiculos()
 {
-    system("cls");
-    std::cout << "=== MENU VEHICULOS ===" << std::endl;
-    std::cout << "1-Cargar vehiculo" << std::endl;
-    std::cout << "2-Modificar vehiculo" << std::endl;
-    std::cout << "3-Baja vehiculo" << std::endl;
-    std::cout << "4-Mostrar todos los vehiculos" << std::endl;
-    std::cout << "5-BUSCAR VEHICULO POR PATENTE " << std::endl;
-    std::cout << "6-Ordenar por patente (MENOR A MAYOR)" << std::endl;
-    std::cout << "0 === VOLVER ===" << std::endl;
+    rlutil::cls();
+    std::cout << "====VEHICULOS====" << std::endl;
+    std::cout << "1-CARGAR" << std::endl;
+    std::cout << "2-MODIFICAR" << std::endl;
+    std::cout << "3-BAJAR" << std::endl;
+    std::cout << "4-LISTAR TODOS" << std::endl;
+    std::cout << "5-BUSCAR" << std::endl;
+    std::cout << "6-LISTAR ORDENADOS" << std::endl;
+    std::cout << "0-===VOLVER===" << std::endl;
 }
 
 void clsMenuPrincipal::opcionesMenuVehiculos()
@@ -217,52 +203,48 @@ void clsMenuPrincipal::opcionesMenuVehiculos()
     {
 
     case 1:
-        system("cls");
+        rlutil::cls();
         gestorVehiculos.cargarVehiculo();
-        std::cout << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
 
     case 2://
-        system("cls");
+        rlutil::cls();
         gestorVehiculos.modificarVehiculo();
-        std::cout << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
 
     case 3:
-        system("cls");
+        rlutil::cls();
         gestorVehiculos.bajaVehiculo();
-        std::cout << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
 
     case 4:
-        system("cls");
+        rlutil::cls();
         gestorVehiculos.mostrarTodos();
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
 
     case 5:
-        system("cls");
+        rlutil::cls();
         gestorVehiculos.buscarVehiculo();
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
 
     case 6:
-        system("cls");
+        rlutil::cls();
         gestorVehiculos.OrdenarXPatente();
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
-
 
     case 0:
         return;
         break;
 
     default:
-        std::cout << "Error, ingrese una opcion valida" << std::endl;
-        system("pause");
+        std::cout << "ERROR: OPCION INVALIDA" << std::endl;
+        rlutil::anykey("Press any key to continue...\n");
     }
 }
 
@@ -273,18 +255,17 @@ void clsMenuPrincipal::ejecutarMenuVehiculos()
     opcionesMenuVehiculos();
 }
 
-
 ///METODOS MENU EMPLEADOS
 void clsMenuPrincipal::mostrarMenuEmpleados()
 {
-    system("cls");
-    std::cout << "=== MENU EMPLEADOS ===" << std::endl;
-    std::cout << "1-Cargar empleado" << std::endl;
-    std::cout << "2-Modificar empleado" << std::endl;
-    std::cout << "3-Baja empleado" << std::endl;
-    std::cout << "4-Mostrar todos los empleados" << std::endl;
-    std::cout << "5-Buscar por legajo" << std::endl;
-    std::cout << "0 === VOLVER ===" << std::endl;
+    rlutil::cls();
+    std::cout << "====EMPLEADOS====" << std::endl;
+    std::cout << "1-CARGAR" << std::endl;
+    std::cout << "2-MODIFICAR" << std::endl;
+    std::cout << "3-BAJAR" << std::endl;
+    std::cout << "4-LISTAR TODOS" << std::endl;
+    std::cout << "5-BUSCAR" << std::endl;
+    std::cout << "0-===VOLVER===" << std::endl;
 }
 
 void clsMenuPrincipal::opcionesMenuEmpleados()
@@ -294,36 +275,33 @@ void clsMenuPrincipal::opcionesMenuEmpleados()
     switch(_opcion)
     {
     case 1:
-        system("cls");
+        rlutil::cls();
         gestorEmpleados.cargarEmpleado();
-        std::cout << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
 
     case 2:
-        system("cls");
+        rlutil::cls();
         gestorEmpleados.modificarEmpleado();
-        std::cout << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
 
     case 3:
-        system("cls");
+        rlutil::cls();
         gestorEmpleados.bajaEmpleado();
-        std::cout << std::endl;
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
 
     case 4:
-        system("cls");
+        rlutil::cls();
         gestorEmpleados.mostrarTodos();
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
 
     case 5:
-        system("cls");
+        rlutil::cls();
         gestorEmpleados.buscarEmpleado();
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
 
     case 0:
@@ -331,8 +309,8 @@ void clsMenuPrincipal::opcionesMenuEmpleados()
         break;
 
     default:
-        std::cout << "Error, ingrese una opcion valida" << std::endl;
-        system("pause");
+        std::cout << "ERROR: OPCION INVALIDA" << std::endl;
+        rlutil::anykey("Press any key to continue...\n");
         break;
     }
 }
@@ -344,48 +322,21 @@ void clsMenuPrincipal::ejecutarMenuEmpleados()
     opcionesMenuEmpleados();
 }
 
-
 ///METODOS MENU REPARACIONES
 void clsMenuPrincipal::mostrarMenuReparaciones()
 {
-    system("cls");
-    std::cout << "=== MENU REPARACIONES ===" << std::endl;
-    std::cout << "1-Cargar reparacion" << std::endl;
-    std::cout << "2-Mostrar reparacion por codigo de reparacion" << std::endl;
-    std::cout << "3-Mostrar todas las reparaciones activas" << std::endl;
-    std::cout << "4-Cantidad de reparaciones por fecha" << std::endl;
-    std::cout << "0 === VOLVER ===" << std::endl;
+    rlutil::cls();
+    std::cout << "====REPARACIONES====" << std::endl;
+    std::cout << "1-CARGAR" << std::endl;
+    std::cout << "2-BUSCAR" << std::endl;
+    std::cout << "3-LISTAR TODAS" << std::endl;
+    std::cout << "4-CANTIDAD EN FECHA" << std::endl;
+    std::cout << "5-RECAUDACION X VEHICULO" << std::endl;
+    std::cout << "6-RECAUDACION ANUAL X MES" << std::endl;
+    std::cout << "0-===VOLVER===" << std::endl;
 }
-
 
 ///MENU REPARACIONES Y METODOS
-// Función para pedir el mes y el año, y validar que estén en el rango correcto
-bool pedirFecha(int& mes, int& anio)
-{
-    // Pedir el mes
-    std::cout << "Ingrese el mes (1-12): ";
-    std::cin >> mes;
-
-    if (mes < 1 || mes > 12)
-    {
-        std::cout << "Mes invalido. Debe ser un valor entre 1 y 12." << std::endl;
-        return false;
-    }
-
-    // Pedir el año
-    std::cout << "Ingrese el año (ej. 2025): ";
-    std::cin >> anio;
-
-    if (anio < 1900 || anio > 2025)
-    {
-        std::cout << "Anio invalido. Debe estar entre 1900 y 2025." << std::endl;
-        return false;
-    }
-
-    return true;
-}
-
-
 void clsMenuPrincipal::opcionesMenuReparaciones()
 {
     clsGestorReparacion gestorReparacion;
@@ -393,45 +344,41 @@ void clsMenuPrincipal::opcionesMenuReparaciones()
     switch(_opcion)
     {
     case 1:
-        system("cls");
+        rlutil::cls();
         gestorReparacion.cargarReparacion();
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
-
     case 2:
-        system("cls");
+        rlutil::cls();
         gestorReparacion.buscarReparacion();
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
-
     case 3:
-        system("cls");
+        rlutil::cls();
         gestorReparacion.mostrarTodas();
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
         break;
-
     case 4:
-        system("cls");
-
-        int mes, anio;
-
-        // Llamar a la función para pedir y validar el mes y año
-        if (pedirFecha(mes, anio))
-        {
-            // Si la entrada es válida, llamar al método con los parámetros
-            gestorReparacion.cantidadReparacionesPorFecha(mes, anio);
-        }
-
-        system("pause");
+        rlutil::cls();
+        gestorReparacion.cantidadReparacionesPorFecha();
+        rlutil::anykey("Press any key to continue...\n");
         break;
-
+    case 5:
+        rlutil::cls();
+        gestorReparacion.recaudacionXvehiculo();
+        rlutil::anykey("Press any key to continue...\n");
+        break;
+    case 6:
+        rlutil::cls();
+        gestorReparacion.recaudacionAnual();
+        rlutil::anykey("Press any key to continue...\n");
+        break;
     case 0:
         return;
         break;
-
     default:
-        std::cout << "Error, ingrese una opcion valida" << std::endl;
-        system("pause");
+        std::cout << "ERROR: OPCION INVALIDA" << std::endl;
+        rlutil::anykey("Press any key to continue...\n");
     }
 }
 

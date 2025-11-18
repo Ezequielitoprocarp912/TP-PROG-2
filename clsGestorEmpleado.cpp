@@ -16,13 +16,14 @@ clsGestorEmpleado::clsGestorEmpleado()
 /// MÉTODOS DE MANIPULACIÓN
 bool clsGestorEmpleado::ev(std::string texto, int minimo, int maximo)
 {
-    if((texto.size()>=minimo)&&(texto.size()<=maximo))
+    if ((texto.size() >= static_cast<std::string::size_type>(minimo)) &&
+        (texto.size() <= static_cast<std::string::size_type>(maximo)))
     {
         return true;
     }
     else
     {
-        system("cls");
+        rlutil::cls();
         std::cout << "Entrada invalida. Ingrese nuevamente" << std::endl;
         return false;
     }
@@ -37,7 +38,6 @@ void clsGestorEmpleado::cargarUnEmpleado(clsEmpleado &empleado)
     std::string mail;
     std::string direccion;
     std::string legajo;
-
 
     ///CUIT
     do
@@ -69,7 +69,6 @@ void clsGestorEmpleado::cargarUnEmpleado(clsEmpleado &empleado)
 
     empleado.setApellido(apellido.c_str());
 
-
     ///TELEFONO
     do
     {
@@ -91,7 +90,6 @@ void clsGestorEmpleado::cargarUnEmpleado(clsEmpleado &empleado)
 
     empleado.setMail(mail.c_str());
 
-
     ///DIRECCION
     do
     {
@@ -102,111 +100,41 @@ void clsGestorEmpleado::cargarUnEmpleado(clsEmpleado &empleado)
 
     empleado.setDireccion(direccion.c_str());
 
-
     ///FECHA DE INGRESO
-    clsFecha F_ingreso;
-    bool fechaValida = false;
-    std::string diaStr, mesStr, anioStr;
     int dia = 0, mes = 0, anio = 0;
+    std::cout << "DIA: ";
+    std::cin >> dia;
+    std::cout << "MES: ";
+    std::cin >> mes;
+    std::cout << "ANIO: ";
+    std::cin >> anio;
 
-    while (!fechaValida)
-    {
-        system("cls");
-        std::cout << "=== INGRESE LA FECHA DE INGRESO ===" << std::endl;
-
-        // DIA
-        bool diaOk = false;
-        do
-        {
-            std::cout << "Dia: ";
-            std::getline(std::cin, diaStr);
-
-            if (!ev(diaStr, 1, 2)) continue;
-
-            dia = atoi(diaStr.c_str());
-            if (dia >= 1 && dia <= 31)
-            {
-                diaOk = true;
-            }
-            else
-            {
-                system("cls");
-                std::cout << "Dia invalido. Ingrese nuevamente." << std::endl;
-            }
-
-        }
-        while (!diaOk);
-
-        // MES
-        bool mesOk = false;
-        do
-        {
-            std::cout << "Mes: ";
-            std::getline(std::cin, mesStr);
-
-            if (!ev(mesStr, 1, 2)) continue;
-
-            mes = atoi(mesStr.c_str());
-            if (mes >= 1 && mes <= 12)
-            {
-                mesOk = true;
-            }
-            else
-            {
-                system("cls");
-                std::cout << "Mes invalido. Ingrese nuevamente." << std::endl;
-            }
-
-        }
-        while (!mesOk);
-
-        // ANIO
-        bool anioOk = false;
-        do
-        {
-            std::cout << "Anio: ";
-            std::getline(std::cin, anioStr);
-
-            if (!ev(anioStr, 4, 4)) continue;
-
-            anio = atoi(anioStr.c_str());
-            if (anio >= 1900 && anio <= 2025)
-            {
-                anioOk = true;
-            }
-            else
-            {
-                system("cls");
-                std::cout << "Anio invalido. Ingrese nuevamente." << std::endl;
-            }
-
-        }
-        while (!anioOk);
-
-        // VALIDACION COMPLETA (31/2, 29/2, etc.)
-        fechaValida = F_ingreso.setFecha(dia, mes, anio);
-
-        if (!fechaValida)
-        {
-            system("cls");
-            std::cout << "La combinacion de fecha es invalida (por ejemplo 31/2 o 29/2 no bisiesto)." << std::endl;
-            system("pause");
-        }
-    }
-    empleado.setFechaIngreso(F_ingreso);
-
-
-    ///FECHA DE INGRESO
-    empleado.setFechaIngreso(F_ingreso);
+    clsFecha fechaIngreso(dia, mes, anio);
 
     /// LEGAJO AUTOMATICO
     char nuevoLegajo[6];
+
     generarLegajo(nuevoLegajo);
+
     empleado.setLegajo(nuevoLegajo);
 
     empleado.setEstado(true);
-
 }
+
+//void clsGestorEmpleado::cargarEmpleados(clsEmpleado *vecEmp, int cantEmp){
+//
+//    FILE *p = fopen(_rutaDireccion.c_str(), "rb");
+//
+//    if (p == NULL)
+//    {
+//    std::cout << "Error al abrir el archivo" << std::endl;
+//    return;
+//    }
+//
+//    for (int i = 0; i < cantEmp; i++){fread(&vecEmp[i], sizeof(clsEmpleado), 1, p);}
+//
+//    fclose(p);
+//}
 
 void clsGestorEmpleado::mostrarUnEmpleado(clsEmpleado empleado)
 {
@@ -218,11 +146,9 @@ void clsGestorEmpleado::mostrarUnEmpleado(clsEmpleado empleado)
     std::cout << "DIRECCION: " << empleado.getDireccion() << std::endl;
     std::cout << "FECHA DE INGRESO: " << empleado.getIngreso().mostrar() << std::endl;
     std::cout << "LEGAJO: " << empleado.getLegajo() << std::endl;
-
     std::cout << "-----------------------------------";
     std::cout << std::endl;
 }
-
 
 ///METODOS DE ARCHIVO
 bool clsGestorEmpleado::generarLegajo(char *nuevoLegajo)
@@ -369,7 +295,7 @@ void clsGestorEmpleado::modificarEmpleado()
 
         mostrarUnEmpleado(empleado);
 
-        system("pause");
+        rlutil::anykey("Press any key to continue...\n");
 
         std::cout << "\n 1) Nombre\n 2) Apellido\n 3) Mail\n 4) Telefono\n 5) Direccion\n 6) Fecha de ingreso\n " << std::endl;
         std::cout << "Ingrese opcion de dato a cambiar: ";
@@ -459,7 +385,7 @@ void clsGestorEmpleado::modificarEmpleado()
 
             while (!fechaValida)
             {
-                system("cls");
+                rlutil::cls();
                 std::cout << "=== INGRESE LA FECHA DE INGRESO ===" << std::endl;
 
                 // DIA
@@ -478,7 +404,7 @@ void clsGestorEmpleado::modificarEmpleado()
                     }
                     else
                     {
-                        system("cls");
+                        rlutil::cls();
                         std::cout << "Dia invalido. Ingrese nuevamente." << std::endl;
                     }
 
@@ -501,7 +427,7 @@ void clsGestorEmpleado::modificarEmpleado()
                     }
                     else
                     {
-                        system("cls");
+                        rlutil::cls();
                         std::cout << "Mes invalido. Ingrese nuevamente." << std::endl;
                     }
 
@@ -524,7 +450,7 @@ void clsGestorEmpleado::modificarEmpleado()
                     }
                     else
                     {
-                        system("cls");
+                        rlutil::cls();
                         std::cout << "Anio invalido. Ingrese nuevamente." << std::endl;
                     }
 
@@ -536,9 +462,9 @@ void clsGestorEmpleado::modificarEmpleado()
 
                 if (!fechaValida)
                 {
-                    system("cls");
+                    rlutil::cls();
                     std::cout << "La combinacion de fecha es invalida (por ejemplo 31/2 o 29/2 no bisiesto)." << std::endl;
-                    system("pause");
+                    rlutil::anykey("Press any key to continue...\n");
                 }
             }
 
@@ -584,6 +510,9 @@ void clsGestorEmpleado::mostrarTodos()
         if (empleado.getEstado())
             mostrarUnEmpleado(empleado);
     }
+
+    rlutil::anykey("Press any key to continue...\n");
+
     fclose(p);
 }
 
