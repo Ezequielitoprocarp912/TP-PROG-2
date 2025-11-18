@@ -9,6 +9,7 @@ clsReparacion::clsReparacion()
     _vehiculo=clsVehiculo();
     _empleado=clsEmpleado();
     _ingreso=clsFecha();
+    _recaudacion = 0;
     _reparado=clsFecha();
     _egreso=clsFecha();
     _estado=false;
@@ -68,6 +69,12 @@ void clsReparacion::setEstado(bool estado)
     _estado=estado;
 }
 
+void clsReparacion::setRecaudacion(float recaudacion)
+{
+    _recaudacion = recaudacion;
+}
+
+
 ///GETTERS
 int clsReparacion::getCodReparacion()
 {
@@ -114,4 +121,9 @@ clsFecha clsReparacion::getFechaEgreso()
 bool clsReparacion::getEstado()
 {
     return _estado;
+}
+
+float clsReparacion::getRecaudacion()
+{
+    return _recaudacion;
 }

@@ -196,11 +196,35 @@ void clsGestorEmpleado::cargarUnEmpleado(clsEmpleado &empleado)
     empleado.setFechaIngreso(F_ingreso);
 
 
-    ///LEGAJO
+    ///FECHA DE INGRESO
+    empleado.setFechaIngreso(F_ingreso);
 
+    /// LEGAJO AUTOMATICO
+    char nuevoLegajo[6];
+    generarLegajo(nuevoLegajo);
+    empleado.setLegajo(nuevoLegajo);
 
     empleado.setEstado(true);
+
 }
+
+void clsGestorEmpleado::cargarEmpleados(clsEmpleado *vecEmp, int cantEmp)
+{
+    FILE *p = fopen(_rutaDireccion.c_str(), "rb");
+    if (p == NULL)
+    {
+        std::cout << "Error al abrir el archivo" << std::endl;
+        return;
+    }
+
+    for (int i = 0; i < cantEmp; i++)
+    {
+        fread(&vecEmp[i], sizeof(clsEmpleado), 1, p);
+    }
+
+    fclose(p);
+}
+
 
 void clsGestorEmpleado::mostrarUnEmpleado(clsEmpleado empleado)
 {
@@ -232,7 +256,7 @@ bool clsGestorEmpleado::generarLegajo(char *nuevoLegajo)
     }
 
     // Ir al último registro del archivo
-    fseek(p, -sizeof(clsEmpleado), SEEK_END);
+    fseek(p, -(long)sizeof(clsEmpleado), SEEK_END);
 
     // Leer último empleado
     if (fread(&empleado, sizeof(clsEmpleado), 1, p) != 1)
@@ -569,14 +593,16 @@ void clsGestorEmpleado::mostrarTodos()
     FILE *p = fopen(_rutaDireccion.c_str(), "rb");
     if (p == NULL)
     {
-        std::cout << "No hay empleados cargados actualmente.";
+        std::cout << "No hay empleados cargados actualmente. " << std::endl;
         return;
     }
 
     while (fread(&empleado, sizeof(clsEmpleado), 1, p))
     {
         if (empleado.getEstado())
+        {
             mostrarUnEmpleado(empleado);
+        }
     }
     fclose(p);
 }
@@ -622,9 +648,11 @@ void clsGestorEmpleado::buscarEmpleado()
 }
 
 
-int clsGestorEmpleado::obtenerCantidadReg (std::string pfile, clsEmpleado obj)
+int clsGestorEmpleado::obtenerCantidadReg()
 {
-    FILE *p = fopen(pfile.c_str(), "rb");
+    clsEmpleado obj;
+
+    FILE *p = fopen(_rutaDireccion.c_str(), "rb");
     if (p == NULL)
     {
         std::cout << "No hay datos cargados actualmente.";

@@ -1,3 +1,4 @@
+///clsEmpleado.cpp
 #include "clsEmpleado.h"
 #include <iostream>
 #include <cstdio>
@@ -9,7 +10,7 @@ clsEmpleado::clsEmpleado()
 {
     strcpy(_numTelefono, "SIN TELEFONO");
     strcpy(_mail, "SIN MAIL");
-    strcpy(_legajo, "SIN TELEFONO");
+    strcpy(_legajo, "00000");
     _ingreso=clsFecha();
     _estado = false;
 }

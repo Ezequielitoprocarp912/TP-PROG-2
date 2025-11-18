@@ -204,7 +204,7 @@ void clsMenuPrincipal::mostrarMenuVehiculos()
     std::cout << "2-Modificar vehiculo" << std::endl;
     std::cout << "3-Baja vehiculo" << std::endl;
     std::cout << "4-Mostrar todos los vehiculos" << std::endl;
-    std::cout << "5-Buscar por patente" << std::endl;
+    std::cout << "5-BUSCAR VEHICULO POR PATENTE " << std::endl;
     std::cout << "6-Ordenar por patente (MENOR A MAYOR)" << std::endl;
     std::cout << "0 === VOLVER ===" << std::endl;
 }
@@ -353,38 +353,11 @@ void clsMenuPrincipal::mostrarMenuReparaciones()
     std::cout << "1-Cargar reparacion" << std::endl;
     std::cout << "2-Mostrar reparacion por codigo de reparacion" << std::endl;
     std::cout << "3-Mostrar todas las reparaciones activas" << std::endl;
-    std::cout << "4-Cantidad de reparaciones por fecha" << std::endl;
+    std::cout << "4-Recaudacion por vehiculo" << std::endl;
+    std::cout << "5-Cantidad de reparaciones por fecha" << std::endl;
+    std::cout << "6-Cantidad de reparaciones por empleado" << std::endl;
     std::cout << "0 === VOLVER ===" << std::endl;
 }
-
-
-///MENU REPARACIONES Y METODOS
-// Función para pedir el mes y el año, y validar que estén en el rango correcto
-bool pedirFecha(int& mes, int& anio)
-{
-    // Pedir el mes
-    std::cout << "Ingrese el mes (1-12): ";
-    std::cin >> mes;
-
-    if (mes < 1 || mes > 12)
-    {
-        std::cout << "Mes inválido. Debe ser un valor entre 1 y 12." << std::endl;
-        return false;
-    }
-
-    // Pedir el año
-    std::cout << "Ingrese el año (ej. 2025): ";
-    std::cin >> anio;
-
-    if (anio < 1900 || anio > 2025)
-    {
-        std::cout << "Anio inválido. Debe estar entre 1900 y 2025." << std::endl;
-        return false;
-    }
-
-    return true;
-}
-
 
 void clsMenuPrincipal::opcionesMenuReparaciones()
 {
@@ -412,16 +385,19 @@ void clsMenuPrincipal::opcionesMenuReparaciones()
 
     case 4:
         system("cls");
+        gestorReparacion.recaudacionXvehiculo();
+        system("pause");
+        break;
 
-        int mes, anio;
+    case 5:
+        system("cls");
+        gestorReparacion.reparacionesXfecha();
+        system("pause");
+        break;
 
-        // Llamar a la función para pedir y validar el mes y año
-        if (pedirFecha(mes, anio))
-        {
-            // Si la entrada es válida, llamar al método con los parámetros
-            gestorReparacion.cantidadReparacionesPorFecha(mes, anio);
-        }
-
+    case 6:
+        system("cls");
+        gestorReparacion.reparacionesXempleado();
         system("pause");
         break;
 
