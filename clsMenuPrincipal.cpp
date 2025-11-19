@@ -204,8 +204,8 @@ void clsMenuPrincipal::mostrarMenuVehiculos()
     std::cout << "2-Modificar vehiculo" << std::endl;
     std::cout << "3-Baja vehiculo" << std::endl;
     std::cout << "4-Mostrar todos los vehiculos" << std::endl;
-    std::cout << "5-Buscar vehiculo por patente" << std::endl;
-    std::cout << "6-Ordenar por patente (Menor a mayor)" << std::endl;
+    std::cout << "5-BUSCAR VEHICULO POR PATENTE " << std::endl;
+    std::cout << "6-Ordenar por patente (MENOR A MAYOR)" << std::endl;
     std::cout << "0 === VOLVER ===" << std::endl;
 }
 
@@ -350,13 +350,14 @@ void clsMenuPrincipal::mostrarMenuReparaciones()
 {
     system("cls");
     std::cout << "=== MENU REPARACIONES ===" << std::endl;
-    std::cout << "1-Cargar reparacion" << std::endl;
-    std::cout << "2-Mostrar reparacion por codigo de reparacion" << std::endl;
-    std::cout << "3-Mostrar todas las reparaciones activas" << std::endl;
-    std::cout << "4-Recaudacion por vehiculo" << std::endl;
-    std::cout << "5-Cantidad de reparaciones por fecha" << std::endl;
-    std::cout << "6-Cantidad de reparaciones por empleado" << std::endl;
-    std::cout << "7-Recaudacion anual" << std::endl;
+    std::cout << "1 - Cargar reparacion" << std::endl;
+    std::cout << "2 - Mostrar reparacion por codigo de reparacion" << std::endl;
+    std::cout << "3 - Mostrar todas las reparaciones activas" << std::endl;
+    std::cout << "4 - Recaudacion por vehiculo" << std::endl;
+    std::cout << "5 - Cantidad de reparaciones por fecha" << std::endl;
+    std::cout << "6 - CANTIDAD REPARACIONES X EMPLEADO" << std::endl;
+    std::cout << "7 - RECAUDACION ANUAL: " << std::endl;
+    std::cout << "8 - RECAUDACION X VEHICULO: " << std::endl;
     std::cout << "0 === VOLVER ===" << std::endl;
 }
 
@@ -405,6 +406,12 @@ void clsMenuPrincipal::opcionesMenuReparaciones()
     case 7:
         system("cls");
         gestorReparacion.recaudacionAnual();
+        system("pause");
+        break;
+
+    case 8:
+        system("cls");
+        gestorReparacion.recaudacionXvehiculo();
         system("pause");
         break;
 

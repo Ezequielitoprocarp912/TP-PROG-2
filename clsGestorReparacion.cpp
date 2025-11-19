@@ -47,6 +47,8 @@ int clsGestorReparacion::cantidadDeReparaciones()
 }
 
 
+
+///CARGAR 1 REPARACION
 bool clsGestorReparacion::cargarUnaReparacion(clsReparacion &reparacion)
 {
     int cant = cantidadDeReparaciones();
@@ -94,18 +96,12 @@ bool clsGestorReparacion::cargarUnaReparacion(clsReparacion &reparacion)
     reparacion.setCliente(cliente);
 
     /// PATENTE
-     do
+    do
     {
         std::cout << "PATENTE: ";
         std::getline(std::cin, numPatente);
-
-        // Convertir automaticamente a MAYÚSCULAS
-        for (char &c : numPatente)
-        {
-            c = std::toupper(static_cast<unsigned char>(c));
-        }
     }
-    while(!(ev(numPatente, 6, 7)));
+    while (!ev(numPatente, 6, 7));
 
     int posVehiculo = gestorVehiculo.buscarVehiculoPorPatente(numPatente.c_str());
     if (posVehiculo == -1)
@@ -129,8 +125,8 @@ bool clsGestorReparacion::cargarUnaReparacion(clsReparacion &reparacion)
 
     /// FECHA Y VALIDACION
     clsFecha F_ingreso;
-    bool fechaValida = false;
-    std::string diaStr, mesStr, anioStr;
+    bool fechaValida = false; //CON ESTO PIDO LA FECHA HASTA QUE SEA VALIDA
+    std::string diaStr, mesStr, anioStr; // STRINGS PARA LEER LA ENTRADA DEL USUARIO
     int dia = 0, mes = 0, anio = 0;
 
     while (!fechaValida)
@@ -145,7 +141,7 @@ bool clsGestorReparacion::cargarUnaReparacion(clsReparacion &reparacion)
             std::cout << "Dia: ";
             std::getline(std::cin, diaStr);
 
-            if (!ev(diaStr, 1, 2)) continue;
+            if (!ev(diaStr, 1, 2)) continue; //comprueba que tenga entre 1 o 2 caracteres
 
             dia = atoi(diaStr.c_str());
             if (dia >= 1 && dia <= 31)
@@ -158,8 +154,7 @@ bool clsGestorReparacion::cargarUnaReparacion(clsReparacion &reparacion)
                 std::cout << "Dia invalido. Ingrese nuevamente." << std::endl;
             }
 
-        }
-        while (!diaOk);
+        } while (!diaOk);
 
         // MES
         bool mesOk = false;
@@ -242,6 +237,8 @@ bool clsGestorReparacion::cargarUnaReparacion(clsReparacion &reparacion)
 
 
     ///REDAUDACION
+
+
     do
     {
         std::cout << "MONTO DE LA REPARACION: $";
@@ -498,23 +495,6 @@ void clsGestorReparacion::buscarReparacion()
 
 void clsGestorReparacion::recaudacionXvehiculo()
 {
-    std::string numPatente;
-    float recTotal=0;
-
-     do
-    {
-        std::cout << "PATENTE: ";
-        std::getline(std::cin, numPatente);
-
-        // Convertir automáticamente a MAYÚSCULAS
-        for (char &c : numPatente)
-        {
-            c = std::toupper(static_cast<unsigned char>(c));
-        }
-    }
-    while(!(ev(numPatente, 6, 7)));
-
-
     FILE *file = fopen(_rutaDireccion.c_str(), "rb");
 
     if (file == NULL)
@@ -535,20 +515,13 @@ void clsGestorReparacion::recaudacionXvehiculo()
         {
             hayDatos = true;
 
-            if(reparacion.getVehiculo().getNumeroPatente()==numPatente)
-
-            {
-                std::cout << "PATENTE: " << reparacion.getVehiculo().getNumeroPatente() << std::endl;
-                std::cout << "CUIT CLIENTE: " << reparacion.getCliente().getCuit() << std::endl;
-                std::cout << "FECHA DE INGRESO: " << reparacion.getFechaIngreso().mostrar() << std::endl;
-                std::cout << "RECAUDACION: $" << reparacion.getRecaudacion() << std::endl;
-                std::cout << "----------------------------------------" << std::endl;
-                recTotal+=reparacion.getRecaudacion();
-            }
+            std::cout << "PATENTE: " << reparacion.getVehiculo().getNumeroPatente() << std::endl;
+            std::cout << "CUIT CLIENTE: " << reparacion.getCliente().getCuit() << std::endl;
+            std::cout << "FECHA DE INGRESO: " << reparacion.getFechaIngreso().mostrar() << std::endl;
+            std::cout << "RECAUDACION: $" << reparacion.getRecaudacion() << std::endl;
+            std::cout << "----------------------------------------" << std::endl;
         }
     }
-
-    std::cout << "RECAUDACION TOTAL: $" << recTotal << std::endl;
 
     fclose(file);
 
@@ -619,7 +592,7 @@ void clsGestorReparacion::reparacionesXempleado()
     clsGestorEmpleado gestorEmpleados;
 
     pedirFecha(mes, anio);
-    clsFecha fechaBuscada=clsFecha(1, mes, anio); /// SOLO PARA MOSTRAR MES
+    clsFecha fechaBuscada=clsFecha(1, mes, anio);
 
     int cantEmp = gestorEmpleados.obtenerCantidadReg();
     if (cantEmp == 0)
@@ -648,6 +621,7 @@ void clsGestorReparacion::reparacionesXempleado()
         delete[] repEmp;
         return;
     }
+
 
     while (fread(&reparacion, sizeof(clsReparacion), 1, pReparaciones) == 1)
     {
@@ -678,10 +652,59 @@ void clsGestorReparacion::reparacionesXempleado()
                   << " | Recaudacion Total: $" << recEmp[i]
                   << " | Reparaciones: " << repEmp[i]
                   << std::endl;
+
         std::cout << std::endl;
     }
+
 
     delete[] vecEmpleados;
     delete[] repEmp;
     delete[] recEmp;
+}
+
+
+
+/// MUESTRO EL REGISTRO DE UNA REP EN BASE A UN LEGAJO
+void clsGestorReparacion::reparacionesXlegajo()
+{
+    std::string legajo;
+    clsReparacion reparacion;
+
+    /// 1) Pedir legajo (exactos 5 caracteres)
+    do {
+        std::cout << "Ingrese el LEGajo del empleado 5 digitos: ";
+        std::getline(std::cin, legajo);
+    }
+    while (!ev(legajo, 5, 5));
+
+    FILE *p = fopen(_rutaDireccion.c_str(), "rb");
+    if (p == NULL)
+    {
+        std::cout << "No hay reparaciones cargadas actualmente." << std::endl;
+        return;
+    }
+
+    bool hay = false;
+    std::cout << "REPARACIONES DEL EMPLEADO LEGAJO #" << legajo << std::endl;
+
+    /// 2) RECORRER REPARACIONES
+    while (fread(&reparacion, sizeof(clsReparacion), 1, p) == 1)
+    {
+        if (reparacion.getEstado())
+        {
+            /// COMPARAR LEGAJO ( LEGAJO CONST CHAR -
+            if (strcmp(reparacion.getEmpleado().getLegajo(), legajo.c_str()) == 0)
+            {
+                hay = true;
+                mostrarUnaReparacion(reparacion);
+            }
+        }
+    }
+
+    fclose(p);
+
+    if (!hay)
+    {
+        std::cout << "No se encontraron reparaciones para este legajo.\n";
+    }
 }

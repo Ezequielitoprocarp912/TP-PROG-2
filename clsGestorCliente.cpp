@@ -210,25 +210,22 @@ void clsGestorCliente::modificarCliente()
 
     std::cout << "CUIT del cliente a modificar: ";
     std::cin >> cuit;
-    std::cin.ignore(); // Limpiar buffer
 
-    int pos = buscarClientePorCuit(cuit);
+    int pos;
+    pos=buscarClientePorCuit(cuit);
 
-    if(pos==-1)
+    if (pos !=-1)
     {
-        std::cout << "ERROR: CLIENTE NO ENCONTRADO" << std::endl;
-        return;
-    }
+        clsCliente cliente = leerCliente(pos);
 
-    clsCliente cliente = leerCliente(pos);
+        std::cout << "DATOS ACTUALES: " << std::endl;
+        std::cout << std::endl;
 
-    do
-    {
-        system("cls");
-        std::cout << "=== MODIFICAR CLIENTE ===\n";
         mostrarUnCliente(cliente);
 
-        std::cout << "\n 1) Nombre\n 2) Apellido\n 3) Mail\n 4) Telefono\n 5) Direccion\n 6) Tipo de cliente\n 7) Guardar y salir\n " << std::endl;
+        system("pause");
+
+        std::cout << "\n 1) Nombre\n 2) Apellido\n 3) Mail\n 4) Telefono\n 5) Direccion\n 6) Tipo de cliente\n " << std::endl;
         std::cout << "Ingrese opcion de dato a cambiar: ";
         std::cin >> opcion;
         std::cin.ignore();
@@ -291,6 +288,7 @@ void clsGestorCliente::modificarCliente()
         }
         break;
 
+
         case '5':
         {
             std::string direccion;
@@ -319,27 +317,26 @@ void clsGestorCliente::modificarCliente()
             tipo=tipoCliente[0];
             cliente.setTipoCliente(tipo);
         }
-        break; // <--- CORREGIDO
 
-        case '7':
-            break;
-
-        default:
-            std::cout << "Opcion no valida." << std::endl;
-            system("pause");
+        break;
         }
 
-    }
-    while(opcion != '7');
 
-
-    if (guardarEnDiscoCliente(cliente, pos))
-    {
-        std::cout << "CLIENTE MODIFICADO CORRECTAMENTE" << std::endl;
+        ///EDITA EL EMPLEADO EN SU POSICION CORRESPONDIENTE
+        if (guardarEnDiscoCliente(cliente, pos))
+        {
+            std::cout << "CLIENTE MODIFICADO CORRECTAMENTE" << std::endl;
+        }
+        else
+        {
+            std::cout << "ERROR: NO SE PUDO MODIFICAR EL CLIENTE" << std::endl;
+        }
     }
+
     else
     {
-        std::cout << "ERROR: NO SE PUDO MODIFICAR EL CLIENTE" << std::endl;
+        std::cout << "ERROR: CLIENTE NO ENCONTRADO" << std::endl;
+        return;
     }
 }
 

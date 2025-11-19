@@ -242,7 +242,7 @@ void clsGestorEmpleado::mostrarUnEmpleado(clsEmpleado empleado)
 }
 
 
-///METODOS DE ARCHIVO
+///*********************************************************METODOS DE ARCHIVO****************************************************************************
 bool clsGestorEmpleado::generarLegajo(char *nuevoLegajo)
 {
     clsEmpleado empleado;
@@ -317,6 +317,20 @@ int clsGestorEmpleado::buscarEmpleadoPorCUIT(const char *cuit)
     return -1;
 }
 
+
+clsEmpleado clsGestorEmpleado::leerEmpleado(int pos)
+{
+    clsEmpleado empleado;
+    FILE *p = fopen(_rutaDireccion.c_str(), "rb");
+    if (p == NULL) exit(1);
+    fseek(p, sizeof(clsEmpleado) * pos, SEEK_SET);
+    fread(&empleado, sizeof(clsEmpleado), 1, p);
+    fclose(p);
+    return empleado;
+}
+
+
+
 int clsGestorEmpleado::buscarEmpleadoPorLegajo(const char *legajo)
 {
     clsEmpleado empleado;
@@ -337,19 +351,7 @@ int clsGestorEmpleado::buscarEmpleadoPorLegajo(const char *legajo)
     return -1;
 }
 
-clsEmpleado clsGestorEmpleado::leerEmpleado(int pos)
-{
-    clsEmpleado empleado;
-    FILE *p = fopen(_rutaDireccion.c_str(), "rb");
-    if (p == NULL) exit(1);
-    fseek(p, sizeof(clsEmpleado) * pos, SEEK_SET);
-    fread(&empleado, sizeof(clsEmpleado), 1, p);
-    fclose(p);
-    return empleado;
-}
-
-
-/// EJECUCIÓN DE OPCIONES DE MENU
+///**************************  EJECUCION DE OPCIONES MENU  ****************************************************************************
 void clsGestorEmpleado::cargarEmpleado()
 {
     clsEmpleado nuevo;
@@ -367,6 +369,12 @@ void clsGestorEmpleado::cargarEmpleado()
         std::cout << "ERROR: No se pudo guardar el empleado";
 }
 
+
+
+
+
+
+///2. MODIFICAR EMPLEADO
 void clsGestorEmpleado::modificarEmpleado()
 {
     char opcion;
@@ -585,7 +593,7 @@ void clsGestorEmpleado::modificarEmpleado()
     }
 }
 
-
+/// FIN MODIFICAR EMPLEADO
 
 void clsGestorEmpleado::mostrarTodos()
 {
