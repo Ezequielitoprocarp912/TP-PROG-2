@@ -239,7 +239,7 @@ bool clsGestorEmpleado::generarLegajo(char *nuevoLegajo)
     fseek(p, 0, SEEK_END);
     long size = ftell(p);
 
-    if (size < (long)sizeof(clsEmpleado))   // archivo vacío o corrupto
+    if (size < (long)sizeof(clsEmpleado))
     {
         fclose(p);
         strcpy(nuevoLegajo, "00001");

@@ -22,7 +22,7 @@ public:
     //void CUITdescendente();
 
     /// MÉTODOS DE ARCHIVO
-    bool generarLegajo(char *nuevoLegajo);
+    bool generarLegajo(char *nuevoLegajo); ///AUTONUMERICO
     bool guardarEnDiscoEmpleado(clsEmpleado);
     bool guardarEnDiscoEmpleado(clsEmpleado, int);
     int buscarEmpleadoPorCUIT(const char *);

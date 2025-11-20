@@ -40,7 +40,10 @@ class clsReparacion
     ///GETTERS
         int getCodReparacion();
         const char* getDescripcionFalla();
-        clsCliente getCliente();
+
+        clsCliente getCliente()const;///UNA COPIA
+        clsCliente& getCliente(); ///REFERENCIA &
+
         clsVehiculo getVehiculo();
         clsEmpleado getEmpleado();
         clsFecha getFechaIngreso();

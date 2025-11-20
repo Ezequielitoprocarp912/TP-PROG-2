@@ -86,7 +86,12 @@ const char* clsReparacion::getDescripcionFalla()
     return _descripcionFalla;
 }
 
-clsCliente clsReparacion::getCliente()
+clsCliente clsReparacion::getCliente() const
+{
+    return _cliente;
+}
+
+clsCliente& clsReparacion::getCliente()
 {
     return _cliente;
 }

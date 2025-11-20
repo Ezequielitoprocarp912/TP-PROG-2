@@ -261,6 +261,7 @@ bool clsGestorReparacion::cargarUnaReparacion(clsReparacion &reparacion)
 void clsGestorReparacion::mostrarUnaReparacion(clsReparacion reparacion)
 {
     std::cout << "CODIGO DE REPARACION: " << reparacion.getCodReparacion() << std::endl;
+    std::cout << "NOMBRE CLIENTE: " << reparacion.getCliente().getNombre() << std::endl;
     std::cout << "DESCRIPCION DE FALLA: " << reparacion.getDescripcionFalla() << std::endl;
     std::cout << "CLIENTE: " << reparacion.getCliente().getCuit() << std::endl;
     std::cout << "VEHICULO: " << reparacion.getVehiculo().getNumeroPatente() << std::endl;
@@ -728,7 +729,7 @@ void clsGestorReparacion::empleado_MAS_RECAUDACION()
         return;
     }
 
-    clsReparacion reparacion; // TODOS LOS DATOS DE REPARACION
+    clsReparacion reparacion;
 
 
     system("cls");
@@ -738,28 +739,28 @@ void clsGestorReparacion::empleado_MAS_RECAUDACION()
     float acum; ///NO PONGO ACA EN CERO
     //PROCESO EL ARCHIVO
     clsGestorEmpleado empleado_GEST;
-    clsEmpleado empleado; //TODOS LOS DATOS ESTAN ACA
+    clsEmpleado empleado;
 
 
-    int cantEmpleados = empleado_GEST.obtenerCantidadReg(); /// SE LA CANTIDAD DE REGISTROS
+    int cantEmpleados = empleado_GEST.obtenerCantidadReg();
     int cantidad_REPARACIONES = cantidadDeReparaciones();
     float Recaudacion_MAX = 0;
     char legajo_MAX[6];
 
     for (int i=0; i<cantEmpleados; i++)
     {
-        empleado = empleado_GEST.leerEmpleado(i); //RECCORIENDO TODOS LOS ESPACIOS SE CARGA TODO LOS DATOS DEL EMPLEADO EN ESA POS
-        /// POR CADA EMPLEADO RECORRO TODAS LAS REPARACIONES PARA CUANTAS HIZO ESE EMPLEADO QUE ESTOY LEYENDO
-        acum = 0; // POR CADA EMPLEADO LO REINICIAMOS A CERO
+        empleado = empleado_GEST.leerEmpleado(i);
+
+        acum = 0;
         for (int x=0 ; x<cantidad_REPARACIONES; x++)
         {
             reparacion = leerReparacion(x);
             if ( strcmp(reparacion.getEmpleado().getLegajo() , empleado.getLegajo()) == 0 && reparacion.getEstado()==true)
             {
-                acum += reparacion.getRecaudacion(); // SUMO CADA VEZ QUE COINCIDE EL LEGAJO EMPLEADO
+                acum += reparacion.getRecaudacion();
             }
         }
-        ///ACA SE CUANTO ACUMULO EL EMPLEADO QUE ESTA VINIENDO EJ: EMPLEADO n 1
+
         if (acum > Recaudacion_MAX)
         {
             Recaudacion_MAX = acum;
@@ -898,15 +899,16 @@ void clsGestorReparacion::modificarReparacion()
         do {
         system("cls");
         mostrarUnaReparacion(reparacion);
+        clsEmpleado empleado;
 
         std::cout<<std::endl;
-        std::cout << "\n 1) Nombre\n 2) Apellido\n 3) Mail\n 4) Telefono\n 5) Direccion\n 6) Fecha de ingreso\n 7) GUARDAR Y SALIR\n" << std::endl;
+        std::cout << "\n 1) nombre cliente \n 2) Apellido\n 3) descripcion falla 4) monto reparacion \n 6) Fecha de ingreso\n 7) GUARDAR Y SALIR\n" << std::endl;
         std::cout << "Ingrese opcion de dato a cambiar: ";
         std::cin >> opcion;
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         switch(opcion)
         {
-            /*
+
         case '1':
         {
             std::string nombre;
@@ -917,7 +919,8 @@ void clsGestorReparacion::modificarReparacion()
             }
             while(!(ev(nombre, 1, 20)));
 
-            empleado.setNombre(nombre.c_str());
+            reparacion.getCliente().setNombre(nombre.c_str());
+            //empleado.setNombre(nombre.c_str());
         }
         break;
 
@@ -931,55 +934,32 @@ void clsGestorReparacion::modificarReparacion()
             }
             while(!(ev(apellido, 1, 20)));
 
-            empleado.setApellido(apellido.c_str());
+            reparacion.getCliente().setApellido(apellido.c_str());
         }
         break;
 
         case '3':
         {
-            std::string mail;
-            do
-            {
-                std::cout << "MAIL: ";
-                std::getline(std::cin, mail);
-            }
-            while(!(ev(mail, 1, 50)));
+            std::string descripcion_falla;
+            std::cout << "DESCRIPCION DE LA FALLA: ";
+            std::getline(std::cin, descripcion_falla);
 
-            empleado.setMail(mail.c_str());
+
+            reparacion.setDescripcionFalla(descripcion_falla.c_str());
         }
         break;
 
         case '4':
         {
-            std::string telefono;
-            do
-            {
-                std::cout << "NUM TELEFONO: ";
-                std::getline(std::cin, telefono);
-            }
-            while(!(ev(telefono, 1, 20)));
-
-            empleado.setNumTelefono(telefono.c_str());
+            float Monto_Rep;
+            std::cout << "MONTO / RECAUDACION $$: ";
+            std::cin>>Monto_Rep;
+            reparacion.setRecaudacion(Monto_Rep);
         }
         break;
 
 
-        case '5':
-        {
-            std::string direccion;
-            do
-            {
-                std::cout << "DIRECCION: ";
-                std::getline(std::cin, direccion);
-            }
-            while(!(ev(direccion, 1, 50)));
 
-            empleado.setDireccion(direccion.c_str());
-        }
-        break;
-
-
-*/
 /// +++++++++++++++++++++ FECHA Y VALIDACIONES +++++++++++++++++++++
         case '6':
         {
@@ -1100,3 +1080,18 @@ void clsGestorReparacion::modificarReparacion()
         }
 
 }
+/*
+        case '5':
+        {
+            std::string direccion;
+            do
+            {
+                std::cout << "DIRECCION: ";
+                std::getline(std::cin, direccion);
+            }
+            while(!(ev(direccion, 1, 50)));
+
+            empleado.setDireccion(direccion.c_str());
+        }
+        break;
+*/
