@@ -1,6 +1,7 @@
 #pragma once
 #include "clsPersona.h"
 
+///HERENCIA PUBLICA
 class clsCliente: public clsPersona
 {
     private:

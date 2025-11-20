@@ -22,18 +22,25 @@ public:
     bool ev(std::string texto, int minimo, int maximo);
     bool cargarUnaReparacion(clsReparacion &reparacion);
     void mostrarUnaReparacion(clsReparacion reparacion);
+    void recaudacionXvehiculo();
+    void recaudacion_X_Empleado(); ///
+    void reparacion_X_Epleado();
     void recaudacionAnual();
-    bool pedirFecha(int& mes, int& anio);
+    void empleado_MAS_RECAUDACION ();
 
+    ///OPC 8
+
+    void Listar_Entre_Fechas ();
+
+    ///OPCION 9
+
+    void modificarReparacion();
 
     /// METODOS DE EJECUCION
-    void cargarReparacion(); ///ISNTANCIA UNA REPARACION Y LUEGO DE VALIDAR GUARDA EN DISCO
+    void cargarReparacion();
     void mostrarTodas();
-    void buscarReparacion();
-    void recaudacionXvehiculo();
-    void reparacionesXfecha();
-    void reparacionesXempleado();
-    void reparacionesXlegajo();
+    void buscarReparacion(); // POR CODIGO DE REPARACION
+    void cantidadReparacionesPorFecha(int mes, int anio);
 
 };
 

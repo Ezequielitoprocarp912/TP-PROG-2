@@ -29,5 +29,6 @@ public:
     void bajaVehiculo();
     void buscarVehiculo();
     void OrdenarXPatente();
+    void Alta_Vehiculo();
 };
 

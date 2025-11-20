@@ -16,6 +16,7 @@ clsGestorVehiculo::clsGestorVehiculo()
 ///METODOS DE MANIPULACION
 bool clsGestorVehiculo::ev(std::string texto, int minimo, int maximo)
 {
+    ///std::size() Devuelve 1 valor size t que es 1 entero sin signo (UNSIGNED) que suele ser mas grande en el sistema que el entero que si tiene signo (signed)
     if (static_cast<int>(texto.size()) >= minimo &&
         static_cast<int>(texto.size()) <= maximo)
     {
@@ -51,8 +52,7 @@ void clsGestorVehiculo::cargarUnVehiculo(clsVehiculo &vehiculo)
         {
             c = std::toupper(static_cast<unsigned char>(c));
         }
-    }
-    while(!(ev(numPatente, 6, 7)));
+    }while(!(ev(numPatente, 6, 7)));
 
 vehiculo.setNumeroPatente(numPatente.c_str());
 
@@ -223,30 +223,51 @@ void clsGestorVehiculo::cargarVehiculo()
 }
 
 
+
+
+
+
+
+
 void clsGestorVehiculo::modificarVehiculo()
 {
-    char opcion;
-    char patente[8];
+        std::string numPatente;
 
-    std::cout << "Patente de vehiculo a modificar: ";
-    std::cin.getline(patente, 8);
+    int pos = -1;
 
-    // Convertir a mayúsculas
-    for (int i = 0; patente[i] != '\0'; i++)
+    /// BUCLE HASTA QUE PATENTE SEA EXISTENTE Y VALIDA EN EL RANGO DE 6 y 7 CARACTERES
+    do
     {
-        patente[i] = std::toupper(static_cast<unsigned char>(patente[i]));
-    }
+        do
+        {
+            std::cout << "INGRESAR PATENTE DE AUTO A MODIFICAR: ";
+            std::getline(std::cin, numPatente);
 
-    int pos = buscarVehiculoPorPatente(patente);
+            // CONVERTIR A MAYUSCULA
+            for (char &c : numPatente)
+            {
+                c = std::toupper(static_cast<unsigned char>(c));
+            }
 
-    if (pos == -1)
-    {
-        std::cout << "ERROR: VEHICULO NO ENCONTRADO" << std::endl;
-        return;
-    }
+        } while (!ev(numPatente, 6, 7));  // valida largo
+
+        // BUSCAR EN ARCHIVO
+        pos = buscarVehiculoPorPatente(numPatente.c_str());
+
+        /// SI NO EXISTE >>> VUELVO A PEDIR
+        if (pos == -1)
+        {
+            std::cout << "ERROR: VEHICULO NO ENCONTRADO. Intente nuevamente.\n\n";
+            system("pause");
+            system("cls");
+        }
+
+    } while (pos == -1);
+
 
     clsVehiculo vehiculo = leerVehiculo(pos);
 
+    char opcion;
     do
     {
         system("cls");
@@ -332,6 +353,11 @@ void clsGestorVehiculo::modificarVehiculo()
 }
 
 
+
+
+
+
+
 void clsGestorVehiculo::mostrarTodos()
 {
     clsVehiculo vehiculo;
@@ -341,7 +367,7 @@ void clsGestorVehiculo::mostrarTodos()
 
     if(file == NULL)
     {
-        std::cout << "No hay vehiculos cargados actualmente. " << std::endl;
+        std::cout << "No hay vehiculos cargados actualmente " << std::endl;
         return;
     }
 
@@ -355,6 +381,9 @@ void clsGestorVehiculo::mostrarTodos()
 
     fclose(file);
 }
+
+
+/// 364
 
 
 void clsGestorVehiculo::bajaVehiculo()
@@ -401,6 +430,58 @@ void clsGestorVehiculo::bajaVehiculo()
     }
 }
 
+/// ++++++++++++++++++++++ ALTA VEHICULO SIN RETURN +++++++++++++++++++++++++
+
+void clsGestorVehiculo::Alta_Vehiculo()
+{
+    std::string numPatente;
+
+    int pos = -1;
+
+    /// BUCLE HASTA QUE PATENTE SEA EXISTENTE Y VALIDA EN EL RANGO DE 6 y 7 CARACTERES
+    do
+    {
+        do
+        {
+            std::cout << "PATENTE: ";
+            std::getline(std::cin, numPatente);
+
+            // CONVERTIR A MAYUSCULA
+            for (char &c : numPatente)
+            {
+                c = std::toupper(static_cast<unsigned char>(c));
+            }
+
+        } while (!ev(numPatente, 6, 7));  // valida largo
+
+        // BUSCAR EN ARCHIVO
+        pos = buscarVehiculoPorPatente(numPatente.c_str());
+
+        /// SI NO EXISTE >>> VUELVO A PEDIR
+        if (pos == -1)
+        {
+            std::cout << "ERROR: VEHICULO NO ENCONTRADO. Intente nuevamente.\n\n";
+        }
+
+    } while (pos == -1);
+
+    /// SI EXSITE, DAMOS DE ALTA
+    clsVehiculo vehiculo = leerVehiculo(pos);
+    vehiculo.setEstado(true);
+
+    if (guardarEnDiscoVehiculo(vehiculo, pos))
+    {
+        std::cout << "Vehiculo dado de ALTA correctamente.\n";
+    }
+    else
+    {
+        std::cout << "ERROR: No se pudo dar de alta el vehiculo.\n";
+    }
+}
+
+
+
+
 
 int clsGestorVehiculo::buscarVehiculoPorPatente(const char* patenteBuscada)
 {
@@ -441,14 +522,14 @@ int clsGestorVehiculo::buscarVehiculoPorPatente(const char* patenteBuscada)
     }
 
     fclose(file);
-    return -1;
+    return -1;   /// no encontrado
 }
 
 
 
 
 
-
+///METODO ORIGINAL SIN MAYUSUCULAS
 void clsGestorVehiculo::buscarVehiculo()
 {
     char patente[8];
@@ -497,6 +578,8 @@ int clsGestorVehiculo::obtenerCantidadReg (std::string pfile, clsVehiculo obj)
     return cont;
 }
 
+
+///MEMORIA DINAMICA
 void clsGestorVehiculo::OrdenarXPatente()
 {
     clsVehiculo vehiculo;

@@ -13,7 +13,7 @@ public:
 
     /// MÉTODOS DE MANIPULACIÓN
     bool ev(std::string texto, int minimo, int maximo);
-    void cargarUnCliente(clsCliente &);
+    void cargarUnCliente(clsCliente &); /// POR TECLADO
     void mostrarUnCliente(clsCliente);
     int obtenerCantidadReg (std::string pfile, clsCliente obj);
     void CUITascendente();
@@ -30,5 +30,6 @@ public:
     void modificarCliente();
     void mostrarTodos();
     void bajaCliente();
+    void altaCliente ();
     void buscarCliente();
 };

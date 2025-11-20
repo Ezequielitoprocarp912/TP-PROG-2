@@ -15,7 +15,8 @@ clsGestorCliente::clsGestorCliente()
 /// MÉTODOS DE MANIPULACIÓN
 bool clsGestorCliente::ev(std::string texto, int minimo, int maximo)
 {
-    if((texto.size()>=minimo)&&(texto.size()<=maximo))
+    if (texto.size() >= static_cast<std::size_t>(minimo) &&
+        texto.size() <= static_cast<std::size_t>(maximo))
     {
         return true;
     }
@@ -28,6 +29,7 @@ bool clsGestorCliente::ev(std::string texto, int minimo, int maximo)
 }
 
 
+///CARGAR CLIENTE POR TECLADO
 void clsGestorCliente::cargarUnCliente(clsCliente &cliente)
 {
     std::string cuit;
@@ -153,7 +155,9 @@ bool clsGestorCliente::guardarEnDiscoCliente(clsCliente cliente, int pos)
     fclose(p);
     return ok;
 }
-/// recorre el archivo buscando un cliente
+
+
+/// RECORRE EL ARCHIVO Y COMPARA AMBOS CUIT, RETORNANDO LA POSICION EN EL ARCHIVO DE DONDE ESTA ESE CUIT
 int clsGestorCliente::buscarClientePorCuit(const char *cuit)
 {
     clsCliente cliente;
@@ -173,7 +177,9 @@ int clsGestorCliente::buscarClientePorCuit(const char *cuit)
     fclose(p);
     return -1;
 }
-/// lee un cliente en una pos especifica
+
+
+/// LEE 1 CLIENTE EN UNA POSICION ESPECIFICA
 clsCliente clsGestorCliente::leerCliente(int pos)
 {
     clsCliente cliente;
@@ -203,142 +209,147 @@ void clsGestorCliente::cargarCliente()
         std::cout << "ERROR: No se pudo guardar el cliente";
 }
 
+///OPCION 2 DEL MENU >> MODIFICAR 1 CLIENTE
 void clsGestorCliente::modificarCliente()
 {
+    std::string cuit;
     char opcion;
-    char cuit[12];
 
-    std::cout << "CUIT del cliente a modificar: ";
-    std::cin >> cuit;
 
-    int pos;
-    pos=buscarClientePorCuit(cuit);
 
-    if (pos !=-1)
+    // === VALIDAR CUIT HASTA QUE TENGA EXACTAMENTE 11 CARACTERES ===
+    do
     {
-        clsCliente cliente = leerCliente(pos);
+        std::cout << "CUIT del cliente a modificar: ";
+        std::getline(std::cin, cuit);
 
-        std::cout << "DATOS ACTUALES: " << std::endl;
-        std::cout << std::endl;
+    } while (!ev(cuit, 11, 11));
 
-        mostrarUnCliente(cliente);
+    // Buscar en archivo usando c_str()
+    int pos = buscarClientePorCuit(cuit.c_str()); //ACA LO CONVIERTO A CONST CHAR * CON C_STR()
 
-        system("pause");
-
-        std::cout << "\n 1) Nombre\n 2) Apellido\n 3) Mail\n 4) Telefono\n 5) Direccion\n 6) Tipo de cliente\n " << std::endl;
-        std::cout << "Ingrese opcion de dato a cambiar: ";
-        std::cin >> opcion;
-        std::cin.ignore();
-
-        switch(opcion)
-        {
-        case '1':
-        {
-            std::string nombre;
-            do
-            {
-                std::cout << "NOMBRE: ";
-                std::getline(std::cin, nombre);
-            }
-            while(!(ev(nombre, 1, 20)));
-
-            cliente.setNombre(nombre.c_str());
-        }
-        break;
-
-        case '2':
-        {
-            std::string apellido;
-            do
-            {
-                std::cout << "APELLIDO: ";
-                std::getline(std::cin, apellido);
-            }
-            while(!(ev(apellido, 1, 20)));
-
-            cliente.setApellido(apellido.c_str());
-        }
-        break;
-
-        case '3':
-        {
-            std::string mail;
-            do
-            {
-                std::cout << "MAIL : ";
-                std::getline(std::cin, mail);
-            }
-            while(!(ev(mail, 1, 50)));
-
-            cliente.setMail(mail.c_str());
-        }
-        break;
-
-        case '4':
-        {
-            std::string telefono;
-            do
-            {
-                std::cout << "NUM TELEFONO : ";
-                std::getline(std::cin, telefono);
-            }
-            while(!(ev(telefono, 1, 20)));
-
-            cliente.setNumTelefono(telefono.c_str());
-        }
-        break;
-
-
-        case '5':
-        {
-            std::string direccion;
-            do
-            {
-                std::cout << "DIRECCION : ";
-                std::getline(std::cin, direccion);
-            }
-            while(!(ev(direccion, 1, 50)));
-
-            cliente.setDireccion(direccion.c_str());
-        }
-        break;
-
-        case '6':
-        {
-            char tipo;
-            std::string tipoCliente;
-            do
-            {
-                std::cout << "Seleccione tipo (1 Particular --- 2 Empresa): ";
-                std::getline(std::cin, tipoCliente);
-            }
-            while(!(ev(tipoCliente, 1, 1)) || (tipoCliente != "1" && tipoCliente != "2"));
-
-            tipo=tipoCliente[0];
-            cliente.setTipoCliente(tipo);
-        }
-
-        break;
-        }
-
-
-        ///EDITA EL EMPLEADO EN SU POSICION CORRESPONDIENTE
-        if (guardarEnDiscoCliente(cliente, pos))
-        {
-            std::cout << "CLIENTE MODIFICADO CORRECTAMENTE" << std::endl;
-        }
-        else
-        {
-            std::cout << "ERROR: NO SE PUDO MODIFICAR EL CLIENTE" << std::endl;
-        }
-    }
-
-    else
+    if (pos == -1)
     {
         std::cout << "ERROR: CLIENTE NO ENCONTRADO" << std::endl;
         return;
     }
+
+    // Leer cliente
+    clsCliente cliente = leerCliente(pos);
+
+    std::cout << "DATOS ACTUALES:\n";
+    mostrarUnCliente(cliente);
+    system("pause");
+
+    std::cout << "\n1) Nombre\n2) Apellido\n3) Mail\n4) Telefono\n5) Direccion\n6) Tipo de cliente\n";
+    std::cout << "Ingrese opcion de dato a cambiar: ";
+    std::cin >> opcion;
+
+    // limpiar buffer antes de getline()
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    switch (opcion)
+    {
+    case '1':
+    {
+        std::string nombre;
+        do
+        {
+            std::cout << "NOMBRE: ";
+            std::getline(std::cin, nombre);
+        }
+        while (!ev(nombre, 1, 20));
+
+        cliente.setNombre(nombre.c_str());
+    }
+    break;
+
+    case '2':
+    {
+        std::string apellido;
+        do
+        {
+            std::cout << "APELLIDO: ";
+            std::getline(std::cin, apellido);
+        }
+        while (!ev(apellido, 1, 20));
+
+        cliente.setApellido(apellido.c_str());
+    }
+    break;
+
+    case '3':
+    {
+        std::string mail;
+        do
+        {
+            std::cout << "MAIL: ";
+            std::getline(std::cin, mail);
+        }
+        while (!ev(mail, 1, 50));
+
+        cliente.setMail(mail.c_str());
+    }
+    break;
+
+    case '4':
+    {
+        std::string telefono;
+        do
+        {
+            std::cout << "NUM TELEFONO: ";
+            std::getline(std::cin, telefono);
+        }
+        while (!ev(telefono, 1, 20));
+
+        cliente.setNumTelefono(telefono.c_str());
+    }
+    break;
+
+    case '5':
+    {
+        std::string direccion;
+        do
+        {
+            std::cout << "DIRECCION: ";
+            std::getline(std::cin, direccion);
+        }
+        while (!ev(direccion, 1, 50));
+
+        cliente.setDireccion(direccion.c_str());
+    }
+    break;
+
+    case '6':
+    {
+        std::string tipoCliente;
+        do
+        {
+            std::cout << "Seleccione tipo (1 Particular — 2 Empresa): ";
+            std::getline(std::cin, tipoCliente);
+        }
+        while (!ev(tipoCliente, 1, 1) || (tipoCliente != "1" && tipoCliente != "2"));
+
+        cliente.setTipoCliente(tipoCliente[0]);
+    }
+    break;
+
+    default:
+        std::cout << "Opcion invalida.\n";
+        return;
+    }
+
+    // Guardar cambios
+    if (guardarEnDiscoCliente(cliente, pos))
+    {
+        std::cout << "CLIENTE MODIFICADO CORRECTAMENTE\n";
+    }
+    else
+    {
+        std::cout << "ERROR: NO SE PUDO MODIFICAR EL CLIENTE\n";
+    }
 }
+
 
 
 void clsGestorCliente::mostrarTodos()
@@ -347,10 +358,9 @@ void clsGestorCliente::mostrarTodos()
     FILE *p = fopen(_rutaDireccion.c_str(), "rb");
     if (p == NULL)
     {
-        std::cout << "No hay clientes cargados actualmente. " << std::endl;
+        std::cout << "No hay clientes cargados actualmente.";
         return;
     }
-
 
     while (fread(&cliente, sizeof(clsCliente), 1, p))
     {
@@ -359,6 +369,8 @@ void clsGestorCliente::mostrarTodos()
     }
     fclose(p);
 }
+
+///ALTA Y BAJA >>>>>>> 1) BAJA
 
 void clsGestorCliente::bajaCliente()
 {
@@ -379,6 +391,58 @@ void clsGestorCliente::bajaCliente()
 
     std::cout << "Cliente dado de baja correctamente.";
 }
+
+///ALTA
+
+void clsGestorCliente::altaCliente()
+{
+std::string cuit;
+
+    int pos = -1;
+
+    /// BUCLE HASTA QUE PATENTE SEA EXISTENTE Y VALIDA EN EL RANGO DE 6 y 7 CARACTERES
+    do
+    {
+        do
+        {
+            std::cout << "CUIT A BUSCAR: ";
+            std::getline(std::cin, cuit);
+
+            // CONVERTIR A MAYUSCULA
+            for (char &c : cuit)
+            {
+                c = std::toupper(static_cast<unsigned char>(c));
+            }
+
+        } while (!ev(cuit, 11, 11));  // VALIDAR LONGITUD DEL CUIT
+
+        // BUSCAR EN ARCHIVO
+        pos = buscarClientePorCuit(cuit.c_str()); ///CONVIERTO EL STRING DE CUIT A CONST CHAR*
+
+        /// SI NO EXISTE >>> VUELVO A PEDIR
+        if (pos == -1)
+        {
+            std::cout << "ERROR!! CUIT NO INEXISTENTE. Intente nuevamente.\n\n";
+            system("pause");
+            system("cls");
+        }
+
+    } while (pos == -1);
+
+    /// SI EXSITE, DAMOS DE ALTA
+    clsCliente cliente = leerCliente(pos);
+    cliente.setEstado(true);
+
+    if (guardarEnDiscoCliente(cliente, pos))
+    {
+        std::cout << "CLIENTE dado de ALTA correctamente.\n";
+    }
+    else
+    {
+        std::cout << "ERROR: No se pudo dar de ALTA al CLIENTE.\n";
+    }
+}
+
 
 void clsGestorCliente::buscarCliente()
 {

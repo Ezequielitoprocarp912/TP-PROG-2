@@ -16,7 +16,8 @@ clsGestorEmpleado::clsGestorEmpleado()
 /// MÉTODOS DE MANIPULACIÓN
 bool clsGestorEmpleado::ev(std::string texto, int minimo, int maximo)
 {
-    if((texto.size()>=minimo)&&(texto.size()<=maximo))
+    if (texto.size() >= static_cast<std::size_t>(minimo) &&
+        texto.size() <= static_cast<std::size_t>(maximo))
     {
         return true;
     }
@@ -193,8 +194,6 @@ void clsGestorEmpleado::cargarUnEmpleado(clsEmpleado &empleado)
             system("pause");
         }
     }
-    empleado.setFechaIngreso(F_ingreso);
-
 
     ///FECHA DE INGRESO
     empleado.setFechaIngreso(F_ingreso);
@@ -207,24 +206,6 @@ void clsGestorEmpleado::cargarUnEmpleado(clsEmpleado &empleado)
     empleado.setEstado(true);
 
 }
-
-void clsGestorEmpleado::cargarEmpleados(clsEmpleado *vecEmp, int cantEmp)
-{
-    FILE *p = fopen(_rutaDireccion.c_str(), "rb");
-    if (p == NULL)
-    {
-        std::cout << "Error al abrir el archivo" << std::endl;
-        return;
-    }
-
-    for (int i = 0; i < cantEmp; i++)
-    {
-        fread(&vecEmp[i], sizeof(clsEmpleado), 1, p);
-    }
-
-    fclose(p);
-}
-
 
 void clsGestorEmpleado::mostrarUnEmpleado(clsEmpleado empleado)
 {
@@ -242,7 +223,7 @@ void clsGestorEmpleado::mostrarUnEmpleado(clsEmpleado empleado)
 }
 
 
-///*********************************************************METODOS DE ARCHIVO****************************************************************************
+///METODOS DE ARCHIVO
 bool clsGestorEmpleado::generarLegajo(char *nuevoLegajo)
 {
     clsEmpleado empleado;
@@ -250,16 +231,25 @@ bool clsGestorEmpleado::generarLegajo(char *nuevoLegajo)
 
     if (p == NULL)
     {
-        // Archivo inexistente → primer legajo
         strcpy(nuevoLegajo, "00001");
         return true;
     }
 
-    // Ir al último registro del archivo
+    // Verificar tamaño del archivo
+    fseek(p, 0, SEEK_END);
+    long size = ftell(p);
+
+    if (size < (long)sizeof(clsEmpleado))   // archivo vacío o corrupto
+    {
+        fclose(p);
+        strcpy(nuevoLegajo, "00001");
+        return true;
+    }
+
+    // Ir al ultimo empleado
     fseek(p, -(long)sizeof(clsEmpleado), SEEK_END);
 
-    // Leer último empleado
-    if (fread(&empleado, sizeof(clsEmpleado), 1, p) != 1)
+    if (fread(&empleado, sizeof(clsEmpleado), 1, p) != 1) //-1 ES, SI NO SE PUDO LEER EL ULTIMO EMPLEADO, PONER 00001
     {
         fclose(p);
         strcpy(nuevoLegajo, "00001");
@@ -268,15 +258,14 @@ bool clsGestorEmpleado::generarLegajo(char *nuevoLegajo)
 
     fclose(p);
 
-    // Convertir cadena a número
     int ultimo = atoi(empleado.getLegajo());
     ultimo++;
 
-    // Formatear nuevamente a 5 digitos con ceros a la izquierda
     sprintf(nuevoLegajo, "%05d", ultimo);
 
     return true;
 }
+
 
 bool clsGestorEmpleado::guardarEnDiscoEmpleado(clsEmpleado empleado)
 {
@@ -317,20 +306,6 @@ int clsGestorEmpleado::buscarEmpleadoPorCUIT(const char *cuit)
     return -1;
 }
 
-
-clsEmpleado clsGestorEmpleado::leerEmpleado(int pos)
-{
-    clsEmpleado empleado;
-    FILE *p = fopen(_rutaDireccion.c_str(), "rb");
-    if (p == NULL) exit(1);
-    fseek(p, sizeof(clsEmpleado) * pos, SEEK_SET);
-    fread(&empleado, sizeof(clsEmpleado), 1, p);
-    fclose(p);
-    return empleado;
-}
-
-
-
 int clsGestorEmpleado::buscarEmpleadoPorLegajo(const char *legajo)
 {
     clsEmpleado empleado;
@@ -351,10 +326,29 @@ int clsGestorEmpleado::buscarEmpleadoPorLegajo(const char *legajo)
     return -1;
 }
 
-///**************************  EJECUCION DE OPCIONES MENU  ****************************************************************************
+
+///PREGUNTAR DESPUES
+clsEmpleado clsGestorEmpleado::leerEmpleado(int pos)
+{
+    clsEmpleado empleado;
+    FILE *p = fopen(_rutaDireccion.c_str(), "rb");
+    if (p == NULL) exit(1);
+    fseek(p, sizeof(clsEmpleado) * pos, SEEK_SET);
+    fread(&empleado, sizeof(clsEmpleado), 1, p);
+    fclose(p);
+    return empleado;
+}
+
+
+
+
+
+
+
+/// **************** EJECUCIÓN DE OPCIONES DE MENU ****************
 void clsGestorEmpleado::cargarEmpleado()
 {
-    clsEmpleado nuevo;
+    clsEmpleado nuevo;   /// SE LLAMA 1RO AL COSNTRUCTOR DE PERSONA () LUEGO AL DE EMPLEADO
     cargarUnEmpleado(nuevo);
 
     if (buscarEmpleadoPorCUIT(nuevo.getCuit()) != -1)
@@ -369,27 +363,36 @@ void clsGestorEmpleado::cargarEmpleado()
         std::cout << "ERROR: No se pudo guardar el empleado";
 }
 
-
-
-
-
-
-///2. MODIFICAR EMPLEADO
 void clsGestorEmpleado::modificarEmpleado()
 {
-    char opcion;
-    char legajo[6];
+    std::string legajo;
 
-    std::cout << "Legajo del empleado a modificar: ";
-    std::cin >> legajo;
+    int pos = -1;
 
-    int pos;
-    pos=buscarEmpleadoPorLegajo(legajo);
-
-    if (pos !=-1)
+    /// BUCLE HASTA QUE PATENTE SEA EXISTENTE Y VALIDA EN EL RANGO DE 6 y 7 CARACTERES
+    do
     {
-        clsEmpleado empleado = leerEmpleado(pos);
+        do
+        {
+            std::cout << "INGRESAR LEGAJO DE EMPLEADO A MODIFICAR: ";
+            std::getline(std::cin, legajo);
+        } while (!ev(legajo, 5, 5)); //VALIDAR LONGITUD 00001
 
+        /// BUSCAR EN ARCHIVO
+        pos = buscarEmpleadoPorLegajo(legajo.c_str());
+
+        /// SI NO EXISTE >>> VUELVO A PEDIR
+        if (pos == -1)
+        {
+            std::cout << "ERROR: EMPLEADO INEXISTENTE. Intente nuevamente.\n\n";
+            system("pause");
+            system("cls");
+        }
+
+    } while (pos == -1); ///MIENTRAS LA LONGITUD NO COINCIDA Y EL LEGAJO SEA INEXISTENTE, SIGUE EL BUCLE
+
+
+        clsEmpleado empleado = leerEmpleado(pos);
         std::cout << "DATOS ACTUALES: " << std::endl;
         std::cout << std::endl;
 
@@ -397,11 +400,17 @@ void clsGestorEmpleado::modificarEmpleado()
 
         system("pause");
 
-        std::cout << "\n 1) Nombre\n 2) Apellido\n 3) Mail\n 4) Telefono\n 5) Direccion\n 6) Fecha de ingreso\n " << std::endl;
+        char opcion;
+
+        do {
+        system("cls");
+        mostrarUnEmpleado(empleado);
+
+        std::cout<<std::endl;
+        std::cout << "\n 1) Nombre\n 2) Apellido\n 3) Mail\n 4) Telefono\n 5) Direccion\n 6) Fecha de ingreso\n 7) GUARDAR Y SALIR\n" << std::endl;
         std::cout << "Ingrese opcion de dato a cambiar: ";
         std::cin >> opcion;
-        std::cin.ignore();
-
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         switch(opcion)
         {
         case '1':
@@ -475,9 +484,11 @@ void clsGestorEmpleado::modificarEmpleado()
         }
         break;
 
+
+
+/// +++++++++++++++++++++ FECHA Y VALIDACIONES +++++++++++++++++++++
         case '6':
         {
-            /// FECHA Y VALIDACIONES
             clsFecha F_ingreso;
             bool fechaValida = false;
             std::string diaStr, mesStr, anioStr;
@@ -497,7 +508,8 @@ void clsGestorEmpleado::modificarEmpleado()
 
                     if (!ev(diaStr, 1, 2)) continue;
 
-                    dia = atoi(diaStr.c_str());
+                    ///ATOI
+                    dia = atoi(diaStr.c_str()); // 12 > 12/0 ESTILO CADENA CARACTERES GRACIAS A STR LUEGO ATOI LO CONVIERTE A ENTERO > RESULTADO FINAL = 12 AHORA ES UN NUMERO USABLE
                     if (dia >= 1 && dia <= 31)
                     {
                         diaOk = true;
@@ -557,7 +569,8 @@ void clsGestorEmpleado::modificarEmpleado()
                 }
                 while (!anioOk);
 
-                // VALIDACION COMPLETA (31/2, 29/2, etc.)
+                /// VALIDACION COMPLETA (31/2, 29/2, etc.)
+                //SETFECHA 1. CARGA LOS VALORES _DIA = DIA ETC 2. LLAMA A ValidarFecha()
                 fechaValida = F_ingreso.setFecha(dia, mes, anio);
 
                 if (!fechaValida)
@@ -572,10 +585,17 @@ void clsGestorEmpleado::modificarEmpleado()
         }
         break;
 
+            case '7':
+            break;
+            default:
+            std::cout << "Opcion no valida." << std::endl;
+            system("pause");
+
         }
+} while(opcion != '7');
 
 
-        ///EDITA EL VEHICULO EN SU POSICION CORRESPONDIENTE
+        ///EDITA EL EMPLEADO EN SU POSICION CORRESPONDIENTE
         if (guardarEnDiscoEmpleado(empleado, pos))
         {
             std::cout << "EMPLEADO MODIFICADO CORRECTAMENTE" << std::endl;
@@ -584,16 +604,10 @@ void clsGestorEmpleado::modificarEmpleado()
         {
             std::cout << "ERROR: NO SE PUDO MODIFICAR EL EMPLEADO" << std::endl;
         }
-    }
 
-    else
-    {
-        std::cout << "ERROR: EMPLEADO NO ENCONTRADO" << std::endl;
-        return;
-    }
 }
 
-/// FIN MODIFICAR EMPLEADO
+
 
 void clsGestorEmpleado::mostrarTodos()
 {
@@ -601,16 +615,14 @@ void clsGestorEmpleado::mostrarTodos()
     FILE *p = fopen(_rutaDireccion.c_str(), "rb");
     if (p == NULL)
     {
-        std::cout << "No hay empleados cargados actualmente. " << std::endl;
+        std::cout << "No hay empleados cargados actualmente.";
         return;
     }
 
     while (fread(&empleado, sizeof(clsEmpleado), 1, p))
     {
         if (empleado.getEstado())
-        {
             mostrarUnEmpleado(empleado);
-        }
     }
     fclose(p);
 }
@@ -656,11 +668,9 @@ void clsGestorEmpleado::buscarEmpleado()
 }
 
 
-int clsGestorEmpleado::obtenerCantidadReg()
+int clsGestorEmpleado::obtenerCantidadReg (std::string pfile, clsEmpleado obj)
 {
-    clsEmpleado obj;
-
-    FILE *p = fopen(_rutaDireccion.c_str(), "rb");
+    FILE *p = fopen(pfile.c_str(), "rb");
     if (p == NULL)
     {
         std::cout << "No hay datos cargados actualmente.";
@@ -682,3 +692,66 @@ int clsGestorEmpleado::obtenerCantidadReg()
 }
 
 
+/// ALTAA EMPLEADOO +++
+
+void clsGestorEmpleado::altaEmpleado()
+{
+    std::string legajo;
+
+    int pos = -1;
+
+    /// BUCLE HASTA QUE PATENTE SEA EXISTENTE Y VALIDA EN EL RANGO DE 6 y 7 CARACTERES
+    do
+    {
+        do
+        {
+            std::cout << "LEGAJO A BUSCAR: ";
+            std::getline(std::cin, legajo);
+
+
+
+        } while (!ev(legajo, 5, 5));  // VALIDAR LONGITUD DEL LEGAJO
+
+        // BUSCAR EN ARCHIVO
+        pos = buscarEmpleadoPorLegajo(legajo.c_str()); ///CONVIERTO EL STRING DE LEGAJO A CONST CHAR*
+
+        /// SI NO EXISTE >>> VUELVO A PEDIR
+        if (pos == -1)
+        {
+            std::cout << "ERROR: EMPLEADOU NO ENCONTRADO. Intente nuevamente.\n\n";
+            system("pause");
+            system("cls");
+        }
+
+    } while (pos == -1);
+
+    /// SI EXSITE, DAMOS DE ALTA
+    clsEmpleado empleado = leerEmpleado(pos);
+    empleado.setEstado(true);
+
+    if (guardarEnDiscoEmpleado(empleado, pos))
+    {
+        std::cout << "EMPLEADO dado de ALTA correctamente.\n";
+    }
+    else
+    {
+        std::cout << "ERROR: No se pudo dar de ALTA al EMPLEADO.\n";
+    }
+}
+
+
+int clsGestorEmpleado::obtenerCantidadReg()
+{
+    FILE *p = fopen(_rutaDireccion.c_str(), "rb");
+    if (p == NULL)
+    {
+        std::cout << "No hay datos cargados actualmente.";
+        return 0;
+    }
+
+    fseek(p, 0, SEEK_END);
+    int cant = ftell(p)/sizeof (clsEmpleado);
+    fclose(p);
+
+    return cant;
+}

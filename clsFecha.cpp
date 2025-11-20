@@ -10,7 +10,7 @@ bool clsFecha::validarFecha()
         meses[1]=29;
     }
 
-    if(getDia()<1||getDia()>meses[getMes()-1]||getMes()<1||getMes()>12||getAnio()>2025)
+    if(getDia()<1||getDia()>meses[getMes()-1]||getMes()<1||getMes()>12||getAnio()>2025 || getAnio() < 2000)
     {
         clsFechaValida = false;
     }
@@ -20,11 +20,10 @@ bool clsFecha::validarFecha()
 
 bool clsFecha::esBisiesto(int anio)
 {
-    if(((anio%4==0)||(anio%400==0))&&!(anio%100==0))
-    {
-        return true;
-    }
-    return false;
+         if (( (anio%4==0) && (anio%100 != 0) ) || (anio%400==0)){
+            return true;
+        }
+        else return false;
 }
 
 
@@ -136,47 +135,30 @@ bool clsFecha:: operator == (clsFecha fecha)
     return true;
 }
 
-bool clsFecha:: operator < (clsFecha fecha)
+bool clsFecha::operator<(clsFecha fecha)
 {
+    if (getAnio() != fecha.getAnio())
+        return getAnio() < fecha.getAnio();
 
-    if(getAnio()<fecha.getAnio())
-    {
-        return true;
-    }
+    if (getMes() != fecha.getMes())
+        return getMes() < fecha.getMes();
 
-    if(getMes()<fecha.getMes())
-    {
-        return true;
-    }
-
-    if(getDia()<fecha.getDia())
-    {
-        return true;
-    }
-
-    return false;
+    return getDia() < fecha.getDia();
 }
 
-bool clsFecha:: operator > (clsFecha fecha)
+bool clsFecha::operator>(clsFecha fecha)
 {
+    if (getAnio() != fecha.getAnio())
+        return getAnio() > fecha.getAnio();
 
-    if(getAnio()>fecha.getAnio())
-    {
-        return true;
-    }
 
-    if(getMes()>fecha.getMes())
-    {
-        return true;
-    }
+    if (getMes() != fecha.getMes())
+        return getMes() > fecha.getMes();
 
-    if(getDia()>fecha.getDia())
-    {
-        return true;
-    }
-
-    return false;
+        ///MISMO AÑO MISMO MES
+    return getDia() > fecha.getDia();
 }
+
 
 /// SI LOS VALORES PARECEN VALIDOS
 bool clsFecha::setFecha(int dia, int mes, int anio)
@@ -195,3 +177,5 @@ bool clsFecha::setFecha(int dia, int mes, int anio)
         return false;
     }
 }
+
+

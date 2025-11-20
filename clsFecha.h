@@ -13,9 +13,7 @@ class clsFecha
         int _mes;
         int _anio;
 
-    ///METODOS PRIVADOS
-        bool validarFecha();
-        bool esBisiesto(int);
+
 
 
     public:
@@ -42,4 +40,8 @@ class clsFecha
         bool operator == (clsFecha);
         bool operator < (clsFecha);
         bool operator > (clsFecha);
+
+    ///OTROS METODOS JE
+        bool validarFecha();
+        bool esBisiesto(int);
 };
